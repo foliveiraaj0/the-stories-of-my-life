@@ -1,0 +1,41 @@
+<div class="page">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="login">
+      <div class="login-username">
+        <p class="label">name:</p>
+        <mat-form-field>
+          <input
+            matInput
+            type="text"
+            formControlName="username"
+            required
+          />
+        </mat-form-field>
+      </div>
+      <div class="login-password">
+        <p class="label">password:</p>
+        <mat-form-field>
+          <input
+            matInput
+            type="text"
+            formControlName="password"
+            required
+          />
+        </mat-form-field>
+      </div>
+      <button [disabled]="!loginForm.valid" type="submit" href="#" class="login-button">
+        login
+      </button>
+      <label #errorLabel [hidden]="loginForm.valid" class="login-error-label"></label>
+    </div>
+  </form>
+
+  <div>
+    <a href="sign-in" class="signin">
+      sign in
+    </a>
+    <a href="about" class="about">
+      about
+    </a>
+  </div>
+</div>

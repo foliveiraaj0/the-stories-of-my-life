@@ -1,0 +1,6 @@
+{
+  "server_base_url": "http://localhost:9000",
+  "server_version": "v1",
+  "post_login_path": "login",
+  "get_user_path": "user"
+}
