@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { SharedGalleryService } from "../services/shared-galley-service";
+import { SharedGalleryService } from "../../services/shared-galley-service";
 import { Router } from "@angular/router";
-import { LogService } from "../services/log-service";
+import { LogService } from "../../services/log-service";
 import { LoginErrors } from "./login-erros";
 import { Observable, of } from "rxjs";
 import { map, catchError } from "rxjs/operators";
