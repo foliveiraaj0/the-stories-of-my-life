@@ -61,18 +61,22 @@ userSchema.pre("save", async function(next) {
   next();
 });
 
-userSchema.methods.getUserNoPass = function() {
+userSchema.methods.getUserNoCredentials = function() {
   const user = this;
-  const { password, ...userNoPass } = user._doc ? user._doc : user;
+  const { password, tokens, ...userNoPass } = user._doc ? user._doc : user;
   return userNoPass;
 };
 
 userSchema.methods.setNewToken = function() {
   const user = this;
-  const userNoPass = user.getUserNoPass();
-  const { tokens, ...userNoPassNoToken } = userNoPass;
-  const newToken = authToken.sign(userNoPassNoToken);
+  const userNoCredentials = user.getUserNoCredentials();
+  const newToken = authToken.sign(userNoCredentials);
   user.tokens.push({token: newToken});
+};
+
+userSchema.methods.getLastToken = function() {
+  const user = this;
+  return user.tokens[user.tokens.length - 1].token
 };
 
 const User = mongoose.model("User", userSchema);

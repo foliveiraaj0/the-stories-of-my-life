@@ -23,8 +23,9 @@ router.post("/v1/signin", async (req, res) => {
   try {
     user.setNewToken();
     await user.save();
-
-    res.status(201).send(user.getUserNoPass());
+    const userNoCredentials = user.getUserNoCredentials()
+    userNoCredentials.token = user.getLastToken()
+    res.status(201).send(userNoCredentials);
   } catch (err) {
     console.log("Signin error", err);
     res.status(400).send();
@@ -41,7 +42,9 @@ router.post("/v1/login", async (req, res) => {
 
     await user.save();
 
-    res.status(200).send(user.getUserNoPass());
+    const userNoCredentials = user.getUserNoCredentials()
+    userNoCredentials.token = user.getLastToken()
+    res.status(200).send(userNoCredentials);
   } catch (err) {
     console.log(err.message ? err.message : err);
     res.status(400).send();
@@ -55,7 +58,7 @@ router.post("/v1/logout", authRouter.authenticate, async (req, res) => {
     });
     req.user.tokens = authRouter.cleanExpiredTokens(req.user);
     await req.user.save();
-    res.status(200).send(req.user.getUserNoPass());
+    res.status(200).send(req.user.getUserNoCredentials());
   } catch (err) {
     console.log("logout error", err.message ? err.message : err);
     res.status(400).send();
@@ -66,7 +69,7 @@ router.get("/v1/user", authRouter.authenticate, async (req, res) => {
   try {
     try {
       const user = req.user;
-      res.status(200).send(user.getUserNoPass());
+      res.status(200).send(user.getUserNoCredentials());
     } catch (err) {
       console.log(
         "An error occurred while searching by the the passed user.",
@@ -89,7 +92,7 @@ router.patch("/v1/user", authRouter.authenticate, async (req, res) => {
       }
     });
     user = await user.save();
-    res.status(200).send(user.getUserNoPass());
+    res.status(200).send(user.getUserNoCredentials());
   } catch (err) {
     console.log(
       "An error occurred while searching by the the passed user.",

@@ -14,9 +14,7 @@
 						"id": "969a6a87-4e12-4698-8ff2-06150837f994",
 						"exec": [
 							"if(pm.response.code === 200) {",
-							"    var userTokens = pm.response.json().tokens;",
-							"    var lastToken = userTokens.length - 1",
-							"    pm.environment.set(\"token\", userTokens[lastToken].token)",
+							"    pm.environment.set(\"token\", pm.response.json().token)",
 							"}"
 						],
 						"type": "text/javascript"
@@ -93,9 +91,7 @@
 						"id": "d3c8b947-ab76-4041-baf2-befd201c4481",
 						"exec": [
 							"if(pm.response.code === 201) {",
-							"    var userTokens = pm.response.json().tokens;",
-							"    var lastToken = userTokens.length - 1",
-							"    pm.environment.set(\"token\", userTokens[lastToken].token)",
+							" pm.environment.set(\"token\", pm.response.json().token)",
 							"}"
 						],
 						"type": "text/javascript"

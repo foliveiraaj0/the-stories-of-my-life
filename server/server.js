@@ -25,7 +25,6 @@ app.listen(port);
 
 //High priority
 
-//stop returning all the tokens of the user and instead return only the token of the current session
 //create a logger service that considers the running mode (debugger or production)
 //improve the exception handling adding a code to the error besides the error msg
 //tests
