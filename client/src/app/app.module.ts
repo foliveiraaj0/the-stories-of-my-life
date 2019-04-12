@@ -6,10 +6,16 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { GenericHttpInterceptor } from './services/generic-http-interceptor';
 import { UrlHelper } from './services/url-helper';
-import { SharedGalleryService } from './services/shared-galley-service';
+import { UserService } from './services/user-service';
 import { LogService } from './services/log-service';
-import { AuthGuard } from './auth-guad';
+import { AuthGuard } from './auth/auth-guad';
+
+const httpInterceptorProviders = [
+  { provide: HTTP_INTERCEPTORS, useClass: GenericHttpInterceptor, multi: true },
+];
 
 @NgModule({
   declarations: [
@@ -21,7 +27,7 @@ import { AuthGuard } from './auth-guad';
     BrowserAnimationsModule,
     HttpClientModule
   ],
-  providers: [HttpClient, UrlHelper, SharedGalleryService, LogService, AuthGuard],
+  providers: [HttpClient, httpInterceptorProviders, UrlHelper, UserService, LogService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

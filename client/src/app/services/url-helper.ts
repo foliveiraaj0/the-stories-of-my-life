@@ -5,8 +5,6 @@ import { Config } from '../models/config-model';
 @Injectable()
 export class UrlHelper {
   private configUrl = "../../assets/config.json";
-/*   post_login_url:string;
-  get_user_url:string; */
   constructor(private http: HttpClient) {}
 
   getConfig(forceUpdate?:boolean) {
@@ -15,10 +13,6 @@ export class UrlHelper {
 
   private updateUrls(config:Config): void {
     localStorage.setItem("config", JSON.stringify(config));
-    /* const baseVersion = `${config.server_base_url}/${config.server_version}`;
-    this.post_login_url = `${baseVersion}/${config.post_login_path}`;
-    console.log(this.post_login_url);
-    this.get_user_url = `${baseVersion}/${config.post_login_path}/${config.get_user_path}`; */
   }
 
   postLoginUrl() {
@@ -41,6 +35,28 @@ export class UrlHelper {
       userUrl = `${baseVersion}/${config.get_user_path}`;
     }
     return userUrl;
+  }
+
+  postSigninUrl() {
+    let signInUrl = "";
+    const configString = localStorage.getItem("config");
+    if(configString) {
+      const config:Config = JSON.parse(configString);
+      const baseVersion = `${config.server_base_url}/${config.server_version}`;
+      signInUrl = `${baseVersion}/${config.sign_in_path}`;
+    }
+    return signInUrl;
+  }
+
+  postLogoutUrl() {
+    let logoutUrl = "";
+    const configString = localStorage.getItem("config");
+    if(configString) {
+      const config:Config = JSON.parse(configString);
+      const baseVersion = `${config.server_base_url}/${config.server_version}`;
+      logoutUrl = `${baseVersion}/${config.logout_path}`;
+    }
+    return logoutUrl;
   }
 
 }

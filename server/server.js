@@ -9,15 +9,15 @@ const userRouter = require("./src/routers/user");
 app.use(bodyParser.json());
 //app.use(bodyParser.urlencoded({extended: true}))
 
-app.use(userRouter);
-
 app.use(
   cors({
-    origin: "*",
+    origin: "http://localhost:9001",
     allowedHeaders: ["Content-Type", "Authorization"]
     // ,credentials: true
   })
 );
+
+app.use(userRouter);
 
 app.listen(port);
 
@@ -29,7 +29,7 @@ app.listen(port);
 //improve the exception handling adding a code to the error besides the error msg
 //tests
 
-//Low priority 
+//Low priority
 
 //set maxLength to user.tokens array
 //use coockies to save user credentials
