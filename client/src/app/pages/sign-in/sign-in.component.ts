@@ -1,6 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { UserService } from "src/app/services/user-service";
-import { HttpErrorDispatcher } from "src/app/services/http-error-dispatcher";
+import { HttpErrorHandler } from "src/app/services/http-error-handler";
 
 @Component({
   selector: "app-sign-in",
@@ -8,9 +8,12 @@ import { HttpErrorDispatcher } from "src/app/services/http-error-dispatcher";
   styleUrls: ["./sign-in.component.scss"]
 })
 export class SignInComponent implements OnInit {
+  
+  @ViewChild("loginErrorLabel") loginErrorLabel: ElementRef;
+
   constructor(
     private userService: UserService,
-    private httpErrorDispacher: HttpErrorDispatcher
+    private httpErrorHandler: HttpErrorHandler
   ) {}
 
   ngOnInit() {}
@@ -25,7 +28,7 @@ export class SignInComponent implements OnInit {
               console.log("err component", err);
               break;
             default:
-              this.httpErrorDispacher.dispatch(err);
+              this.httpErrorHandler.handle(err);
           }
         }
       }
@@ -40,11 +43,12 @@ export class SignInComponent implements OnInit {
         err => {
           if (err.status) {
             switch (err.status) {
-              case 401:
+              case 400:
                 console.log("err component", err);
+                this.loginErrorLabel.nativeElement.innerHTML = "user already registered.";
                 break;
               default:
-                this.httpErrorDispacher.dispatch(err);
+                this.httpErrorHandler.handle(err);
             }
           }
         }
@@ -59,9 +63,10 @@ export class SignInComponent implements OnInit {
           switch (err.status) {
             case 401:
               console.log("err component", err);
+              this.loginErrorLabel.nativeElement.innerHTML = "invalid token.";
               break;
             default:
-              this.httpErrorDispacher.dispatch(err);
+              this.httpErrorHandler.handle(err);
           }
         }
       }
@@ -78,7 +83,7 @@ export class SignInComponent implements OnInit {
               console.log("err component", err);
               break;
             default:
-              this.httpErrorDispacher.dispatch(err);
+              this.httpErrorHandler.handle(err);
           }
         }
       }

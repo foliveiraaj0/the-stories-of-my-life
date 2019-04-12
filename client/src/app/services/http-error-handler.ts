@@ -7,23 +7,40 @@ export class HttpErrorHandler {
 
   constructor(private logService:LogService){}
 
-  handleBadRequest(err:HttpErrorResponse) {
+  handle(err : HttpErrorResponse) {
+    if(err){
+      switch(err.status) {
+        case 400: this.handleBadRequest(err)
+        break
+        case 401: this.handleUnauthorized(err)
+        break
+        case 403: this.handleForbidden(err)
+        break
+        case 500: this.handleServerError(err)
+        break
+        default: this.handleUnknownError(err)
+      }
+    }
+  }
+
+  private handleBadRequest(err:HttpErrorResponse) {
     this.logService.logHttpError(err)
   }
 
-  handleUnauthorized(err:HttpErrorResponse) {
+  private handleUnauthorized(err:HttpErrorResponse) {
     this.logService.logHttpError(err)
   }
 
-  handleForbidden(err:HttpErrorResponse) {
+  private handleForbidden(err:HttpErrorResponse) {
     this.logService.logHttpError(err)
   }
 
-  handleServerError(err:HttpErrorResponse) {
+  private handleServerError(err:HttpErrorResponse) {
     this.logService.logHttpError(err)
   }
 
-  handleUnknownError(err:HttpErrorResponse) {
+  private handleUnknownError(err:HttpErrorResponse) {
     this.logService.logHttpError(err)
   }
+
 }
