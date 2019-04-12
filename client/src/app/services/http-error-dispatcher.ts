@@ -1,27 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { LogService } from './log-service';
-
-export enum HttpServiceError {
-  Unauthorized=401, BadRequest=400, Forbidden=403, ServerError=500, UnknownError
-}
+import { HttpErrorHandler } from './http-error-handler';
 
 @Injectable()
 export class HttpErrorDispatcher {
-  
-  constructor(private logService:LogService){}
 
-  dispatche(err : HttpErrorResponse):HttpServiceError {
+  constructor(private httpErrorHandler:HttpErrorHandler){}
+
+  dispatch(err : HttpErrorResponse) {
     if(err){
       switch(err.status) {
-        case 400: return HttpServiceError.BadRequest
-        case 401: return HttpServiceError.Unauthorized
-        case 403: return HttpServiceError.Forbidden
-        case 500: return HttpServiceError.ServerError
-        default: {
-          this.logService.logHttpError(err)
-          return HttpServiceError.UnknownError
-        }
+        case 400: this.httpErrorHandler.handleBadRequest(err)
+        break
+        case 401: this.httpErrorHandler.handleUnauthorized(err)
+        break
+        case 403: this.httpErrorHandler.handleForbidden(err)
+        break
+        case 500: this.httpErrorHandler.handleServerError(err)
+        break
+        default: this.httpErrorHandler.handleUnknownError(err)
       }
     }
   }

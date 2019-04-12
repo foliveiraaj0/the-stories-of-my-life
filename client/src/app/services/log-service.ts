@@ -7,9 +7,8 @@ export class LogService {
     if(isDevMode()) {
       if (err) {
         console.log(`status: ${err.status}
-        message: ${err.message}
         url: ${err.url}
-        headers: ${err.headers}`);
+        message: ${err.message}`)
       }
       else {
         console.log('http error is null');

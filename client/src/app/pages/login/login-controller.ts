@@ -9,13 +9,13 @@ import { map, catchError } from "rxjs/operators";
 @Injectable()
 export class LoginController {
   constructor(
-    private sharedGalleryService: UserService,
+    private userService: UserService,
     private router: Router,
     private logService: LogService
   ) {}
 
   login(username: string, password: string): Observable<LoginErrors> {
-    return this.sharedGalleryService.login(username, password).pipe(
+    return this.userService.login(username, password).pipe(
       map(data => {
         if (data) {
           this.router.navigate(["home"]);

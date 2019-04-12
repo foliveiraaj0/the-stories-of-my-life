@@ -2,9 +2,8 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { UrlHelper } from "./url-helper";
 import { Observable, of } from "rxjs";
-import { map, catchError } from "rxjs/operators";
 import { User } from "../models/user-model";
-import { HttpServiceError } from './http-error-dispatcher';
+import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class UserService {
@@ -29,9 +28,8 @@ export class UserService {
     password: string,
     email: string,
     birthDate: string
-  ): Observable<User | HttpServiceError> {
+  ): Observable<User> {
     const url = this.urlHelper.postSigninUrl();
-    console.log(url);
     const httpOptions = this.buildHeaders();
     return this.http
       .post<User>(
@@ -40,72 +38,47 @@ export class UserService {
         httpOptions
       )
       .pipe(
-        map(
+        tap(
           user => {
             localStorage.setItem("user", JSON.stringify(user));
-            console.log("users-service sigin", user);
-            return user;
-          },
-          err => {
-            console.log(err);
-            return null;
           }
         )
       );
   }
 
-  login(email: string, password: string): Observable<User | HttpServiceError> {
+  login(email: string, password: string): Observable<User> {
     const url = this.urlHelper.postLoginUrl();
     const httpOptions = this.buildHeaders();
     return this.http
       .post<User>(url, { email: email, password: password }, httpOptions)
       .pipe(
-        map(
+        tap(
           user => {
-            console.log("user-service login", user);
             localStorage.setItem("user", JSON.stringify(user));
-            return user;
-          },
-          err => {
-            console.log(err);
           }
         )
       );
   }
 
-  getUser(): Observable<User | HttpServiceError> {
+  getUser(): Observable<User> {
     const url = this.urlHelper.getUserUrl();
     const user: User = this.getCachedUser();
     if (user) {
       const httpOptions = this.buildHeaders(user.token);
-      return this.http.get<User>(url, httpOptions).pipe(
-        map(user => {
-          console.log("user-service getUser", user);
-          return user;
-        }),
-        catchError(err => {
-          return of(new User("","",""))
-        })
-      );
+      return this.http.get<User>(url, httpOptions)
     } else {
-      return null;
+      throw new Error('cached data not found')
     }
   }
 
-  logout(): Observable<User | HttpServiceError> {
+  logout(): Observable<User> {
     const url = this.urlHelper.postLogoutUrl();
-    console.log(url)
     const user: User = this.getCachedUser();
     if (user) {
       const httpOptions = this.buildHeaders(user.token);
-      return this.http.post<User>(url, null, httpOptions).pipe(
-        map(user => {
-          console.log("user-service logout", user);
-          return user;
-        })
-      );
+      return this.http.post<User>(url, null, httpOptions)
     } else {
-      return null;
+      throw new Error('cached data not found')
     }
   }
 
@@ -113,10 +86,9 @@ export class UserService {
     const userString = localStorage.getItem("user");
     if (userString) {
       const user: User = JSON.parse(userString);
-      console.log("user-service cachedUser", user);
       return user;
     }
-    return null;
+    throw new Error('cached data not found')
   }
 
   cleanUserCached() {
