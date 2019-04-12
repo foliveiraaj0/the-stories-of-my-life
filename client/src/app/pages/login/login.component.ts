@@ -42,12 +42,6 @@ export class LoginComponent implements OnInit {
 
   onUserNotRegistered() {
     this.loginForm.setErrors({ userNotFound: true });
-    if (this.loginForm.hasError("userNotFound")) {
-      if (this.errorLabel) {
-        this.errorLabel.nativeElement.innerHTML = "user not found.";
-      } else {
-        console.log("error label null");
-      }
-    }
+    this.errorLabel.nativeElement.innerHTML = "user not found.";
   }
 }

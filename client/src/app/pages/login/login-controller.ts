@@ -18,8 +18,9 @@ export class LoginController {
 
   login(username: string, password: string): Observable<LoginResponse> {
     return this.userService.login(username, password).pipe(
-      map(data => {
-        if (data) {
+      map(user => {
+        if (user) {
+          localStorage.setItem("user", JSON.stringify(user));
           this.router.navigate(["home"]);
           return LoginResponse.LoginSuccess;
         }

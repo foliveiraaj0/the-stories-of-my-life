@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { UrlHelper } from "./url-helper";
 import { Observable, of } from "rxjs";
 import { User } from "../models/user-model";
-import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class UserService {
@@ -12,7 +11,7 @@ export class UserService {
   }
 
   private buildHeaders(token?: string) {
-    let headers: HttpHeaders = new HttpHeaders()
+    let headers: HttpHeaders = new HttpHeaders();
     headers = headers.set("Content-Type", "application/json");
     if (token) {
       headers = headers.set("Authorization", token);
@@ -31,33 +30,21 @@ export class UserService {
   ): Observable<User> {
     const url = this.urlHelper.postSigninUrl();
     const httpOptions = this.buildHeaders();
-    return this.http
-      .post<User>(
-        url,
-        { name: name, password: password, email: email, birthDate: birthDate },
-        httpOptions
-      )
-      .pipe(
-        tap(
-          user => {
-            localStorage.setItem("user", JSON.stringify(user));
-          }
-        )
-      );
+    return this.http.post<User>(
+      url,
+      { name: name, password: password, email: email, birthDate: birthDate },
+      httpOptions
+    );
   }
 
   login(email: string, password: string): Observable<User> {
     const url = this.urlHelper.postLoginUrl();
     const httpOptions = this.buildHeaders();
-    return this.http
-      .post<User>(url, { email: email, password: password }, httpOptions)
-      .pipe(
-        tap(
-          user => {
-            localStorage.setItem("user", JSON.stringify(user));
-          }
-        )
-      );
+    return this.http.post<User>(
+      url,
+      { email: email, password: password },
+      httpOptions
+    );
   }
 
   getUser(): Observable<User> {
@@ -65,9 +52,9 @@ export class UserService {
     const user: User = this.getCachedUser();
     if (user) {
       const httpOptions = this.buildHeaders(user.token);
-      return this.http.get<User>(url, httpOptions)
+      return this.http.get<User>(url, httpOptions);
     } else {
-      throw new Error('cached data not found')
+      throw new Error("cached data not found");
     }
   }
 
@@ -76,9 +63,9 @@ export class UserService {
     const user: User = this.getCachedUser();
     if (user) {
       const httpOptions = this.buildHeaders(user.token);
-      return this.http.post<User>(url, null, httpOptions)
+      return this.http.post<User>(url, null, httpOptions);
     } else {
-      throw new Error('cached data not found')
+      throw new Error("cached data not found");
     }
   }
 
@@ -88,7 +75,7 @@ export class UserService {
       const user: User = JSON.parse(userString);
       return user;
     }
-    throw new Error('cached data not found')
+    return null;
   }
 
   cleanUserCached() {

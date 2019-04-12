@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
-import { UserService } from "src/app/services/user-service";
-import { HttpErrorHandler } from "src/app/services/http-error-handler";
+import { SignInController } from './sign-in.controller';
+import { SignInResponse } from './sign-in-response';
 
 @Component({
   selector: "app-sign-in",
@@ -8,85 +8,38 @@ import { HttpErrorHandler } from "src/app/services/http-error-handler";
   styleUrls: ["./sign-in.component.scss"]
 })
 export class SignInComponent implements OnInit {
-  
-  @ViewChild("loginErrorLabel") loginErrorLabel: ElementRef;
+  @ViewChild("signInErrorLabel") signInErrorLabel: ElementRef;
+
+  private signInObject = {
+    name: "fernando oliveira",
+    password: "1234",
+    email: "nandogoe4@gmail.com",
+    birthDate: "13/09/1988"
+  };
 
   constructor(
-    private userService: UserService,
-    private httpErrorHandler: HttpErrorHandler
+    private signInController: SignInController
   ) {}
 
   ngOnInit() {}
 
-  login() {
-    this.userService.login("nandogoe@gmail.com", "1234").subscribe(
-      user => console.log("component login", user),
-      err => {
-        if (err.status) {
-          switch (err.status) {
-            case 401:
-              console.log("err component", err);
-              break;
-            default:
-              this.httpErrorHandler.handle(err);
-          }
-        }
-      }
-    );
-  }
-
   signin() {
-    this.userService
-      .signin("fernando oliveira", "1234", "nandogoe4@gmail.com", "13/09/1988")
-      .subscribe(
-        user => console.log("component signin", user),
-        err => {
-          if (err.status) {
-            switch (err.status) {
-              case 400:
-                console.log("err component", err);
-                this.loginErrorLabel.nativeElement.innerHTML = "user already registered.";
-                break;
-              default:
-                this.httpErrorHandler.handle(err);
-            }
+    this.signInController.signin(
+      this.signInObject.name,
+      this.signInObject.password,
+      this.signInObject.email,
+      this.signInObject.birthDate).subscribe((response:SignInResponse) => {
+        switch(response) {
+          case SignInResponse.SignInSuccess: {
+
+          }
+          break;
+          case SignInResponse.UserAlreadyRegistered: {
+            this.signInErrorLabel.nativeElement.innerHTML = "this user is already registered"
           }
         }
-      );
+      })
   }
 
-  getUser() {
-    this.userService.getUser().subscribe(
-      user => console.log("component getUser", user),
-      err => {
-        if (err.status) {
-          switch (err.status) {
-            case 401:
-              console.log("err component", err);
-              this.loginErrorLabel.nativeElement.innerHTML = "invalid token.";
-              break;
-            default:
-              this.httpErrorHandler.handle(err);
-          }
-        }
-      }
-    );
-  }
-
-  logout() {
-    return this.userService.logout().subscribe(
-      user => console.log("component logout", user),
-      err => {
-        if (err.status) {
-          switch (err.status) {
-            case 401:
-              console.log("err component", err);
-              break;
-            default:
-              this.httpErrorHandler.handle(err);
-          }
-        }
-      }
-    );
-  }
+  
 }

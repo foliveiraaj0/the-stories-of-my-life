@@ -3,7 +3,7 @@ import { Routes, RouterModule } from "@angular/router";
 import { AuthGuard } from './auth/auth-guad';
 
 const routes: Routes = [
-  { path: "", redirectTo: "", pathMatch: "full", canActivate: [AuthGuard] },
+  { path: "", redirectTo: "login", pathMatch: "full" },
   { path: "login", loadChildren: "./pages/login/login.module#LoginModule", canActivate: [AuthGuard] },
   { path: "about", loadChildren: "./pages/about/about.module#AboutModule" },
   { path: "signin", loadChildren: "./pages/sign-in/sign-in.module#SignInModule", canActivate: [AuthGuard] },
