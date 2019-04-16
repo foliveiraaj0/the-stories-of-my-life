@@ -69,14 +69,15 @@ export class SketcherComponent implements OnInit {
       const img = event.previousContainer.data[event.previousIndex].data.img;
       const imgData =  {src: img.src, alt: img.alt};
       if (this.contents[event.currentIndex]) {
-        this.contents[event.currentIndex].setData(
+        this.contents.splice(event.currentIndex, 0, new OneImageSchema(new OneImageData(imgData, "fewfwef")))
+        /* this.contents[event.currentIndex].setData(
           OneImageSchema.IMG_LEFT,
           new OneImageData(imgData, null)
         );
         this.contents[event.currentIndex].setData(
           OneImageSchema.TEXT_RIGHT,
           new OneImageData(null, "ewfnwofweiofnweionfeiownfioe")
-        );
+        ); */
       } else {
         this.contents.push(
           new OneImageSchema(new OneImageData(imgData, "fewfwef"))
