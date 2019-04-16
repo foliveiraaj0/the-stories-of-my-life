@@ -20,6 +20,8 @@ import { HttpErrorHandler } from './services/http-error-handler';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
     HttpClientModule
   ],
   providers: [HttpClient, HttpErrorHandler, UrlHelper, UserService, LogService, AuthGuard],
