@@ -12,7 +12,7 @@ export class TwoImageData extends TemplateSchemaData {
   }
 }
 
-export abstract class TemplateSchema {
+/* export abstract class TemplateSchema {
   abstract setData(position: number, data: TemplateSchemaData);
   abstract getData(): TemplateSchemaData;
 }
@@ -71,3 +71,4 @@ export class TwoImageSchema extends TemplateSchema {
     return this.data;
   }
 }
+ */

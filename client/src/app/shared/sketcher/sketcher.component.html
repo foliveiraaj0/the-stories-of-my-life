@@ -1,23 +1,35 @@
 <div class="sketcher">
+
   <div class="sketcher-images">
-    <div cdkDrag *ngFor="let image of images" class="sketcher-image">
+    <div cdkDrag *ngFor="let image of images" (cdkDragEnded)="ended($event)" class="sketcher-image">
       <img src="{{image.src}}" alt="{{image.alt}}">
     </div>
   </div>
-  <div cdkDropList #contentList="cdkDropList" (cdkDropListEntered)="enter($event)" (cdkDropListDropped)="drop($event)"
-  [cdkDropListData]="contents"  
-  class="sketcher-content">
-    <div cdkDrag *ngFor="let content of contents"  class="sketcher-image">
-      <img src="{{content.data.img.src}}" alt="{{content.data.img.alt}}">
-      <p>{{content.data.text}}</p>
+
+  <div class="sketcher-templates">
+    <div cdkDropList *ngFor="let template of templates"
+      [cdkDropListData]="templates" [cdkDropListConnectedTo]="[contentList]"
+      [cdkDropListEnterPredicate]="predicateTemplate" class="sketcher-images">
+      <div class="sketcher-image">
+          <img [src]="template.img.src" [alt]="template.img.alt">
+        </div>
+      <div cdkDrag cdkDragBoundary=".sketcher" (cdkDragEnded)="ended($event)" [cdkDragData]="template"
+        class="sketcher-image--drag">
+        <img [src]="template.img.src" [alt]="template.img.alt">
+      </div>
+      
     </div>
   </div>
-  <div cdkDropList (cdkDropListDropped)="drop($event)"
-    [cdkDropListData]="templates"
-    [cdkDropListConnectedTo]="[contentList]"
-    class="sketcher-images">
-    <div cdkDrag *ngFor="let template of templates" class="sketcher-image">
-      <img src="{{template.data.img.src}}" alt="{{template.data.img.alt}}">
+
+  <div cdkDropList #contentList="cdkDropList" (cdkDropListDropped)="drop($event)" (cdkDropListEntered)="enter($event)"
+    (cdkDropListExited)="exit($event)" [cdkDropListData]="contents" class="sketcher-content">
+    <div cdkDrag cdkDragDisabled="True" *ngFor="let content of contents" class="sketcher-image">
+      <img src="{{content.img.src}}" alt="{{content.img.alt}}">
     </div>
+
   </div>
+
+
+
+
 </div>

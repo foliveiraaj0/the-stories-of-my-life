@@ -1,14 +1,16 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import {
   CdkDragDrop,
   moveItemInArray,
-  CdkDragEnter
+  CdkDragEnter,
+  CdkDragPreview,
+  CdkDragPlaceholder,
+  CdkDragEnd,
+  CdkDrag,
+  CdkDragExit
 } from "@angular/cdk/drag-drop";
 import {
-  OneImageSchema,
-  TemplateSchema,
-  TwoImageSchema,
-  OneImageData
+  OneImageData, TemplateSchemaData
 } from "./templates";
 
 @Component({
@@ -18,8 +20,8 @@ import {
 })
 export class SketcherComponent implements OnInit {
   private images = [];
-  private contents: TemplateSchema[] = [];
-  private templates: TemplateSchema[] = [];
+  private contents: TemplateSchemaData[] = [];
+  private templates: TemplateSchemaData[] = [];
 
   constructor() {
     this.fillPokemonList();
@@ -29,7 +31,9 @@ export class SketcherComponent implements OnInit {
     }); */
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    
+  }
 
   fillPokemonList() {
     const baseURL =
@@ -52,11 +56,20 @@ export class SketcherComponent implements OnInit {
       const pokemon = Math.round(Math.random() * 600);
       const img = { src: `${baseURL}${pokemon}${sufixURL}`, alt: "dfwf" };
       const text = "wefwmefw";
-      this.templates.push(new OneImageSchema(new OneImageData(img, text)));
+      this.templates.push(new OneImageData(img, text));
     }
   }
 
-  drop(event: CdkDragDrop<OneImageSchema[]>) {
+  ended(event: CdkDragEnd<{src:string, alt:string}>) {
+    console.log('ended', event)
+  }
+
+  predicateTemplate(item: CdkDrag<OneImageData>) {
+    //console.log('predicateTemplate', item.data)
+    return false;
+  }
+
+  drop(event: CdkDragDrop<OneImageData[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -64,29 +77,27 @@ export class SketcherComponent implements OnInit {
         event.currentIndex
       );
     } else {
-      console.log(event);
-      console.log(event.previousContainer.data[event.previousIndex]);
-      const img = event.previousContainer.data[event.previousIndex].data.img;
-      const imgData =  {src: img.src, alt: img.alt};
-      if (this.contents[event.currentIndex]) {
-        this.contents.splice(event.currentIndex, 0, new OneImageSchema(new OneImageData(imgData, "fewfwef")))
-        /* this.contents[event.currentIndex].setData(
-          OneImageSchema.IMG_LEFT,
-          new OneImageData(imgData, null)
-        );
-        this.contents[event.currentIndex].setData(
-          OneImageSchema.TEXT_RIGHT,
-          new OneImageData(null, "ewfnwofweiofnweionfeiownfioe")
-        ); */
+      console.log('drop', event.item.data.img.src);
+      const data = event.item.data//event.previousContainer.data[event.previousIndex];
+      /* if (this.contents[event.currentIndex]) {
+        this.contents.splice(event.currentIndex, 0, new OneImageData(data.img, data.text))
       } else {
         this.contents.push(
-          new OneImageSchema(new OneImageData(imgData, "fewfwef"))
+          new OneImageData(data.img, "fewfwef")
         );
-      }
+      } */
+      this.contents = [new OneImageData(data.img, data.text)]
     }
   }
 
-  enter(event: CdkDragEnter) {
-    console.log(event);
+  enter(event: CdkDragEnter<OneImageData>) {
+    console.log('enter', event.item.data);
+    const data = event.item.data
+    //this.contents[0] = [new OneImageData(data.img, data.text)]
+  }
+
+  exit(event: CdkDragExit<OneImageData>) {
+    console.log('exit', event.item.data)
+    this.contents = []
   }
 }
