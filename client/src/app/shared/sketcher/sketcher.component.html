@@ -20,12 +20,15 @@
     </div>
   </div>
 
-  <div cdkDropList (cdkDropListDropped)="drop($event)" (cdkDropListEntered)="enter($event)"
-    (cdkDropListExited)="exit($event)" [cdkDropListData]="contents" class="sketcher-content">
-    <div cdkDrag cdkDragDisabled="True" *ngFor="let content of contents" class="sketcher-image">
-      <img src="{{content.img.src}}" alt="{{content.img.alt}}">
-    </div>
+  <div class="container">
 
-  </div>
+    <app-image-drop-container>
+      <div cdkDropList (cdkDropListDropped)="drop($event)" (cdkDropListEntered)="enter($event)"
+        (cdkDropListExited)="exit($event)" [cdkDropListData]="contents" class="sketcher-content">
+        <div cdkDrag cdkDragDisabled="True" *ngFor="let content of contents" class="sketcher-image">
+          <img src="{{content.img.src}}" alt="{{content.img.alt}}">
+        </div>
+      </div>
+    </app-image-drop-container>
 
 </div>

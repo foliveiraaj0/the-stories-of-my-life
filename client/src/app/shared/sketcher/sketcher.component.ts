@@ -96,6 +96,18 @@ export class SketcherComponent implements OnInit {
     //this.contents[0] = [new OneImageData(data.img, data.text)]
   }
 
+  enterLeft(event: CdkDragEnter<OneImageData>) {
+    console.log('enter left', event.item.data);
+    const data = event.item.data
+    //this.contents[0] = [new OneImageData(data.img, data.text)]
+  }
+
+  enterRight(event: CdkDragEnter<OneImageData>) {
+    console.log('enter right', event.item.data);
+    const data = event.item.data
+    //this.contents[0] = [new OneImageData(data.img, data.text)]
+  }
+
   exit(event: CdkDragExit<OneImageData>) {
     console.log('exit', event.item.data)
     this.contents = []
