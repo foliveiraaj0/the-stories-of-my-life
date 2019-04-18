@@ -1,15 +1,17 @@
 .sketcher {
   display: flex;
   height: 20rem;
+  overflow: hidden;
   &-images {
     width: 40rem;
     height: 100%;
     background-color: cadetblue;
-    overflow-y: scroll;
+    
     &__list {
       display: block;
       width: 96px;
       background-color: yellow;
+      
     }
   }
   &-image {
