@@ -1,4 +1,4 @@
-<div class="sketcher">
+<div cdkDropListGroup class="sketcher">
 
   <div class="sketcher-images">
     <div cdkDrag *ngFor="let image of images" (cdkDragEnded)="ended($event)" class="sketcher-image">
@@ -7,29 +7,25 @@
   </div>
 
   <div class="sketcher-templates">
-    <div cdkDropList *ngFor="let template of templates"
-      [cdkDropListData]="templates" [cdkDropListConnectedTo]="[contentList]"
+    <div cdkDropList *ngFor="let template of templates" [cdkDropListData]="templates"
       [cdkDropListEnterPredicate]="predicateTemplate" class="sketcher-images">
       <div class="sketcher-image">
-          <img [src]="template.img.src" [alt]="template.img.alt">
-        </div>
+        <img [src]="template.img.src" [alt]="template.img.alt">
+      </div>
       <div cdkDrag cdkDragBoundary=".sketcher" (cdkDragEnded)="ended($event)" [cdkDragData]="template"
         class="sketcher-image--drag">
         <img [src]="template.img.src" [alt]="template.img.alt">
       </div>
-      
+
     </div>
   </div>
 
-  <div cdkDropList #contentList="cdkDropList" (cdkDropListDropped)="drop($event)" (cdkDropListEntered)="enter($event)"
+  <div cdkDropList (cdkDropListDropped)="drop($event)" (cdkDropListEntered)="enter($event)"
     (cdkDropListExited)="exit($event)" [cdkDropListData]="contents" class="sketcher-content">
     <div cdkDrag cdkDragDisabled="True" *ngFor="let content of contents" class="sketcher-image">
       <img src="{{content.img.src}}" alt="{{content.img.alt}}">
     </div>
 
   </div>
-
-
-
 
 </div>
