@@ -1,14 +1,18 @@
 <div cdkDropListGroup class="sketcher">
 
   <div class="sketcher-images">
-    <div cdkDrag *ngFor="let image of images" (cdkDragEnded)="ended($event)" class="sketcher-image">
-      <img src="{{image.src}}" alt="{{image.alt}}">
+    <div class="sketcher-images__list">
+      <div cdkDrag cdkDragBoundary=".sketcher" (cdkDragStarted)="start($event)" (cdkDragReleased)="release($event)"
+        (cdkDragMoved)="moved($event)" *ngFor="let image of images" (cdkDragEnded)="ended($event)"
+        class="sketcher-image">
+        <img src="{{image.src}}" alt="{{image.alt}}">
+      </div>
     </div>
   </div>
 
   <div class="sketcher-templates">
     <div cdkDropList *ngFor="let template of templates" [cdkDropListData]="templates"
-      [cdkDropListEnterPredicate]="predicateTemplate" class="sketcher-images">
+      [cdkDropListEnterPredicate]="predicateTemplate">
       <div class="sketcher-image">
         <img [src]="template.img.src" [alt]="template.img.alt">
       </div>
@@ -16,19 +20,19 @@
         class="sketcher-image--drag">
         <img [src]="template.img.src" [alt]="template.img.alt">
       </div>
-
     </div>
   </div>
 
-  <div class="container">
-
-    <app-image-drop-container>
-      <div cdkDropList (cdkDropListDropped)="drop($event)" (cdkDropListEntered)="enter($event)"
-        (cdkDropListExited)="exit($event)" [cdkDropListData]="contents" class="sketcher-content">
-        <div cdkDrag cdkDragDisabled="True" *ngFor="let content of contents" class="sketcher-image">
-          <img src="{{content.img.src}}" alt="{{content.img.alt}}">
+  <div class="sketcher-content">
+    <div class="sketcher-content__sizer">
+      <app-image-drop-container>
+        <div cdkDropList (cdkDropListDropped)="drop($event)" (cdkDropListEntered)="enter($event)"
+          (cdkDropListExited)="exit($event)" [cdkDropListData]="contents" class="sketcher-content__box">
+          <div cdkDrag cdkDragDisabled="True" *ngFor="let content of contents" class="sketcher-image">
+            <img src="{{content.img.src}}" alt="{{content.img.alt}}">
+          </div>
         </div>
-      </div>
-    </app-image-drop-container>
+      </app-image-drop-container>
+    </div>
 
-</div>
+  </div>

@@ -3,11 +3,12 @@ import {
   CdkDragDrop,
   moveItemInArray,
   CdkDragEnter,
-  CdkDragPreview,
-  CdkDragPlaceholder,
   CdkDragEnd,
   CdkDrag,
-  CdkDragExit
+  CdkDragExit,
+  CdkDragMove,
+  CdkDragRelease,
+  CdkDragStart
 } from "@angular/cdk/drag-drop";
 import {
   OneImageData, TemplateSchemaData
@@ -23,12 +24,11 @@ export class SketcherComponent implements OnInit {
   private contents: TemplateSchemaData[] = [];
   private templates: TemplateSchemaData[] = [];
 
+  private lastPostion;
+
   constructor() {
     this.fillPokemonList();
     this.fillTemplateList();
-    /* this.templates.forEach(template => {
-      this.contents.push(template);
-    }); */
   }
 
   ngOnInit() {
@@ -78,14 +78,8 @@ export class SketcherComponent implements OnInit {
       );
     } else {
       console.log('drop', event.item.data.img.src);
-      const data = event.item.data//event.previousContainer.data[event.previousIndex];
-      /* if (this.contents[event.currentIndex]) {
-        this.contents.splice(event.currentIndex, 0, new OneImageData(data.img, data.text))
-      } else {
-        this.contents.push(
-          new OneImageData(data.img, "fewfwef")
-        );
-      } */
+      const data = event.item.data
+      //this.contents.splice(event.currentIndex, 0, new OneImageData(data.img, data.text))
       this.contents = [new OneImageData(data.img, data.text)]
     }
   }
@@ -94,6 +88,42 @@ export class SketcherComponent implements OnInit {
     console.log('enter', event.item.data);
     const data = event.item.data
     //this.contents[0] = [new OneImageData(data.img, data.text)]
+  }
+
+  release(event: CdkDragRelease<OneImageData>) {
+    
+    const delta = this.getDisplacement(event)
+    
+    console.log('release', event, delta)
+    this.lastPostion = null;
+    
+  }
+
+  private getDisplacement(event): {x:number, y: number} {
+    const delta = {x:Infinity, y:Infinity};
+
+    const style = event.source.element.nativeElement.attributes.getNamedItem("style")
+
+    if(style) {
+      let startValueIndex = style.value.indexOf('(') + 1
+      let styleValue = style.textContent.substring(startValueIndex)
+      let endValueIndex = styleValue.indexOf('p')
+      delta.x = +styleValue.substring(0,endValueIndex)
+      startValueIndex =  styleValue.indexOf(',') + 1
+      styleValue = styleValue.substring(startValueIndex)
+      endValueIndex = styleValue.indexOf('p')
+      delta.y = +styleValue.substring(0, endValueIndex)
+    }
+    return delta;
+  }
+
+  start(event: CdkDragStart<OneImageData>) {
+    console.log('start', event, this.lastPostion)
+  }
+
+  moved(event: CdkDragMove<OneImageData>) {
+    //console.log('move', event);
+    this.lastPostion = event;
   }
 
   enterLeft(event: CdkDragEnter<OneImageData>) {
