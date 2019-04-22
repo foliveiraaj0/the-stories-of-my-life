@@ -1,13 +1,21 @@
 <div cdkDropListGroup class="sketcher">
 
   <div class="sketcher-images">
-    <div class="sketcher-images__list">
-      <div cdkDrag cdkDragBoundary=".sketcher" (cdkDragStarted)="start($event)" (cdkDragReleased)="release($event)"
-        (cdkDragMoved)="moved($event)" *ngFor="let image of images" (cdkDragEnded)="ended($event)"
-        class="sketcher-image">
-        <img src="{{image.src}}" alt="{{image.alt}}">
+    <button #buttonShiftTop class="sketcher-button--top" (click)="scrollList('top')">TOP</button>
+    <div (mousewheel)="scrollList($event)" #imageList class="sketcher-images__list">
+      <div class="sketcher-image" *ngFor="let image of images">
+        <div cdkDrag [ngClass]="{'shift-top':isShiftingTop, 'shift-bottom': isShiftingBottom}"
+          cdkDragBoundary=".sketcher" (cdkDragStarted)="start($event)" (cdkDragReleased)="release($event)"
+          (cdkDragMoved)="moved($event)" (animationend)="onShiftEnd($event)" (cdkDragEnded)="ended($event)"
+          class="sketcher-image--drag">
+          <img src="{{image.src}}" alt="{{image.alt}}">
+        </div>
+        <div [hidden]="!isDragging" class="sketcher-image--placeholder">
+          <img src="{{image.src}}" alt="{{image.alt}}">
+        </div>
       </div>
     </div>
+    <button #buttonShiftBottom class="sketcher-button--bottom" (click)="scrollList('bottom')">BOTTOM</button>
   </div>
 
   <div class="sketcher-templates">
