@@ -1,37 +1,44 @@
 .sketcher {
   display: flex;
-  height: 23rem;
-  
+  height: 350px;
+
   &-images {
     width: 40rem;
     height: 100%;
     background-color: cadetblue;
     position: relative;
     &__list {
+      margin-top: 70px;
       background-color: yellow;
       display: block;
-      width: 96px;
-      height: 18.72rem;
-      
+      width: 70px;
+      height: 210px;
     }
   }
   &-image {
-    display: inline-block;
     position: relative;
+    width: 70px;
+    height: 70px;
     &--placeholder {
+      width: 70px;
+      height: 70px;
       position: absolute;
       top: 0;
-      opacity: .5;
+      opacity: 0.5;
       //transform: translateY(-100%);
     }
     &--drag {
+      width: 70px;
+      height: 70px;
       &:hover {
         outline: 2px solid red;
         outline-offset: -2px;
       }
     }
-   
-    
+    img {
+      width: 70px;
+      height: 70px;
+    }
   }
   &-templates {
     display: block;
@@ -57,11 +64,24 @@
   &-button {
     position: absolute;
     &--top {
-      top:0;
+      top: 0;
     }
     &--bottom {
       bottom: 0;
-    } 
+    }
+  }
+  &-block {
+    position: absolute;
+    z-index: 1;
+    height: 70px;
+    width: 70px;
+    background-color: cadetblue;
+    &--top {
+      top: 0px;
+    }
+    &--bottom {
+      bottom: 0px;
+    }
   }
 }
 

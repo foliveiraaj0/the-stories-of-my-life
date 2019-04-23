@@ -24,6 +24,8 @@ import { OneImageData, TemplateSchemaData } from "./templates";
   styleUrls: ["./sketcher.component.scss"]
 })
 export class SketcherComponent implements OnInit {
+  @ViewChild("topElementList") topList: ElementRef;
+  @ViewChild("bottomElementList") bottomList: ElementRef;
   @ViewChild("imageList") imagesList: ElementRef;
   @ViewChild("buttonShiftTop") buttonTop: ElementRef;
   @ViewChild("buttonShiftBottom") buttonBottom: ElementRef;
@@ -31,22 +33,22 @@ export class SketcherComponent implements OnInit {
   private images = [];
   private contents: TemplateSchemaData[] = [];
   private templates: TemplateSchemaData[] = [];
-
-  private isShiftingTop = false;
-  private isShiftingBottom = false;
+  private showingImages = [];
 
   private lastPostion;
 
-  private carouselCursor = 0;
-
-  private scrollValue = 0;
-  private scrollStep = 50;
+  private scrollValue = 0; //accumulated of steps in percent
+  private scrollStep = 50; //percent
 
   private isDragging = false;
 
   constructor(private renderer: Renderer) {
     this.fillPokemonList();
     this.fillTemplateList();
+    this.showingImages.push(this.images[0]);
+    this.showingImages.push(this.images[1]);
+    this.showingImages.push(this.images[2]);
+    this.showingImages.push(this.images[3]);
   }
 
   ngOnInit() {}
@@ -55,7 +57,7 @@ export class SketcherComponent implements OnInit {
     const baseURL =
       "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
     const sufixURL = ".png";
-    this.images = []
+    this.images = [];
     for (let i = 0; i < 6; i++) {
       const pokemon = Math.round(Math.random() * 600);
       this.images.push({
@@ -77,34 +79,15 @@ export class SketcherComponent implements OnInit {
     }
   }
 
-  ended(event: CdkDragEnd<{ src: string; alt: string }>) {
-    console.log("ended", event);
-    this.isDragging = false;
-    event.source.element.nativeElement.style.setProperty(
-      "transform",
-      "translate(0px,0px)"
-    );
-    event.source._dragRef._passiveTransform = {x: 0, y: 0}
-  }
-
   predicateTemplate(item: CdkDrag<OneImageData>) {
     //console.log('predicateTemplate', item.data)
     return false;
   }
 
-  drop(event: CdkDragDrop<OneImageData[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-    } else {
-      console.log("drop", event.item.data.img.src);
-      const data = event.item.data;
-      //this.contents.splice(event.currentIndex, 0, new OneImageData(data.img, data.text))
-      this.contents = [new OneImageData(data.img, data.text)];
-    }
+  ended(event: CdkDragEnd<{ src: string; alt: string }>) {
+    console.log("ended", event);
+    this.isDragging = false;
+    event.source.reset();
   }
 
   enter(event: CdkDragEnter<OneImageData>) {
@@ -118,6 +101,66 @@ export class SketcherComponent implements OnInit {
 
     console.log("release", event, delta);
     this.lastPostion = null;
+  }
+
+  start(event: CdkDragStart<OneImageData>) {
+    console.log("start", event, this.lastPostion);
+    this.isDragging = true;
+  }
+
+  moved(event: CdkDragMove<OneImageData>) {
+    //console.log('move', event);
+    this.lastPostion = event;
+  }
+
+  exit(event: CdkDragExit<OneImageData>) {
+    console.log("exit", event.item.data);
+    this.contents = [];
+  }
+
+  hasSpace(direction) {
+    if (this.imagesList.nativeElement.children) {
+      const listElement = this.imagesList.nativeElement;
+      const itemHeight = this.imagesList.nativeElement.children[0].clientHeight;
+      const allElementsHeight = itemHeight * listElement.childElementCount;
+      const listElementHeight = listElement.clientHeight;
+      const step = .5 * itemHeight;
+      const scrollValuePixel = this.scrollValue / 50 * step
+
+      //console.log(scrollValuePixel, allElementsHeight, listElementHeight, step)
+      //console.log(scrollValuePixel + allElementsHeight - step, listElementHeight)
+
+      if (direction === "top") {
+        return (
+          allElementsHeight + scrollValuePixel - step  >=
+          listElementHeight
+        );
+      } else if (direction === "bottom") {
+        return this.scrollValue < 0;
+      }
+    }
+    return false;
+  }
+
+  scrollList(direction) {
+    if (direction.wheelDeltaY) {
+      direction = direction.wheelDeltaY > 0 ? "top" : "bottom";
+    }
+
+    if (this.hasSpace(direction)) {
+      const nativeList = this.imagesList.nativeElement;
+      this.scrollValue +=
+        direction === "top" ? -this.scrollStep : this.scrollStep;
+      for (let i = 0; i < nativeList.childElementCount; i++) {
+        const currentItem = nativeList.children[i];
+        //console.log(currentItem)
+        //this.renderer.setElementClass(currentBoxObj, 'shift-bottom', true);
+        currentItem.style.setProperty(
+          "transform",
+          "translateY(" + this.scrollValue + "%)"
+        );
+      }
+    }
   }
 
   private getDisplacement(event): { x: number; y: number } {
@@ -138,92 +181,5 @@ export class SketcherComponent implements OnInit {
       delta.y = +styleValue.substring(0, endValueIndex);
     }
     return delta;
-  }
-
-  start(event: CdkDragStart<OneImageData>) {
-    console.log("start", event, this.lastPostion);
-    this.isDragging = true;
-  }
-
-  moved(event: CdkDragMove<OneImageData>) {
-    //console.log('move', event);
-    this.lastPostion = event;
-  }
-
-  enterLeft(event: CdkDragEnter<OneImageData>) {
-    console.log("enter left", event.item.data);
-    const data = event.item.data;
-    //this.contents[0] = [new OneImageData(data.img, data.text)]
-  }
-
-  enterRight(event: CdkDragEnter<OneImageData>) {
-    console.log("enter right", event.item.data);
-    const data = event.item.data;
-    //this.contents[0] = [new OneImageData(data.img, data.text)]
-  }
-
-  exit(event: CdkDragExit<OneImageData>) {
-    console.log("exit", event.item.data);
-    this.contents = [];
-  }
-
-  minCarouselCursor() {
-    return 0;
-  }
-
-  maxCarouselCursor() {
-    let max = 0;
-    const CAROUSEL_OUT_BOX = 2; //top and bottom
-    const listLen = this.imagesList.nativeElement.childElementCount - 1;
-    const validBoxes = listLen - CAROUSEL_OUT_BOX;
-    max = listLen - validBoxes;
-    return max >= 0 ? max : 0;
-  }
-
-  hasSpace(direction) {
-    if (this.imagesList.nativeElement.children) {
-      const listElement = this.imagesList.nativeElement
-      const itemHeight = this.imagesList.nativeElement.children[0];
-      const allElementsHeight = itemHeight.clientHeight * listElement.childElementCount
-      const listElementHeight = listElement.clientHeight
-
-      /* if (direction === "top") {
-        return this.scrollValue >= this.scrollStep;
-      } else if (direction === "bottom") {
-        return this.scrollValue + allElementsHeight <= listElementHeight - this.scrollStep;
-      } */
-
-      //console.log(this.scrollValue, allElementsHeight, listElementHeight, this.scrollStep)
-      //console.log(this.scrollValue + allElementsHeight, listElementHeight - this.scrollStep)
-
-      if (direction === "top") {
-        return allElementsHeight + this.scrollValue - this.scrollStep >= listElementHeight;
-      } else if (direction === "bottom") {
-        return this.scrollValue < 0;
-      }
-    }
-    return false;
-  }
-
-  scrollList(direction) {
-    if (direction.wheelDeltaY) {
-      direction = direction.wheelDeltaY > 0 ? "top" : "bottom";
-    }
-
-    if (this.hasSpace(direction)) {
-      const nativeList = this.imagesList.nativeElement;
-      this.scrollValue +=
-        direction === "top" ? -this.scrollStep : this.scrollStep;
-      for (let i = 0; i < nativeList.childElementCount; i++) {
-        const currentItem = nativeList.children[i];
-        console.log(currentItem)
-        //this.renderer.setElementClass(currentBoxObj, 'shift-bottom', true);
-        currentItem.style.setProperty(
-          "transform",
-          "translateY(" + this.scrollValue + "%)"
-        );
-      }
-      this.carouselCursor++;
-    }
   }
 }

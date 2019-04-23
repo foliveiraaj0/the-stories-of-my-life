@@ -1,9 +1,9 @@
 <div cdkDropListGroup class="sketcher">
 
   <div class="sketcher-images">
-    <button #buttonShiftTop class="sketcher-button--top" (click)="scrollList('top')">TOP</button>
+    <div #topElementList class="sketcher-block sketcher-block--top"></div>
     <div (mousewheel)="scrollList($event)" #imageList class="sketcher-images__list">
-      <div class="sketcher-image" *ngFor="let image of images">
+      <div class="sketcher-image" *ngFor="let image of showingImages">
         <div cdkDrag [ngClass]="{'shift-top':isShiftingTop, 'shift-bottom': isShiftingBottom}"
           cdkDragBoundary=".sketcher" (cdkDragStarted)="start($event)" (cdkDragReleased)="release($event)"
           (cdkDragMoved)="moved($event)" (animationend)="onShiftEnd($event)" (cdkDragEnded)="ended($event)"
@@ -15,7 +15,7 @@
         </div>
       </div>
     </div>
-    <button #buttonShiftBottom class="sketcher-button--bottom" (click)="scrollList('bottom')">BOTTOM</button>
+    <div #bottomElementList class="sketcher-block sketcher-block--bottom"></div>
   </div>
 
   <div class="sketcher-templates">
