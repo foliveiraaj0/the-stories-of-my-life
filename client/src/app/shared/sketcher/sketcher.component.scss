@@ -85,6 +85,33 @@
   }
 }
 
+.shift-top-one-step {
+  animation-name: shiftTopOneStep;
+  animation-duration: .1s;
+  animation-fill-mode: forwards;
+  animation-timing-function: linear;
+}
+
+@keyframes shiftTopOneStep {
+  100% {
+    transform: translateY(50%)
+  }
+}
+
+.shift-top-two-step {
+  animation-name: shiftTopTwoStep;
+  animation-duration: .1s;
+  animation-fill-mode: forwards;
+  animation-timing-function: linear;
+}
+
+@keyframes shiftTopTwoStep {
+  100% {
+    transform: translateY(0%)
+  }
+}
+
+
 .cdk-drag-placeholder {
   opacity: 0;
 }

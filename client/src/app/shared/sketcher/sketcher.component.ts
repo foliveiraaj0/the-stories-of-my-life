@@ -40,9 +40,16 @@ export class SketcherComponent implements OnInit {
   private firstImageOnList = 0;
 
   private scrollValue = 100; //accumulated of steps in percent
-  private scrollStep = 50; //percent
+  private scrollStep = 100; //percent
 
   private isDragging = false;
+
+  private listElement;
+  private itemHeight;
+  private allElementsHeight;
+  private listElementHeight;
+  private step;
+  private scrollValuePixel;
 
   constructor(private renderer: Renderer) {
     this.fillPokemonList();
@@ -55,7 +62,7 @@ export class SketcherComponent implements OnInit {
   }
 
   ngOnInit() {
-   /*  const nativeList = this.imagesList.nativeElement;
+    /*  const nativeList = this.imagesList.nativeElement;
     console.log(nativeList.childElementCount);
     for (let i = 0; i < nativeList.childElementCount; i++) {
       const currentItem = nativeList.children[i];
@@ -133,24 +140,31 @@ export class SketcherComponent implements OnInit {
     this.contents = [];
   }
 
-  hasSpace(direction) {
-    if (this.imagesList.nativeElement.children) {
-      const listElement = this.imagesList.nativeElement;
-      const itemHeight = this.imagesList.nativeElement.children[0].clientHeight;
-      const allElementsHeight = itemHeight * listElement.childElementCount;
-      const listElementHeight = listElement.clientHeight - 2*itemHeight;
-      const step = 0.5 * itemHeight;
-      const initialDisplacement = 2*step;
-      const scrollValuePixel = this.scrollValue / 50 * step - 2*step;
+  calculateConstants() {
+    this.listElement = this.imagesList.nativeElement;
+    this.itemHeight = this.imagesList.nativeElement.children[0].clientHeight;
+    this.allElementsHeight = this.images.length * this.itemHeight//this.itemHeight * this.listElement.childElementCount;
+    this.listElementHeight = this.listElement.clientHeight - 2 * this.itemHeight;
+    this.step = this.scrollStep/100 * this.itemHeight;
+    const initialDisplacement = this.step;
+    this.scrollValuePixel =
+      (this.scrollValue / this.scrollStep) * this.step - initialDisplacement;
+  }
 
-      console.log(scrollValuePixel, allElementsHeight, listElementHeight, step);
+  hasSpace(direction) {
+
+    this.calculateConstants()
+    const initialDisplacement = this.step;
+
+    if (this.imagesList.nativeElement.children) {
+      console.log(this.scrollValuePixel, this.allElementsHeight, this.listElementHeight, this.step);
       console.log(
-        scrollValuePixel + allElementsHeight - step,
-        listElementHeight
+        this.scrollValuePixel + this.allElementsHeight - this.step,
+        this.listElementHeight
       );
 
       if (direction === "top") {
-        return allElementsHeight + scrollValuePixel - step >= listElementHeight;
+        return this.allElementsHeight + this.scrollValuePixel - this.step >= this.listElementHeight;
       } else if (direction === "bottom") {
         return this.scrollValue < initialDisplacement;
       }
@@ -171,25 +185,71 @@ export class SketcherComponent implements OnInit {
         const currentItem = nativeList.children[i];
         //console.log(currentItem)
         //this.renderer.setElementClass(currentBoxObj, 'shift-bottom', true);
-        currentItem.style.setProperty(
+        /* currentItem.style.setProperty(
           "transform",
           "translateY(" + this.scrollValue + "%)"
-        );
+        ); */
+
+        if (this.scrollValue % 100 === 0) {
+          if (direction === "top") {
+            this.renderer.setElementClass(
+              currentItem,
+              "shift-top-two-step",
+              true
+            );
+            //this.showingImages[4] = this.images[-1*this.firstImageOnList+5]
+          } else if (direction === "bottom") {
+          }
+        } else {
+          if (direction === "top") {
+            this.renderer.setElementClass(
+              currentItem,
+              "shift-top-one-step",
+              true
+            );
+            //this.showingImages[4] = this.images[-1*this.firstImageOnList+5]
+          } else if (direction === "bottom") {
+          }
+        }
       }
       if (this.scrollValue % 100 === 0) {
         if (direction === "top") {
-          this.firstImageOnList--;
-          console.log("top", this.firstImageOnList);
+          //this.firstImageOnList--;
           /* if(-1*this.firstImageOnList+5 < this.images.length) {
             this.showingImages[4] = this.images[-1*this.firstImageOnList+5]
           } */
         } else if (direction === "bottom") {
-          console.log("bottom", this.firstImageOnList);
           /*  if(this.firstImageOnList-1 < this.images.length && this.firstImageOnList-1 >= 0) {
             this.firstImageOnList--;
             this.showingImages[0] == this.images[this.firstImageOnList];
           } */
         }
+      }
+    }
+  }
+
+  animationEventCont = 0;
+
+  onScrollEnd(event) {
+    this.animationEventCont++;
+    if (event.animationName === "shiftTopTwoStep") {
+      const initialDisplacement = this.scrollStep;
+      this.renderer.setElementClass(event.target, "shift-top-one-step", false);
+      this.renderer.setElementClass(event.target, "shift-top-two-step", false);
+      const scrollPostion = (this.scrollValue - initialDisplacement) / this.scrollStep * -1;
+      console.log('scrollpostion', scrollPostion)
+      if (
+        this.animationEventCont %
+          this.imagesList.nativeElement.childElementCount ===
+        0
+      ) {
+        this.showingImages[0] = this.images[scrollPostion];
+        this.showingImages[1] = this.images[scrollPostion+1];
+        this.showingImages[2] = this.images[scrollPostion+2];
+        this.showingImages[3] = this.images[scrollPostion+3];
+        this.showingImages[4] = this.images[scrollPostion+4];
+        console.log(event);
+        this.animationEventCont = 0;
       }
     }
   }
