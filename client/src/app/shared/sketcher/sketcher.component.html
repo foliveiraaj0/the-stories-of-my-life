@@ -2,8 +2,7 @@
 
   <div class="sketcher-images">
     <div (mousewheel)="scrollList($event)" #imageList class="sketcher-images__list">
-      <div #topElementList class="sketcher-block sketcher-block--top"></div>
-      <div (animationend)="onScrollEnd($event)" class="sketcher-image" *ngFor="let image of showingImages">
+      <div [ngClass]="{'edge-image': isEdgeImage(i)}" (animationend)="onScrollEnd($event)" class="sketcher-image" *ngFor="let image of showingImages; let i = index">
         <div cdkDrag [ngClass]="{'shift-top':isShiftingTop, 'shift-bottom': isShiftingBottom}"
           cdkDragBoundary=".sketcher" (cdkDragStarted)="start($event)" (cdkDragReleased)="release($event)"
           (cdkDragMoved)="moved($event)" (animationend)="onShiftEnd($event)" (cdkDragEnded)="ended($event)"
@@ -14,7 +13,6 @@
           <img src="{{image.src}}" alt="{{image.alt}}">
         </div>
       </div>
-      <div #bottomElementList class="sketcher-block sketcher-block--bottom"></div>
     </div>
   </div>
 

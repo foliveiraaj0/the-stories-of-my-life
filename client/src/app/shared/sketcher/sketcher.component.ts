@@ -128,19 +128,21 @@ export class SketcherComponent implements OnInit {
   }
 
   calculateConstants() {
+    const opaqueEdges = 2;
     this.listElement = this.imagesList.nativeElement;
     this.itemHeight = this.imagesList.nativeElement.children[0].clientHeight;
-    this.allElementsHeight = (this.images.length - 2) * this.itemHeight;
-    this.listElementHeight =
-      this.listElement.clientHeight - 2 * this.itemHeight;
+    this.allElementsHeight = (this.images.length - opaqueEdges) * this.itemHeight;
+    this.listElementHeight =this.listElement.clientHeight;
     this.stepPixel = (this.step / 100) * this.itemHeight;
-    this.scrollValuePixel = (this.scrollValue / this.step) * this.stepPixel;
+    this.scrollValuePixel = this.scrollValue / this.step * this.stepPixel;
   }
 
   hasSpace(direction) {
     this.calculateConstants();
     if (this.imagesList.nativeElement.children) {
       if (direction === "top") {
+        console.log(this.allElementsHeight, this.scrollValuePixel, this.stepPixel, this.listElementHeight)
+        console.log(this.allElementsHeight + this.scrollValuePixel - this.stepPixel, this.listElementHeight)
         return (
           this.allElementsHeight + this.scrollValuePixel - this.stepPixel >=
           this.listElementHeight
@@ -159,30 +161,45 @@ export class SketcherComponent implements OnInit {
 
     if (this.hasSpace(direction)) {
       const nativeList = this.imagesList.nativeElement;
-      const edgeDiv = 1;
-      const blockEdgeDiv = 1;
       this.scrollValue += direction === "top" ? -this.step : this.step;
-      const firstIndex = direction === "top" ? edgeDiv + blockEdgeDiv : edgeDiv;
-      const lastIndex =
-        direction === "top"
-          ? nativeList.childElementCount - edgeDiv
-          : nativeList.childElementCount - (edgeDiv + blockEdgeDiv);
-      for (let i = firstIndex; i < lastIndex; i++) {
+      for (let i = 0; i < nativeList.childElementCount; i++) {
         const currentItem = nativeList.children[i];
         if (direction === "top") {
-          this.renderer.setElementClass(currentItem, "shift-top", true);
+          if(i === 1) {
+            this.renderer.setElementClass(currentItem, "shift-cut-top", true);  
+          }
+          if( i === nativeList.childElementCount-1) {
+            this.renderer.setElementClass(currentItem, "shift-rise-top", true);  
+          }
+          else {
+            this.renderer.setElementClass(currentItem, "shift-top", true);
+          }
         } else if (direction === "bottom") {
-          this.renderer.setElementClass(currentItem, "shift-bottom", true);
+          if(i === 0) {
+            this.renderer.setElementClass(currentItem, "shift-rise-bottom", true);  
+          }
+          if( i === nativeList.childElementCount-2) {
+            this.renderer.setElementClass(currentItem, "shift-cut-bottom", true);  
+          }
+          else {
+            this.renderer.setElementClass(currentItem, "shift-bottom", true);
+          }
         }
       }
     }
   }
 
   onScrollEnd(event) {
-    if (event.animationName === "shiftTop") {
+    if (event.animationName === "shiftTop" || event.animationName === "shiftCutTop"
+    || event.animationName === 'shiftRiseTop') {
       this.renderer.setElementClass(event.target, "shift-top", false);
-    } else {
+      this.renderer.setElementClass(event.target, "shift-cut-top", false);
+      this.renderer.setElementClass(event.target, "shift-rise-top", false);
+    } else if(event.animationName === "shiftBottom" || event.animationName === "shiftCutBottom"
+    || event.animationName === 'shiftRiseBottom') {
       this.renderer.setElementClass(event.target, "shift-bottom", false);
+      this.renderer.setElementClass(event.target, "shift-cut-bottom", false);
+      this.renderer.setElementClass(event.target, "shift-rise-bottom", false);
     }
     //TODO call this update only in the last scroll event
     this.updateShowingImages();
@@ -195,6 +212,10 @@ export class SketcherComponent implements OnInit {
     this.showingImages[2] = this.images[scrollPostion + 2];
     this.showingImages[3] = this.images[scrollPostion + 3];
     this.showingImages[4] = this.images[scrollPostion + 4];
+  }
+
+  isEdgeImage(i:number) {
+    return i === 0 || i === this.showingImages.length-1;
   }
 
   private getDisplacement(event): { x: number; y: number } {

@@ -3,14 +3,14 @@
   height: 35rem;
   &-images {
     width: 200rem;
-    height: 350px;
+    height: 210px;
     background-color: cadetblue;
     padding: 1rem;
     &__list {
       background-color: yellow;
       display: block;
       width: 70px;
-      height: 350px;
+      height: 210px;
       position: relative;
     }
   }
@@ -18,6 +18,7 @@
     position: relative;
     width: 70px;
     height: 70px;
+    transform: translateY(-100%);
     &--placeholder {
       width: 70px;
       height: 70px;
@@ -59,19 +60,11 @@
       background-color: white;
     }
   }
-  &-block {
-    position: absolute;
-    z-index: 1;
-    height: 70px;
-    width: 70px;
-    background-color: cadetblue;
-    &--top {
-      top: 0px;
-    }
-    &--bottom {
-      bottom: 0px;
-    }
-  }
+ 
+}
+
+.edge-image {
+  opacity: 0;
 }
 
 .shift-top {
@@ -83,8 +76,65 @@
 
 @keyframes shiftTop {
   100% {
-    transform: translateY(-100%)
+    transform: translateY(-200%);
   }
+  
+}
+
+.shift-cut-top {
+  animation-name: shiftCutTop;
+  animation-duration: .1s;
+  animation-fill-mode: forwards;
+  animation-timing-function: linear;
+}
+
+@keyframes shiftCutTop {
+  100% {
+    transform: translateY(-200%);
+  }
+
+  from {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+
+  to {
+    clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+  }
+}
+
+.shift-rise-top {
+  
+  animation-name: shiftRiseTop;
+  animation-duration: .1s;
+  animation-fill-mode: forwards;
+  animation-timing-function: linear;
+}
+
+@keyframes shiftRiseTop {
+
+  0% {
+    opacity: 1;
+  }
+
+  99.9% {
+    opacity: 1;
+    transform: translateY(-200%);
+  }
+
+  100% {
+    opacity: 0;
+  }
+
+  from {
+    
+    clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+    
+  }
+
+  to {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+  
 }
 
 .shift-bottom {
@@ -96,22 +146,62 @@
 
 @keyframes shiftBottom {
   100% {
-    transform: translateY(100%)
+    transform: translateY(0%)
   }
 }
 
-.cdk-drag-placeholder {
-  opacity: 0;
+.shift-cut-bottom {
+  animation-name: shiftCutBottom;
+  animation-duration: .1s;
+  animation-fill-mode: forwards;
+  animation-timing-function: linear;
 }
 
-.cdk-drop-list-dragging {
+@keyframes shiftCutBottom {
+  100% {
+    transform: translateY(0%);
+  }
+
+  from {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+
+  to {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+  }
 }
 
-.cdk-drop-list-dragging .cdk-drag {
-  /* transition: transform 250ms cubic-bezier(0, 0, 0.2, 1); */
+.shift-rise-bottom {
+  
+  animation-name: shiftRiseBottom;
+  animation-duration: .1s;
+  animation-fill-mode: forwards;
+  animation-timing-function: linear;
 }
 
-/* Animate an item that has been dropped. */
-.cdk-drag-animating {
-  /* transition: transform 300ms cubic-bezier(0, 0, 0.2, 1); */
+@keyframes shiftRiseBottom {
+
+  0% {
+    opacity: 1;
+  }
+
+  99.9% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+
+  100% {
+    opacity: 0;
+  }
+
+  from {
+    
+    clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+    
+  }
+
+  to {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+  
 }
