@@ -37,7 +37,9 @@ export class SketcherComponent implements OnInit {
 
   private lastPostion;
 
-  private scrollValue = 0; //accumulated of steps in percent
+  private firstImageOnList = 0;
+
+  private scrollValue = 100; //accumulated of steps in percent
   private scrollStep = 50; //percent
 
   private isDragging = false;
@@ -45,20 +47,33 @@ export class SketcherComponent implements OnInit {
   constructor(private renderer: Renderer) {
     this.fillPokemonList();
     this.fillTemplateList();
-    this.showingImages.push(this.images[0]);
-    this.showingImages.push(this.images[1]);
-    this.showingImages.push(this.images[2]);
-    this.showingImages.push(this.images[3]);
+    this.showingImages[0] = this.images[0];
+    this.showingImages[1] = this.images[1];
+    this.showingImages[2] = this.images[2];
+    this.showingImages[3] = this.images[3];
+    this.showingImages[4] = this.images[4];
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+   /*  const nativeList = this.imagesList.nativeElement;
+    console.log(nativeList.childElementCount);
+    for (let i = 0; i < nativeList.childElementCount; i++) {
+      const currentItem = nativeList.children[i];
+      //console.log(currentItem)
+      //this.renderer.setElementClass(currentBoxObj, 'shift-bottom', true);
+      currentItem.style.setProperty(
+        "transform",
+        "translateY(" + this.scrollValue + "%)"
+      );
+    } */
+  }
 
   fillPokemonList() {
     const baseURL =
       "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
     const sufixURL = ".png";
     this.images = [];
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 8; i++) {
       const pokemon = Math.round(Math.random() * 600);
       this.images.push({
         src: `${baseURL}${pokemon}${sufixURL}`,
@@ -123,20 +138,21 @@ export class SketcherComponent implements OnInit {
       const listElement = this.imagesList.nativeElement;
       const itemHeight = this.imagesList.nativeElement.children[0].clientHeight;
       const allElementsHeight = itemHeight * listElement.childElementCount;
-      const listElementHeight = listElement.clientHeight;
-      const step = .5 * itemHeight;
-      const scrollValuePixel = this.scrollValue / 50 * step
+      const listElementHeight = listElement.clientHeight - 2*itemHeight;
+      const step = 0.5 * itemHeight;
+      const initialDisplacement = 2*step;
+      const scrollValuePixel = this.scrollValue / 50 * step - 2*step;
 
-      //console.log(scrollValuePixel, allElementsHeight, listElementHeight, step)
-      //console.log(scrollValuePixel + allElementsHeight - step, listElementHeight)
+      console.log(scrollValuePixel, allElementsHeight, listElementHeight, step);
+      console.log(
+        scrollValuePixel + allElementsHeight - step,
+        listElementHeight
+      );
 
       if (direction === "top") {
-        return (
-          allElementsHeight + scrollValuePixel - step  >=
-          listElementHeight
-        );
+        return allElementsHeight + scrollValuePixel - step >= listElementHeight;
       } else if (direction === "bottom") {
-        return this.scrollValue < 0;
+        return this.scrollValue < initialDisplacement;
       }
     }
     return false;
@@ -159,6 +175,21 @@ export class SketcherComponent implements OnInit {
           "transform",
           "translateY(" + this.scrollValue + "%)"
         );
+      }
+      if (this.scrollValue % 100 === 0) {
+        if (direction === "top") {
+          this.firstImageOnList--;
+          console.log("top", this.firstImageOnList);
+          /* if(-1*this.firstImageOnList+5 < this.images.length) {
+            this.showingImages[4] = this.images[-1*this.firstImageOnList+5]
+          } */
+        } else if (direction === "bottom") {
+          console.log("bottom", this.firstImageOnList);
+          /*  if(this.firstImageOnList-1 < this.images.length && this.firstImageOnList-1 >= 0) {
+            this.firstImageOnList--;
+            this.showingImages[0] == this.images[this.firstImageOnList];
+          } */
+        }
       }
     }
   }
