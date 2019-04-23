@@ -1,6 +1,6 @@
 .sketcher {
   display: flex;
-  height: 25rem;
+  height: 35rem;
 
   &-images {
     width: 40rem;
@@ -18,7 +18,7 @@
     position: relative;
     width: 70px;
     height: 70px;
-    transform: translateY(100%);
+    /* transform: translateY(100%); */
     &--placeholder {
       width: 70px;
       height: 70px;
@@ -85,32 +85,31 @@
   }
 }
 
-.shift-top-one-step {
-  animation-name: shiftTopOneStep;
+.shift-top {
+  animation-name: shiftTop;
   animation-duration: .1s;
   animation-fill-mode: forwards;
   animation-timing-function: linear;
 }
 
-@keyframes shiftTopOneStep {
+@keyframes shiftTop {
   100% {
-    transform: translateY(50%)
+    transform: translateY(-100%)
   }
 }
 
-.shift-top-two-step {
-  animation-name: shiftTopTwoStep;
+.shift-bottom {
+  animation-name: shiftBottom;
   animation-duration: .1s;
   animation-fill-mode: forwards;
   animation-timing-function: linear;
 }
 
-@keyframes shiftTopTwoStep {
+@keyframes shiftBottom {
   100% {
-    transform: translateY(0%)
+    transform: translateY(100%)
   }
 }
-
 
 .cdk-drag-placeholder {
   opacity: 0;

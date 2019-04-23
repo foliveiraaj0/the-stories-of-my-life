@@ -6,8 +6,6 @@ import {
   Renderer
 } from "@angular/core";
 import {
-  CdkDragDrop,
-  moveItemInArray,
   CdkDragEnter,
   CdkDragEnd,
   CdkDrag,
@@ -37,56 +35,45 @@ export class SketcherComponent implements OnInit {
 
   private lastPostion;
 
-  private firstImageOnList = 0;
-
-  private scrollValue = 100; //accumulated of steps in percent
-  private scrollStep = 100; //percent
-
   private isDragging = false;
 
   private listElement;
   private itemHeight;
-  private allElementsHeight;
-  private listElementHeight;
-  private step;
+  private allElementsHeight; //without the edges
+  private listElementHeight; //without the edges
+  private step = 100; //percent
+  private stepPixel;
+  private scrollValue = 0; //accumulated of steps in percent
   private scrollValuePixel;
 
   constructor(private renderer: Renderer) {
     this.fillPokemonList();
     this.fillTemplateList();
-    this.showingImages[0] = this.images[0];
-    this.showingImages[1] = this.images[1];
-    this.showingImages[2] = this.images[2];
-    this.showingImages[3] = this.images[3];
-    this.showingImages[4] = this.images[4];
+    this.updateShowingImages(true);
   }
 
-  ngOnInit() {
-    /*  const nativeList = this.imagesList.nativeElement;
-    console.log(nativeList.childElementCount);
-    for (let i = 0; i < nativeList.childElementCount; i++) {
-      const currentItem = nativeList.children[i];
-      //console.log(currentItem)
-      //this.renderer.setElementClass(currentBoxObj, 'shift-bottom', true);
-      currentItem.style.setProperty(
-        "transform",
-        "translateY(" + this.scrollValue + "%)"
-      );
-    } */
-  }
+  ngOnInit() {}
 
   fillPokemonList() {
     const baseURL =
       "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
     const sufixURL = ".png";
     this.images = [];
-    for (let i = 0; i < 8; i++) {
+    this.images.push({
+      src: "",
+      alt: ""
+    });
+    for (let i = 0; i < 18; i++) {
       const pokemon = Math.round(Math.random() * 600);
       this.images.push({
         src: `${baseURL}${pokemon}${sufixURL}`,
-        alt: "bla bla bla"
+        alt: ""
       });
     }
+    this.images.push({
+      src: "",
+      alt: ""
+    });
   }
 
   fillTemplateList() {
@@ -143,30 +130,23 @@ export class SketcherComponent implements OnInit {
   calculateConstants() {
     this.listElement = this.imagesList.nativeElement;
     this.itemHeight = this.imagesList.nativeElement.children[0].clientHeight;
-    this.allElementsHeight = this.images.length * this.itemHeight//this.itemHeight * this.listElement.childElementCount;
-    this.listElementHeight = this.listElement.clientHeight - 2 * this.itemHeight;
-    this.step = this.scrollStep/100 * this.itemHeight;
-    const initialDisplacement = this.step;
-    this.scrollValuePixel =
-      (this.scrollValue / this.scrollStep) * this.step - initialDisplacement;
+    this.allElementsHeight = (this.images.length - 2) * this.itemHeight;
+    this.listElementHeight =
+      this.listElement.clientHeight - 2 * this.itemHeight;
+    this.stepPixel = (this.step / 100) * this.itemHeight;
+    this.scrollValuePixel = (this.scrollValue / this.step) * this.stepPixel;
   }
 
   hasSpace(direction) {
-
-    this.calculateConstants()
-    const initialDisplacement = this.step;
-
+    this.calculateConstants();
     if (this.imagesList.nativeElement.children) {
-      console.log(this.scrollValuePixel, this.allElementsHeight, this.listElementHeight, this.step);
-      console.log(
-        this.scrollValuePixel + this.allElementsHeight - this.step,
-        this.listElementHeight
-      );
-
       if (direction === "top") {
-        return this.allElementsHeight + this.scrollValuePixel - this.step >= this.listElementHeight;
+        return (
+          this.allElementsHeight + this.scrollValuePixel - this.stepPixel >=
+          this.listElementHeight
+        );
       } else if (direction === "bottom") {
-        return this.scrollValue < initialDisplacement;
+        return this.scrollValue < 0;
       }
     }
     return false;
@@ -179,79 +159,39 @@ export class SketcherComponent implements OnInit {
 
     if (this.hasSpace(direction)) {
       const nativeList = this.imagesList.nativeElement;
-      this.scrollValue +=
-        direction === "top" ? -this.scrollStep : this.scrollStep;
-      for (let i = 0; i < nativeList.childElementCount; i++) {
+      this.scrollValue += direction === "top" ? -this.step : this.step;
+      const firstIndex = direction === "top" ? 1 : 0;
+      const lastIndex =
+        direction === "top"
+          ? nativeList.childElementCount
+          : nativeList.childElementCount - 1;
+      for (let i = firstIndex; i < lastIndex; i++) {
         const currentItem = nativeList.children[i];
-        //console.log(currentItem)
-        //this.renderer.setElementClass(currentBoxObj, 'shift-bottom', true);
-        /* currentItem.style.setProperty(
-          "transform",
-          "translateY(" + this.scrollValue + "%)"
-        ); */
-
-        if (this.scrollValue % 100 === 0) {
-          if (direction === "top") {
-            this.renderer.setElementClass(
-              currentItem,
-              "shift-top-two-step",
-              true
-            );
-            //this.showingImages[4] = this.images[-1*this.firstImageOnList+5]
-          } else if (direction === "bottom") {
-          }
-        } else {
-          if (direction === "top") {
-            this.renderer.setElementClass(
-              currentItem,
-              "shift-top-one-step",
-              true
-            );
-            //this.showingImages[4] = this.images[-1*this.firstImageOnList+5]
-          } else if (direction === "bottom") {
-          }
-        }
-      }
-      if (this.scrollValue % 100 === 0) {
         if (direction === "top") {
-          //this.firstImageOnList--;
-          /* if(-1*this.firstImageOnList+5 < this.images.length) {
-            this.showingImages[4] = this.images[-1*this.firstImageOnList+5]
-          } */
+          this.renderer.setElementClass(currentItem, "shift-top", true);
         } else if (direction === "bottom") {
-          /*  if(this.firstImageOnList-1 < this.images.length && this.firstImageOnList-1 >= 0) {
-            this.firstImageOnList--;
-            this.showingImages[0] == this.images[this.firstImageOnList];
-          } */
+          this.renderer.setElementClass(currentItem, "shift-bottom", true);
         }
       }
     }
   }
 
-  animationEventCont = 0;
-
   onScrollEnd(event) {
-    this.animationEventCont++;
-    if (event.animationName === "shiftTopTwoStep") {
-      const initialDisplacement = this.scrollStep;
-      this.renderer.setElementClass(event.target, "shift-top-one-step", false);
-      this.renderer.setElementClass(event.target, "shift-top-two-step", false);
-      const scrollPostion = (this.scrollValue - initialDisplacement) / this.scrollStep * -1;
-      console.log('scrollpostion', scrollPostion)
-      if (
-        this.animationEventCont %
-          this.imagesList.nativeElement.childElementCount ===
-        0
-      ) {
-        this.showingImages[0] = this.images[scrollPostion];
-        this.showingImages[1] = this.images[scrollPostion+1];
-        this.showingImages[2] = this.images[scrollPostion+2];
-        this.showingImages[3] = this.images[scrollPostion+3];
-        this.showingImages[4] = this.images[scrollPostion+4];
-        console.log(event);
-        this.animationEventCont = 0;
-      }
+    if (event.animationName === "shiftTop") {
+      this.renderer.setElementClass(event.target, "shift-top", false);
+    } else {
+      this.renderer.setElementClass(event.target, "shift-bottom", false);
     }
+    this.updateShowingImages();
+  }
+
+  updateShowingImages(fromStart?: boolean) {
+    const scrollPostion = fromStart ? 0 : this.scrollValue / this.step * -1;
+    this.showingImages[0] = this.images[scrollPostion];
+    this.showingImages[1] = this.images[scrollPostion + 1];
+    this.showingImages[2] = this.images[scrollPostion + 2];
+    this.showingImages[3] = this.images[scrollPostion + 3];
+    this.showingImages[4] = this.images[scrollPostion + 4];
   }
 
   private getDisplacement(event): { x: number; y: number } {
