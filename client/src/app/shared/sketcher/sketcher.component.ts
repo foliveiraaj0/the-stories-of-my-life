@@ -159,12 +159,14 @@ export class SketcherComponent implements OnInit {
 
     if (this.hasSpace(direction)) {
       const nativeList = this.imagesList.nativeElement;
+      const edgeDiv = 1;
+      const blockEdgeDiv = 1;
       this.scrollValue += direction === "top" ? -this.step : this.step;
-      const firstIndex = direction === "top" ? 1 : 0;
+      const firstIndex = direction === "top" ? edgeDiv + blockEdgeDiv : edgeDiv;
       const lastIndex =
         direction === "top"
-          ? nativeList.childElementCount
-          : nativeList.childElementCount - 1;
+          ? nativeList.childElementCount - edgeDiv
+          : nativeList.childElementCount - (edgeDiv + blockEdgeDiv);
       for (let i = firstIndex; i < lastIndex; i++) {
         const currentItem = nativeList.children[i];
         if (direction === "top") {
@@ -182,6 +184,7 @@ export class SketcherComponent implements OnInit {
     } else {
       this.renderer.setElementClass(event.target, "shift-bottom", false);
     }
+    //TODO call this update only in the last scroll event
     this.updateShowingImages();
   }
 
