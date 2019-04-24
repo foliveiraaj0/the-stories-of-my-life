@@ -1,9 +1,7 @@
 .sketcher {
-  width: 60rem;
-  height: 450px;
+  width: 100%;
+  height: 600px;
   background-color: cadetblue;
-  padding: 1rem;
-
   // Left list
 
   &-list {
@@ -14,35 +12,32 @@
     position: relative;
     float: left;
     .cdk-drag-placeholder {
-      /* opacity: .5;
-        transform: translateY(100%); */
       opacity: 0.5;
+      height: 90px;
+      overflow: hidden;
+    }
+    &-placeholder {
+
+    }
+    &-preview {
+      display: flex;
+      width: 100%;
+      height: 10rem;
+    }
+    &-item {
+      width: 90px;
+      height: 90px;
     }
   }
-  &-image {
+  /* &-image {
     position: relative;
     width: 90px;
     height: 90px;
-    &--placeholder {
-      width: 90px;
-      height: 90px;
-      position: absolute;
-      top: 0;
-      opacity: 0.5;
-    }
-    &--drag {
-      width: 90px;
-      height: 90px;
-      &:hover {
-        outline: 2px solid red;
-        outline-offset: -2px;
-      }
-    }
     img {
       width: 90px;
       height: 90px;
     }
-  }
+  } */
   &-edge-image {
     opacity: 0;
     position: absolute;
@@ -66,23 +61,37 @@
     height: 100%;
     width: 70%;
     margin: auto;
-    &__sizer {
-      height: 6rem;
-      width: 10rem;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    &::-webkit-scrollbar {
+      width: 0 !important;
     }
-    &__box {
+    &-placeholder {
+      background-color: darkgray;
+    }
+    &-preview {
+
+    }
+    &-item {
+      display: flex;
       width: 100%;
-      height: 100%;
-      overflow-y: scroll;
-      background-color: white;
+      height: 10rem;
+      background-color: darkred;
+    }
+    
+    .cdk-drag-placeholder {
+      /*  opacity: .5;
+    transform: translateY(100%); */
+      background-color: deeppink;
     }
   }
 
   // right list
   &-templates {
     width: 90px;
-    height: 100%;
-    background-color: white;
+    height: 500px;
+    background-color: green;
+    position: relative;
     float: right;
     overflow-y: scroll;
     overflow-x: hidden;

@@ -1,36 +1,65 @@
-<div class="sketcher">
+<div cdkDropListGroup class="sketcher">
 
   <div cdkDropList #imageList [cdkDropListData]="showingImages" (mousewheel)="scrollList($event)"
-    class="sketcher-list" (cdkDropListDropped)="drop($event)" [cdkDropListConnectedTo]="templateList">
+    class="sketcher-list" (cdkDropListDropped)="drop($event)">
     <div cdkDrag (animationend)="onScrollEnd($event)" cdkDragData={{image}} cdkDragBoundary=".sketcher"
       (cdkDragStarted)="start($event)" (cdkDragReleased)="release($event)" (cdkDragMoved)="moved($event)"
       (cdkDragEnded)="ended($event)" *ngFor="let image of showingImages; let i = index" [ngClass]="getEdgeClass(i)"
       class="sketcher-image">
-      <div [ngClass]="{'shift-top':isShiftingTop, 'shift-bottom': isShiftingBottom}" class="sketcher-image--drag">
+
+      <div class="sketcher-list-placeholder" *cdkDragPreview>
+          <img src="{{image.src}}" alt="{{image.alt}}">
+      </div>
+
+      <div class="sketcher-list-preview" *cdkDragPlaceholder>
+          <img src="{{image.src}}" alt="{{image.alt}}">
+          <p>
+            wefnwoneoif w fuwenfiwnfenwef weiofnfwniowefn wefweifnwfnwe fwufnweifw 
+          </p>
+          <img src="{{image.src}}" alt="{{image.alt}}">
+      </div>
+
+      <div [ngClass]="{'shift-top':isShiftingTop, 'shift-bottom': isShiftingBottom}" class="sketcher-list-item">
         <img src="{{image.src}}" alt="{{image.alt}}">
       </div>
-      <div [hidden]=!isDragging class="sketcher-image--placeholder">
+      <!-- <div [hidden]="!isDragging" class="sketcher-image--placeholder">
         <img src="{{image.src}}" alt="{{image.alt}}">
-      </div>
+      </div> -->
     </div>
   </div>
 
   <div cdkDropList #templateList="cdkDropList" class="sketcher-templates" [cdkDropListData]="templates"
-    (cdkDropListDropped)="drop($event)">
-    <!-- <div  > -->
-    <!-- <div class="sketcher-image">
-        <img [src]="template.img.src" [alt]="template.img.alt">
-      </div> -->
+    (cdkDropListDropped)="drop($event)" [cdkDropListEnterPredicate]="predicateTemplate" >
     <div cdkDrag cdkDragBoundary=".sketcher" (cdkDragEnded)="ended($event)" [cdkDragData]="template"
       class="sketcher-image--drag" *ngFor="let template of templates">
       <img [src]="template.src" [alt]="template.alt">
     </div>
-    <!-- </div> -->
   </div>
 
   <div cdkDropList #contentList="cdkDropList" class="sketcher-content" [cdkDropListData]="contents"
     (cdkDropListDropped)="drop($event)">
-    <div class="sketcher-image--drag" *ngFor="let content of contents">
+
+    <div class="sketcher-content-placeholder" *cdkDragPlaceholder>
+        <img [src]="content.src" [alt]="content.alt">
+        <p>
+          wefnwoneoif w fuwenfiwnfenwef weiofnfwniowefn wefweifnwfnwe fwufnweifw 
+        </p>
+        <img [src]="content.src" [alt]="content.alt">
+    </div>
+
+    <div class="sketcher-content-preview" *cdkDragPreview>
+        <img [src]="content.src" [alt]="content.alt">
+        <p>
+          wefnwoneoif w fuwenfiwnfenwef weiofnfwniowefn wefweifnwfnwe fwufnweifw 
+        </p>
+        <img [src]="content.src" [alt]="content.alt">
+    </div>
+
+    <div cdkDrag class="sketcher-content-item" *ngFor="let content of contents">
+      <img [src]="content.src" [alt]="content.alt">
+      <p>
+        wefnwoneoif w fuwenfiwnfenwef weiofnfwniowefn wefweifnwfnwe fwufnweifw 
+      </p>
       <img [src]="content.src" [alt]="content.alt">
     </div>
   </div>

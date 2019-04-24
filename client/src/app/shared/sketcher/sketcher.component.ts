@@ -95,7 +95,8 @@ export class SketcherComponent implements OnInit {
     /* for (let i = 0; i < drag.data.length; i++) {
         console.log(drag.data[i])
     } */
-    console.log('predicateTemplate', drag.data)
+    console.log('predicateTemplate', drag)
+    console.log('predicateTemplate', drop)
     return true;
   }
 
