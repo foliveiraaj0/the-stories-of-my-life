@@ -1,49 +1,46 @@
 .sketcher {
-  display: flex;
+  width: 60rem;
   height: 450px;
   background-color: cadetblue;
   padding: 1rem;
+
   // Left list
 
-  &-images {
-    width: 200rem;
-    height: 100%;
+  &-list {
+    background-color: yellow;
+    display: block;
+    width: 90px;
+    height: 270px;
+    position: relative;
+    float: left;
     .cdk-drag-placeholder {
-      opacity: 0;
-    }
-    
-    &__list {
-      background-color: yellow;
-      display: block;
-      width: 90px;
-      height: 270px;
-      position: relative;
-      float: left;
+      /* opacity: .5;
+        transform: translateY(100%); */
+      opacity: 0.5;
     }
   }
   &-image {
     position: relative;
-    width: 90px;;
-    height: 90px;;
-   /*  transform: translateY(-100%); */
+    width: 90px;
+    height: 90px;
     &--placeholder {
-      width: 90px;;
-      height: 90px;;
+      width: 90px;
+      height: 90px;
       position: absolute;
       top: 0;
       opacity: 0.5;
     }
     &--drag {
-      width: 90px;;
-      height: 90px;;
+      width: 90px;
+      height: 90px;
       &:hover {
         outline: 2px solid red;
         outline-offset: -2px;
       }
     }
     img {
-      width: 90px;;
-      height: 90px;;
+      width: 90px;
+      height: 90px;
     }
   }
   &-edge-image {
@@ -51,25 +48,24 @@
     position: absolute;
     &-top {
       animation-name: cutEdgeTop;
-      animation-duration: .1s;
+      animation-duration: 0.1s;
       animation-fill-mode: forwards;
       animation-timing-function: linear;
     }
     &-bottom {
       animation-name: cutEdgeBottom;
-      animation-duration: .1s;
+      animation-duration: 0.1s;
       animation-fill-mode: forwards;
       animation-timing-function: linear;
     }
-    
   }
 
   // mid content
   &-content {
+    background-color: coral;
     height: 100%;
-    width: 100%;
-    background-color: white;
-
+    width: 70%;
+    margin: auto;
     &__sizer {
       height: 6rem;
       width: 10rem;
@@ -84,193 +80,173 @@
 
   // right list
   &-templates {
+    width: 90px;
     height: 100%;
     background-color: white;
     float: right;
     overflow-y: scroll;
     overflow-x: hidden;
-    .cdk-drag-placeholder {
-      /* transform: translateY(0); */
+    &::-webkit-scrollbar {
+      width: 0 !important;
+    }
+  }
+
+  .cdk-drag-preview {
+    /*  opacity: .5;
+  transform: translateY(100%); */
+  }
+
+  @keyframes cutEdgeTop {
+    100% {
+      transform: translateY(-100%);
+    }
+
+    from {
+      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    }
+
+    to {
+      clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+    }
+  }
+
+  @keyframes cutEdgeBottom {
+    100% {
+      transform: translateY(100%);
+    }
+
+    from {
+      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    }
+
+    to {
+      clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+    }
+  }
+
+  .shift-top {
+    animation-name: shiftTop;
+    animation-duration: 0.1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: linear;
+  }
+
+  @keyframes shiftTop {
+    100% {
+      transform: translateY(-100%);
+    }
+  }
+
+  .shift-cut-top {
+    animation-name: shiftCutTop;
+    animation-duration: 0.1s;
+  }
+
+  @keyframes shiftCutTop {
+    100% {
+      transform: translateY(-100%);
+    }
+
+    from {
+      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    }
+
+    to {
+      clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+    }
+  }
+
+  .shift-rise-top {
+    animation-name: shiftRiseTop;
+    animation-duration: 0.1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: linear;
+  }
+
+  @keyframes shiftRiseTop {
+    0% {
+      opacity: 1;
+    }
+
+    99.9% {
+      opacity: 1;
+      transform: translateY(-100%);
+    }
+
+    100% {
+      opacity: 0;
+    }
+
+    from {
+      clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+    }
+
+    to {
+      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    }
+  }
+
+  .shift-bottom {
+    animation-name: shiftBottom;
+    animation-duration: 0.1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: linear;
+  }
+
+  @keyframes shiftBottom {
+    100% {
+      transform: translateY(100%);
+    }
+  }
+
+  .shift-cut-bottom {
+    animation-name: shiftCutBottom;
+    animation-duration: 0.1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: linear;
+  }
+
+  @keyframes shiftCutBottom {
+    100% {
+      transform: translateY(100%);
+    }
+
+    from {
+      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    }
+
+    to {
+      clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+    }
+  }
+
+  .shift-rise-bottom {
+    animation-name: shiftRiseBottom;
+    animation-duration: 0.1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: linear;
+  }
+
+  @keyframes shiftRiseBottom {
+    0% {
+      opacity: 1;
+    }
+
+    99.9% {
+      opacity: 1;
+      transform: translateY(100%);
+    }
+
+    100% {
+      opacity: 0;
+    }
+
+    from {
+      clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+    }
+
+    to {
+      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
     }
   }
 }
-
-.cdk-drag-preview {
- /*  opacity: .5;
-  transform: translateY(100%); */
-}
-
-.cdk-drag-placeholder {
-  /* opacity: .5;
-  transform: translateY(100%); */
-}
-
-@keyframes cutEdgeTop {
-
-  100% {
-    transform: translateY(-100%);
-  }
-
-  from {
-    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-  }
-  
-  to {
-    clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
-  }
-}
-
-@keyframes cutEdgeBottom {
-
-  100% {
-    transform: translateY(100%);
-  }
-
-  from {
-    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-  }
-
-  to {
-    clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
-  }
-}
-
-
-.shift-top {
-  animation-name: shiftTop;
-  animation-duration: .1s;
-  animation-fill-mode: forwards;
-  animation-timing-function: linear;
-}
-
-@keyframes shiftTop {
-  100% {
-    transform: translateY(-100%);
-  }
-  
-}
-
-.shift-cut-top {
-  animation-name: shiftCutTop;
-  animation-duration: .1s;
- 
-}
-
-@keyframes shiftCutTop {
-  100% {
-    transform: translateY(-100%);
-  }
-
-  from {
-    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-  }
-
-  to {
-    clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
-  }
-}
-
-.shift-rise-top {
-  
-  animation-name: shiftRiseTop;
-  animation-duration: .1s;
-  animation-fill-mode: forwards;
-  animation-timing-function: linear;
-}
-
-@keyframes shiftRiseTop {
-
-  0% {
-    opacity: 1;
-  }
-
-  99.9% {
-    opacity: 1;
-    transform: translateY(-100%);
-  }
-
-  100% {
-    opacity: 0;
-  }
-
-  from {
-    
-    clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
-    
-  }
-
-  to {
-    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-  }
-  
-}
-
-.shift-bottom {
-  animation-name: shiftBottom;
-  animation-duration: .1s;
-  animation-fill-mode: forwards;
-  animation-timing-function: linear;
-}
-
-@keyframes shiftBottom {
-  100% {
-    transform: translateY(100%)
-  }
-}
-
-.shift-cut-bottom {
-  animation-name: shiftCutBottom;
-  animation-duration: .1s;
-  animation-fill-mode: forwards;
-  animation-timing-function: linear;
-}
-
-@keyframes shiftCutBottom {
-  100% {
-    transform: translateY(100%);
-  }
-
-  from {
-    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-  }
-
-  to {
-    clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
-  }
-}
-
-.shift-rise-bottom {
-  
-  animation-name: shiftRiseBottom;
-  animation-duration: .1s;
-  animation-fill-mode: forwards;
-  animation-timing-function: linear;
-}
-
-@keyframes shiftRiseBottom {
-
-  0% {
-    opacity: 1;
-  }
-
-  99.9% {
-    opacity: 1;
-    transform: translateY(100%);
-  }
-
-  100% {
-    opacity: 0;
-  }
-
-  from {
-    
-    clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
-    
-  }
-
-  to {
-    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-  }
-  
-}
-

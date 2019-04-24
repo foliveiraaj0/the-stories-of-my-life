@@ -33,7 +33,7 @@ export class SketcherComponent implements OnInit {
   @ViewChild("buttonShiftBottom") buttonBottom: ElementRef;
 
   private images = [];
-  private contents: TemplateSchemaData[] = [];
+  private contents: { src: string; alt: string }[] = [];
   private templates: { src: string; alt: string }[] = [];
   private showingImages = [];
 
@@ -87,7 +87,6 @@ export class SketcherComponent implements OnInit {
     for (let i = 0; i < 3; i++) {
       const pokemon = Math.round(Math.random() * 600);
       const img = { src: `${baseURL}${pokemon}${sufixURL}`, alt: "dfwf" };
-      const text = "wefwmefw";
       this.templates.push(img);
     }
   }
