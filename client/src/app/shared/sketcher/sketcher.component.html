@@ -1,44 +1,36 @@
 <div cdkDropListGroup class="sketcher">
-  <button (click)="write('hello top')">click</button>
   <div class="sketcher-images">
-    <div (mousewheel)="scrollList($event)" #imageList class="sketcher-images__list">
-      <div [ngClass]="getEdgeClass(i)" (animationend)="onScrollEnd($event)" class="sketcher-image" *ngFor="let image of showingImages; let i = index">
-        <div cdkDrag [ngClass]="{'shift-top':isShiftingTop, 'shift-bottom': isShiftingBottom}"
-          cdkDragBoundary=".sketcher" (cdkDragStarted)="start($event)" (cdkDragReleased)="release($event)"
-          (cdkDragMoved)="moved($event)" (animationend)="onShiftEnd($event)" (cdkDragEnded)="ended($event)"
-          class="sketcher-image--drag">
+    <div cdkDropList #imageList [cdkDropListConnectedTo]="templateList" [cdkDropListData]="showingImages"
+      (mousewheel)="scrollList($event)" class="sketcher-images__list" (cdkDropListDropped)="drop($event)">
+      <div cdkDrag  (animationend)="onScrollEnd($event)" cdkDragData={{image}}
+        cdkDragBoundary=".sketcher" (cdkDragStarted)="start($event)" (cdkDragReleased)="release($event)"
+        (cdkDragMoved)="moved($event)" (cdkDragEnded)="ended($event)" 
+        *ngFor="let image of showingImages; let i = index"
+        [ngClass]="getEdgeClass(i)" class="sketcher-image">
+        <div [ngClass]="{'shift-top':isShiftingTop, 'shift-bottom': isShiftingBottom}" class="sketcher-image--drag">
           <img src="{{image.src}}" alt="{{image.alt}}">
         </div>
-        <div [hidden]="!isDragging" class="sketcher-image--placeholder">
+         <div [hidden]=!isDragging class="sketcher-image--placeholder">
           <img src="{{image.src}}" alt="{{image.alt}}">
         </div>
       </div>
     </div>
-  </div>
-  <button (click)="write('hello bottom')">click</button>
-  <!-- <div class="sketcher-templates">
-    <div cdkDropList *ngFor="let template of templates" [cdkDropListData]="templates"
-      [cdkDropListEnterPredicate]="predicateTemplate">
-      <div class="sketcher-image">
+
+    <div cdkDropList #templateList="cdkDropList" class="sketcher-templates" [cdkDropListData]="templates"
+      (cdkDropListDropped)="drop($event)">
+      <!-- <div  > -->
+      <!-- <div class="sketcher-image">
         <img [src]="template.img.src" [alt]="template.img.alt">
-      </div>
+      </div> -->
       <div cdkDrag cdkDragBoundary=".sketcher" (cdkDragEnded)="ended($event)" [cdkDragData]="template"
-        class="sketcher-image--drag">
-        <img [src]="template.img.src" [alt]="template.img.alt">
+        class="sketcher-image--drag" *ngFor="let template of templates">
+        <img [src]="template.src" [alt]="template.alt">
       </div>
+      <!-- </div> -->
     </div>
-  </div>
-
-  <div class="sketcher-content">
-    <div class="sketcher-content__sizer">
-      <app-image-drop-container>
-        <div cdkDropList (cdkDropListDropped)="drop($event)" (cdkDropListEntered)="enter($event)"
-          (cdkDropListExited)="exit($event)" [cdkDropListData]="contents" class="sketcher-content__box">
-          <div cdkDrag cdkDragDisabled="True" *ngFor="let content of contents" class="sketcher-image">
-            <img src="{{content.img.src}}" alt="{{content.img.alt}}">
-          </div>
-        </div>
-      </app-image-drop-container>
-    </div> -->
 
   </div>
+
+
+
+</div>
