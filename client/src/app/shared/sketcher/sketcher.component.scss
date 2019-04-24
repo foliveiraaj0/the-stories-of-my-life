@@ -24,8 +24,9 @@
     }
     &-preview {
       display: flex;
-      width: 100%;
-      height: 10rem;
+      height: 96px;
+      width: 70%;
+      background-color: white;
     }
     &-item {
       width: 90px;
@@ -69,13 +70,17 @@
     &-item {
       display: flex;
       width: 100%;
-      height: 10rem;
       background-color: darkred;
+      &__img {
+        .cdk-drag-placeholder {
+          background-color: white;
+          transform: translateY(-100%);
+        }
+      }
     }
-    
-    .cdk-drag-placeholder {
+    /* .cdk-drag-placeholder {
       background-color: deeppink;
-    }
+    } */
   }
 
   // right list

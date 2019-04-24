@@ -28,7 +28,7 @@ import { OneImageData, TemplateSchemaData } from "./templates";
 export class SketcherComponent implements OnInit {
   @ViewChild("topElementList") topList: ElementRef;
   @ViewChild("bottomElementList") bottomList: ElementRef;
-  @ViewChild("imageList") imagesList: ElementRef;
+  @ViewChild("templateList") templateList: ElementRef;
   @ViewChild("buttonShiftTop") buttonTop: ElementRef;
   @ViewChild("buttonShiftBottom") buttonBottom: ElementRef;
 
@@ -37,11 +37,17 @@ export class SketcherComponent implements OnInit {
     img1: { src: string; alt: string };
     img2: { src: string; alt: string };
   }[] = []; */
-  private contents: {img1: {id:string, src: string; alt: string }, img2: {id:string, src: string; alt: string }}[] = [];
-  private contents2: { src: string; alt: string }[] = [];
-  private templates: { src: string; alt: string }[] = [];
+  private contents: {
+    img1: { id: string; src: string; alt: string };
+    img2: { id: string; src: string; alt: string };
+  }[] = [];
+  private contentImages: { src: string; alt: string }[] = [];
+  private templates: {
+    img1: { id: string; src: string; alt: string };
+    img2: { id: string; src: string; alt: string };
+  }[] = [];
   /* private images1: { src: string; alt: string }[] = []; */
-  private showingImages = [];
+  private showingTemplates = [];
 
   private lastPostion;
 
@@ -57,15 +63,34 @@ export class SketcherComponent implements OnInit {
   private scrollValuePixel;
 
   constructor(private renderer: Renderer) {
-    this.fillPokemonList();
-    this.fillTemplateList();
+    this.fillTemplatesList();
+    this.fillImagesList();
     this.updateShowingImages(true);
-    this.contents[0] = {img1: {id: "img1", src: this.templates[0].src, alt: this.templates[0].alt},
-                        img2: {id: "img2", src: this.templates[1].src, alt: this.templates[1].alt}}
+    this.contents[0] = {
+      img1: {
+        id: "img1",
+        src: this.templates[1].img1.src,
+        alt: this.templates[1].img1.alt
+      },
+      img2: {
+        id: "img2",
+        src: this.templates[1].img2.src,
+        alt: this.templates[1].img2.alt
+      }
+    };
 
-    this.contents2[0] = {src: this.templates[0].src, alt: this.templates[0].alt}
-    this.contents2[1] = {src: this.templates[1].src, alt: this.templates[1].alt}
-    this.contents2[2] = {src: this.templates[2].src, alt: this.templates[2].alt}
+    this.contentImages[0] = {
+      src: this.templates[1].img1.src,
+      alt: this.templates[1].img1.alt
+    };
+    this.contentImages[1] = {
+      src: this.templates[2].img1.src,
+      alt: this.templates[2].img1.alt
+    };
+    this.contentImages[2] = {
+      src: this.templates[3].img1.src,
+      alt: this.templates[3].img1.alt
+    };
     /* this.contents[0] = {
       img1: { src: this.templates[0].src, alt: this.templates[0].alt },
       img2: { src: this.templates[0].src, alt: this.templates[0].alt }
@@ -82,41 +107,35 @@ export class SketcherComponent implements OnInit {
 
   ngOnInit() {}
 
-  fillPokemonList() {
+  fillTemplatesList() {
     const baseURL =
       "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
     const sufixURL = ".png";
-    this.images = [];
-    this.images.push({
-      src: "",
-      alt: ""
-    });
-    for (let i = 0; i < 18; i++) {
+    this.templates = [];
+    for (let i = 0; i < 15; i++) {
       const pokemon = Math.round(Math.random() * 600);
-      this.images.push({
-        src: `${baseURL}${pokemon}${sufixURL}`,
-        alt: ""
+      this.templates.push({
+        img1: { id: `imge${i}`, src: `${baseURL}${pokemon}${sufixURL}`, alt: "" },
+        img2: { id: `imge${i}`, src: `${baseURL}${pokemon}${sufixURL}`, alt: "" }
       });
     }
-    this.images.push({
-      src: "",
-      alt: ""
-    });
   }
 
-  fillTemplateList() {
+  fillImagesList() {
     const baseURL =
       "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
     const sufixURL = ".png";
-    for (let i = 0; i < 3; i++) {
+    this.images = []
+    for (let i = 0; i < 15; i++) {
       const pokemon = Math.round(Math.random() * 600);
-      const img = { src: `${baseURL}${pokemon}${sufixURL}`, alt: "dfwf" };
-      this.templates.push(img);
+      const img = { src: `${baseURL}${pokemon}${sufixURL}`, alt: "" };
+      this.images.push(img);
     }
+    
   }
 
   getConections() {
-    return ['img1', 'img2'];
+    return ["img1", "img2"];
   }
 
   predicateTemplate(
@@ -133,12 +152,15 @@ export class SketcherComponent implements OnInit {
 
   drop(
     event: CdkDragDrop<
-      /* [{ src: string; alt: string }] | */ [
+      any
+      /* [{ src: string; alt: string }] 
+      | 
+      [
         {
           img1: { src: string; alt: string };
           img2: { src: string; alt: string };
         }
-      ]
+      ] */
     >
   ) {
     console.log("dropped", event);
@@ -196,10 +218,10 @@ export class SketcherComponent implements OnInit {
 
   calculateConstants() {
     const opaqueEdges = 2;
-    this.listElement = this.imagesList.nativeElement;
-    this.itemHeight = this.imagesList.nativeElement.children[0].clientHeight;
+    this.listElement = this.templateList.nativeElement;
+    this.itemHeight = this.templateList.nativeElement.children[0].clientHeight;
     this.allElementsHeight =
-      (this.images.length - opaqueEdges) * this.itemHeight;
+      (this.templates.length - opaqueEdges) * this.itemHeight;
     this.listElementHeight = this.listElement.clientHeight;
     this.stepPixel = (this.step / 100) * this.itemHeight;
     this.scrollValuePixel = (this.scrollValue / this.step) * this.stepPixel;
@@ -207,7 +229,7 @@ export class SketcherComponent implements OnInit {
 
   hasSpace(direction) {
     this.calculateConstants();
-    if (this.imagesList.nativeElement.children) {
+    if (this.templateList.nativeElement.children) {
       if (direction === "top") {
         //console.log(this.allElementsHeight, this.scrollValuePixel, this.stepPixel, this.listElementHeight)
         //console.log(this.allElementsHeight + this.scrollValuePixel - this.stepPixel, this.listElementHeight)
@@ -228,7 +250,7 @@ export class SketcherComponent implements OnInit {
     }
 
     if (this.hasSpace(direction)) {
-      const nativeList = this.imagesList.nativeElement;
+      const nativeList = this.templateList.nativeElement;
       this.scrollValue += direction === "top" ? -this.step : this.step;
       for (let i = 0; i < nativeList.childElementCount; i++) {
         const currentItem = nativeList.children[i];
@@ -287,17 +309,18 @@ export class SketcherComponent implements OnInit {
 
   updateShowingImages(fromStart?: boolean) {
     const scrollPostion = fromStart ? 0 : (this.scrollValue / this.step) * -1;
-    this.showingImages[0] = this.images[scrollPostion];
-    this.showingImages[1] = this.images[scrollPostion + 1];
-    this.showingImages[2] = this.images[scrollPostion + 2];
-    this.showingImages[3] = this.images[scrollPostion + 3];
-    this.showingImages[4] = this.images[scrollPostion + 4];
+    console.log(scrollPostion)
+    this.showingTemplates[0] = this.templates[scrollPostion];
+    this.showingTemplates[1] = this.templates[scrollPostion];
+    this.showingTemplates[2] = this.templates[scrollPostion + 1];
+    this.showingTemplates[3] = this.templates[scrollPostion + 2];
+    this.showingTemplates[4] = this.templates[scrollPostion + 4];
   }
 
   getEdgeClass(i: number): string {
     if (i === 0) {
       return "sketcher-edge-image sketcher-edge-image-top";
-    } else if (i === this.showingImages.length - 1) {
+    } else if (i === this.showingTemplates.length - 1) {
       return "sketcher-edge-image sketcher-edge-image-bottom";
     }
     return "";
