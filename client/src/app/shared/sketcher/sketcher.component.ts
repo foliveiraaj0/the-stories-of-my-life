@@ -54,6 +54,10 @@ export class SketcherComponent implements OnInit {
 
   ngOnInit() {}
 
+  write(text) {
+    console.log(text)
+  }
+
   fillPokemonList() {
     const baseURL =
       "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
@@ -214,8 +218,14 @@ export class SketcherComponent implements OnInit {
     this.showingImages[4] = this.images[scrollPostion + 4];
   }
 
-  isEdgeImage(i:number) {
-    return i === 0 || i === this.showingImages.length-1;
+  getEdgeClass(i:number):string {
+    if(i === 0)  {
+      return 'edge-image edge-image-top';
+    }
+    else if (i === this.showingImages.length-1) {
+      return 'edge-image edge-image-bottom';
+    }
+    return '';
   }
 
   private getDisplacement(event): { x: number; y: number } {

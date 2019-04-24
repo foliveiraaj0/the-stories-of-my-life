@@ -1,5 +1,5 @@
 .sketcher {
-  display: flex;
+  display: block;
   height: 35rem;
   &-images {
     width: 200rem;
@@ -65,7 +65,41 @@
 
 .edge-image {
   opacity: 0;
+  &-top {
+    animation-name: cutEdgeTop;
+    animation-duration: .1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: linear;
+  }
+  &-bottom {
+    animation-name: cutEdgeBottom;
+    animation-duration: .1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: linear;
+  }
+  
 }
+
+@keyframes cutEdgeTop {
+  from {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+  
+  to {
+    clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+  }
+}
+
+@keyframes cutEdgeBottom {
+  from {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+
+  to {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+  }
+}
+
 
 .shift-top {
   animation-name: shiftTop;
@@ -84,8 +118,7 @@
 .shift-cut-top {
   animation-name: shiftCutTop;
   animation-duration: .1s;
-  animation-fill-mode: forwards;
-  animation-timing-function: linear;
+ 
 }
 
 @keyframes shiftCutTop {

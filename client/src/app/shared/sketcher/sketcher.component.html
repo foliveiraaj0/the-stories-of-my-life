@@ -1,8 +1,8 @@
 <div cdkDropListGroup class="sketcher">
-
+  <button (click)="write('hello top')">click</button>
   <div class="sketcher-images">
     <div (mousewheel)="scrollList($event)" #imageList class="sketcher-images__list">
-      <div [ngClass]="{'edge-image': isEdgeImage(i)}" (animationend)="onScrollEnd($event)" class="sketcher-image" *ngFor="let image of showingImages; let i = index">
+      <div [ngClass]="getEdgeClass(i)" (animationend)="onScrollEnd($event)" class="sketcher-image" *ngFor="let image of showingImages; let i = index">
         <div cdkDrag [ngClass]="{'shift-top':isShiftingTop, 'shift-bottom': isShiftingBottom}"
           cdkDragBoundary=".sketcher" (cdkDragStarted)="start($event)" (cdkDragReleased)="release($event)"
           (cdkDragMoved)="moved($event)" (animationend)="onShiftEnd($event)" (cdkDragEnded)="ended($event)"
@@ -15,8 +15,8 @@
       </div>
     </div>
   </div>
-
-  <div class="sketcher-templates">
+  <button (click)="write('hello bottom')">click</button>
+  <!-- <div class="sketcher-templates">
     <div cdkDropList *ngFor="let template of templates" [cdkDropListData]="templates"
       [cdkDropListEnterPredicate]="predicateTemplate">
       <div class="sketcher-image">
@@ -39,6 +39,6 @@
           </div>
         </div>
       </app-image-drop-container>
-    </div>
+    </div> -->
 
   </div>
