@@ -32,7 +32,7 @@ export class SketcherComponent implements OnInit {
   @ViewChild("buttonShiftTop") buttonTop: ElementRef;
   @ViewChild("buttonShiftBottom") buttonBottom: ElementRef;
 
-  private images = [];
+  //private images = [];
   /* private contents: {
     img1: { src: string; alt: string };
     img2: { src: string; alt: string };
@@ -41,7 +41,10 @@ export class SketcherComponent implements OnInit {
     img1: { id: string; src: string; alt: string };
     img2: { id: string; src: string; alt: string };
   }[] = [];
-  private contentImages: { src: string; alt: string }[] = [];
+  private images: {
+    img1: { id: string; src: string; alt: string };
+    img2: { id: string; src: string; alt: string };
+  }[] = [];
   private templates: {
     img1: { id: string; src: string; alt: string };
     img2: { id: string; src: string; alt: string };
@@ -65,43 +68,58 @@ export class SketcherComponent implements OnInit {
   constructor(private renderer: Renderer) {
     this.fillTemplatesList();
     this.fillImagesList();
-    this.updateShowingImages(true);
+    this.updateShowingTemplates(true);
+    /* this.contents[0] = this.contentImages[0] */
     this.contents[0] = {
       img1: {
-        id: "img1",
-        src: this.templates[1].img1.src,
-        alt: this.templates[1].img1.alt
+        id: "img1-1",
+        src: this.templates[0].img1.src,
+        alt: this.templates[0].img1.alt
       },
       img2: {
-        id: "img2",
-        src: this.templates[1].img2.src,
-        alt: this.templates[1].img2.alt
+        id: "img2-2",
+        src: this.templates[0].img2.src,
+        alt: this.templates[0].img2.alt
       }
     };
 
-    this.contentImages[0] = {
-      src: this.templates[1].img1.src,
-      alt: this.templates[1].img1.alt
-    };
-    this.contentImages[1] = {
-      src: this.templates[2].img1.src,
-      alt: this.templates[2].img1.alt
-    };
-    this.contentImages[2] = {
-      src: this.templates[3].img1.src,
-      alt: this.templates[3].img1.alt
-    };
     /* this.contents[0] = {
-      img1: { src: this.templates[0].src, alt: this.templates[0].alt },
-      img2: { src: this.templates[0].src, alt: this.templates[0].alt }
+      img1: {
+        id: "img1",
+        src: this.images[0].img1.src,
+        alt: this.images[0].img1.alt
+      },
+      img2: {
+        id: "img2",
+        src: this.images[0].img2.src,
+        alt: this.images[0].img2.alt
+      }
     }; */
 
-    /* this.images1[0] = { src: this.templates[0].src, alt: this.templates[0].alt };
-    this.images1[1] = { src: this.templates[1].src, alt: this.templates[1].alt };
-    this.images1[2] = { src: this.templates[2].src, alt: this.templates[2].alt }; */
-    /* this.contents[1] = {
-      img1: { src: this.templates[1].src, alt: this.templates[1].alt },
-      img2: { src: this.templates[1].src, alt: this.templates[1].alt }
+    /* this.contentImages[1] = {
+      img1: {
+        id: "img1",
+        src: this.images[1].img1.src,
+        alt: this.images[1].img1.alt
+      },
+      img2: {
+        id: "img2",
+        src: this.images[1].img2.src,
+        alt: this.images[1].img2.alt
+      }
+    };
+
+    this.contentImages[2] = {
+      img1: {
+        id: "img1",
+        src: this.images[2].img1.src,
+        alt: this.images[2].img1.alt
+      },
+      img2: {
+        id: "img2",
+        src: this.images[2].img2.src,
+        alt: this.images[2].img2.alt
+      }
     }; */
   }
 
@@ -115,8 +133,16 @@ export class SketcherComponent implements OnInit {
     for (let i = 0; i < 15; i++) {
       const pokemon = Math.round(Math.random() * 600);
       this.templates.push({
-        img1: { id: `imge${i}`, src: `${baseURL}${pokemon}${sufixURL}`, alt: "" },
-        img2: { id: `imge${i}`, src: `${baseURL}${pokemon}${sufixURL}`, alt: "" }
+        img1: {
+          id: `imge-${i}`,
+          src: `${baseURL}${pokemon}${sufixURL}`,
+          alt: ""
+        },
+        img2: {
+          id: `imge-${i}`,
+          src: `${baseURL}${pokemon}${sufixURL}`,
+          alt: ""
+        }
       });
     }
   }
@@ -125,30 +151,39 @@ export class SketcherComponent implements OnInit {
     const baseURL =
       "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
     const sufixURL = ".png";
-    this.images = []
+    this.images = [];
     for (let i = 0; i < 15; i++) {
       const pokemon = Math.round(Math.random() * 600);
       const img = { src: `${baseURL}${pokemon}${sufixURL}`, alt: "" };
-      this.images.push(img);
+      //this.images.push(img);
+      this.images.push({
+        img1: {
+          id: "img1-" + i,
+          src: img.src,
+          alt: img.alt
+        },
+        img2: {
+          id: "img2-" + i,
+          src: img.src,
+          alt: img.alt
+        }
+      });
     }
-    
   }
 
   getConections() {
-    return ["img1", "img2"];
+    return ["img1-1", "img2-2"];
   }
 
-  predicateTemplate(
+  /*  predicateTemplate(
     drag: CdkDrag<{ src: string; alt: string }>,
     drop: CdkDropList
   ) {
-    /* for (let i = 0; i < drag.data.length; i++) {
-        console.log(drag.data[i])
-    } */
+    
     console.log("predicateTemplate", drag);
     console.log("predicateTemplate", drop);
     return true;
-  }
+  }  */
 
   drop(
     event: CdkDragDrop<
@@ -304,12 +339,12 @@ export class SketcherComponent implements OnInit {
       this.renderer.setElementClass(event.target, "shift-rise-bottom", false);
     }
     //TODO call this update only in the last scroll event
-    this.updateShowingImages();
+    this.updateShowingTemplates();
   }
 
-  updateShowingImages(fromStart?: boolean) {
+  updateShowingTemplates(fromStart?: boolean) {
     const scrollPostion = fromStart ? 0 : (this.scrollValue / this.step) * -1;
-    console.log(scrollPostion)
+    console.log(scrollPostion);
     this.showingTemplates[0] = this.templates[scrollPostion];
     this.showingTemplates[1] = this.templates[scrollPostion];
     this.showingTemplates[2] = this.templates[scrollPostion + 1];

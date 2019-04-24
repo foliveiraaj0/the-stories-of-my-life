@@ -26,37 +26,37 @@
   </div>
 
   <div cdkDropList [cdkDropListConnectedTo]="getConections()" #templateList="cdkDropList" class="sketcher-templates"
-    [cdkDropListData]="showingImages" (cdkDropListDropped)="drop($event)">
+    [cdkDropListData]="images" (cdkDropListDropped)="drop($event)">
     <div cdkDrag cdkDragBoundary=".sketcher" (cdkDragEnded)="ended($event)" [cdkDragData]="image"
       class="sketcher-image--drag" *ngFor="let image of images">
-      <img [src]="image.src" [alt]="image.alt">
+      <img [src]="image.img1.src" [alt]="image.img1.alt">
     </div>
   </div>
 
   <div cdkDropList id="contentList" class="sketcher-content" [cdkDropListData]="contents"
-    (cdkDropListDropped)="drop($event)">
+    (cdkDropListDropped)="drop($event)" *ngFor="let content of contents">
 
-    <div cdkDrag [cdkDragData]="content" class="sketcher-content-item" *ngFor="let content of contents">
+   <!--  <div cdkDrag class="sketcher-content-item" *ngFor="let content of contents">
       <img [src]="content.img1.src" [alt]="content.img1.alt">
       <p>
         ----------------- real element -----------------
       </p>
       <img [src]="content.img2.src" [alt]="content.img2.alt">
-    </div>
+    </div> -->
 
-    <!-- <div class="sketcher-content-item">
-      <div cdkDropList (cdkDropListDropped)="drop($event)" id={{content.img1.id}} [cdkDropListData]="contentImages"
+    <div class="sketcher-content-item">
+      <div cdkDropList (cdkDropListDropped)="drop($event)" id={{content.img1.id}} [cdkDropListData]="images"
         class="sketcher-content-item__img">
-        <img [src]="contentImages[0].src" [alt]="contentImages[0].alt">
+        <img [src]="images[0].img1.src" [alt]="images[0].img1.alt">
       </div>
       <p>
-        ----------------- real element -----------------
+          {{content.img1.id}} ----------------- real element ----------------- {{content.img2.id}}
       </p>
-      <div cdkDropList (cdkDropListDropped)="drop($event)" id={{content.img2.id}} [cdkDropListData]="contentImages"
+      <div cdkDropList (cdkDropListDropped)="drop($event)" id={{content.img2.id}} [cdkDropListData]="images"
         class="sketcher-content-item__img">
-        <img [src]="contentImages[0].src" [alt]="contentImages[0].alt">
+        <img [src]="images[0].img2.src" [alt]="images[0].img2.alt">
       </div>
-    </div> -->
+    </div>
   </div>
 
 </div>
