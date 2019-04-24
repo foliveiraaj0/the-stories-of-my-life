@@ -33,8 +33,14 @@ export class SketcherComponent implements OnInit {
   @ViewChild("buttonShiftBottom") buttonBottom: ElementRef;
 
   private images = [];
-  private contents: { src: string; alt: string }[] = [];
+  /* private contents: {
+    img1: { src: string; alt: string };
+    img2: { src: string; alt: string };
+  }[] = []; */
+  private contents: {img1: {id:string, src: string; alt: string }, img2: {id:string, src: string; alt: string }}[] = [];
+  private contents2: { src: string; alt: string }[] = [];
   private templates: { src: string; alt: string }[] = [];
+  /* private images1: { src: string; alt: string }[] = []; */
   private showingImages = [];
 
   private lastPostion;
@@ -54,6 +60,24 @@ export class SketcherComponent implements OnInit {
     this.fillPokemonList();
     this.fillTemplateList();
     this.updateShowingImages(true);
+    this.contents[0] = {img1: {id: "img1", src: this.templates[0].src, alt: this.templates[0].alt},
+                        img2: {id: "img2", src: this.templates[1].src, alt: this.templates[1].alt}}
+
+    this.contents2[0] = {src: this.templates[0].src, alt: this.templates[0].alt}
+    this.contents2[1] = {src: this.templates[1].src, alt: this.templates[1].alt}
+    this.contents2[2] = {src: this.templates[2].src, alt: this.templates[2].alt}
+    /* this.contents[0] = {
+      img1: { src: this.templates[0].src, alt: this.templates[0].alt },
+      img2: { src: this.templates[0].src, alt: this.templates[0].alt }
+    }; */
+
+    /* this.images1[0] = { src: this.templates[0].src, alt: this.templates[0].alt };
+    this.images1[1] = { src: this.templates[1].src, alt: this.templates[1].alt };
+    this.images1[2] = { src: this.templates[2].src, alt: this.templates[2].alt }; */
+    /* this.contents[1] = {
+      img1: { src: this.templates[1].src, alt: this.templates[1].alt },
+      img2: { src: this.templates[1].src, alt: this.templates[1].alt }
+    }; */
   }
 
   ngOnInit() {}
@@ -91,26 +115,48 @@ export class SketcherComponent implements OnInit {
     }
   }
 
-  predicateTemplate(drag: CdkDrag<{ src: string; alt: string }>, drop: CdkDropList) {
+  getConections() {
+    return ['img1', 'img2'];
+  }
+
+  predicateTemplate(
+    drag: CdkDrag<{ src: string; alt: string }>,
+    drop: CdkDropList
+  ) {
     /* for (let i = 0; i < drag.data.length; i++) {
         console.log(drag.data[i])
     } */
-    console.log('predicateTemplate', drag)
-    console.log('predicateTemplate', drop)
+    console.log("predicateTemplate", drag);
+    console.log("predicateTemplate", drop);
     return true;
   }
 
-  drop(event: CdkDragDrop<[{ src: string; alt: string }]>) {
+  drop(
+    event: CdkDragDrop<
+      /* [{ src: string; alt: string }] | */ [
+        {
+          img1: { src: string; alt: string };
+          img2: { src: string; alt: string };
+        }
+      ]
+    >
+  ) {
     console.log("dropped", event);
     this.isDragging = false;
     //event.source.reset();
     if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
     } else {
-      copyArrayItem(event.previousContainer.data,
-                        event.container.data,
-                        event.previousIndex,
-                        event.currentIndex);
+      copyArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
     }
   }
 
