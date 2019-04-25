@@ -20,12 +20,11 @@
       overflow: hidden;
     }
     &-placeholder {
-
     }
     &-preview {
       display: flex;
       height: 96px;
-      width: 70%;
+      width: 40%;
       background-color: white;
     }
     &-item {
@@ -52,6 +51,7 @@
 
   // mid content
   &-content {
+    height: 100%;
     background-color: coral;
     width: 70%;
     margin: auto;
@@ -64,7 +64,6 @@
       background-color: darkgray;
     }
     &-preview {
-
     }
     &-item {
       display: flex;

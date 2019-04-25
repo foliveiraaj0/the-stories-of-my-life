@@ -6,15 +6,7 @@ import {
   Renderer
 } from "@angular/core";
 import {
-  CdkDragEnter,
-  CdkDragEnd,
-  CdkDrag,
-  CdkDragExit,
-  CdkDragMove,
-  CdkDragRelease,
-  CdkDragStart,
   CdkDragDrop,
-  CdkDropList,
   moveItemInArray,
   copyArrayItem
 } from "@angular/cdk/drag-drop";
@@ -32,27 +24,27 @@ export class SketcherComponent implements OnInit {
   @ViewChild("buttonShiftTop") buttonTop: ElementRef;
   @ViewChild("buttonShiftBottom") buttonBottom: ElementRef;
 
-  //private images = [];
-  /* private contents: {
-    img1: { src: string; alt: string };
-    img2: { src: string; alt: string };
-  }[] = []; */
-  private contents: {
-    img1: { id: string; src: string; alt: string };
-    img2: { id: string; src: string; alt: string };
-  }[] = [];
-  private images: {
-    img1: { id: string; src: string; alt: string };
-    img2: { id: string; src: string; alt: string };
-  }[] = [];
   private templates: {
     img1: { id: string; src: string; alt: string };
     img2: { id: string; src: string; alt: string };
   }[] = [];
-  /* private images1: { src: string; alt: string }[] = []; */
-  private showingTemplates = [];
 
-  private lastPostion;
+  private contents: {
+    img1: { id: string; src: string; alt: string };
+    img2: { id: string; src: string; alt: string };
+  }[] = [];
+
+  private images: {
+    img1: { id: string; src: string; alt: string };
+    img2: { id: string; src: string; alt: string };
+  }[] = [];
+
+  private copyImages: {
+    img1: { id: string; src: string; alt: string };
+    img2: { id: string; src: string; alt: string };
+  }[] = [];
+
+  private showingTemplates = [];
 
   private isDragging = false;
 
@@ -69,58 +61,6 @@ export class SketcherComponent implements OnInit {
     this.fillTemplatesList();
     this.fillImagesList();
     this.updateShowingTemplates(true);
-    /* this.contents[0] = this.contentImages[0] */
-    this.contents[0] = {
-      img1: {
-        id: "img1-1",
-        src: this.templates[0].img1.src,
-        alt: this.templates[0].img1.alt
-      },
-      img2: {
-        id: "img2-2",
-        src: this.templates[0].img2.src,
-        alt: this.templates[0].img2.alt
-      }
-    };
-
-    /* this.contents[0] = {
-      img1: {
-        id: "img1",
-        src: this.images[0].img1.src,
-        alt: this.images[0].img1.alt
-      },
-      img2: {
-        id: "img2",
-        src: this.images[0].img2.src,
-        alt: this.images[0].img2.alt
-      }
-    }; */
-
-    /* this.contentImages[1] = {
-      img1: {
-        id: "img1",
-        src: this.images[1].img1.src,
-        alt: this.images[1].img1.alt
-      },
-      img2: {
-        id: "img2",
-        src: this.images[1].img2.src,
-        alt: this.images[1].img2.alt
-      }
-    };
-
-    this.contentImages[2] = {
-      img1: {
-        id: "img1",
-        src: this.images[2].img1.src,
-        alt: this.images[2].img1.alt
-      },
-      img2: {
-        id: "img2",
-        src: this.images[2].img2.src,
-        alt: this.images[2].img2.alt
-      }
-    }; */
   }
 
   ngOnInit() {}
@@ -134,16 +74,31 @@ export class SketcherComponent implements OnInit {
       const pokemon = Math.round(Math.random() * 600);
       this.templates.push({
         img1: {
-          id: `imge-${i}`,
+          id: `img1-${i}`,
           src: `${baseURL}${pokemon}${sufixURL}`,
           alt: ""
         },
         img2: {
-          id: `imge-${i}`,
+          id: `img2-${i}`,
           src: `${baseURL}${pokemon}${sufixURL}`,
           alt: ""
         }
       });
+      //console.log(this.templates[i])
+      /* if(i < 0) {
+        this.contents.push({
+          img1: {
+            id: `img1-${i}`,
+            src: `${baseURL}${pokemon}${sufixURL}`,
+            alt: ""
+          },
+          img2: {
+            id: `img2-${i}`,
+            src: `${baseURL}${pokemon}${sufixURL}`,
+            alt: ""
+          }
+        })
+      } */
     }
   }
 
@@ -158,12 +113,24 @@ export class SketcherComponent implements OnInit {
       //this.images.push(img);
       this.images.push({
         img1: {
-          id: "img1-" + i,
+          id: `img1-${i}`,
           src: img.src,
           alt: img.alt
         },
         img2: {
-          id: "img2-" + i,
+          id: `img2-${i}`,
+          src: img.src,
+          alt: img.alt
+        }
+      });
+      this.copyImages.push({
+        img1: {
+          id: `img1-${i}`,
+          src: img.src,
+          alt: img.alt
+        },
+        img2: {
+          id: `img2-${i}`,
           src: img.src,
           alt: img.alt
         }
@@ -172,83 +139,92 @@ export class SketcherComponent implements OnInit {
   }
 
   getConections() {
-    return ["img1-1", "img2-2"];
+    const conections = [];
+    for (let i = 0; i < this.contents.length; i++) {
+      conections.push(`img1-${i}`);
+      conections.push(`img2-${i}`);
+    }
+    return conections;
   }
 
-  /*  predicateTemplate(
-    drag: CdkDrag<{ src: string; alt: string }>,
-    drop: CdkDropList
-  ) {
-    
-    console.log("predicateTemplate", drag);
-    console.log("predicateTemplate", drop);
-    return true;
-  }  */
-
-  drop(
-    event: CdkDragDrop<
-      any
-      /* [{ src: string; alt: string }] 
-      | 
-      [
-        {
-          img1: { src: string; alt: string };
-          img2: { src: string; alt: string };
-        }
-      ] */
-    >
-  ) {
-    console.log("dropped", event);
+  drop(event: CdkDragDrop<any>) {
     this.isDragging = false;
     //event.source.reset();
     if (event.previousContainer === event.container) {
+      console.log("drop", event);
+      /* const containerAux = event.container.id;
+      const previousAux = event.previousContainer.id
+      event.container.id = previousAux;
+      event.previousContainer.id = containerAux; */
       moveItemInArray(
         event.container.data,
         event.previousIndex,
         event.currentIndex
       );
     } else {
-      copyArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
+      if (event.previousContainer.connectedTo[0] === "contentList") {
+        this.dropTemplate(event);
+      } else {
+        this.dropImage(event);
+      }
     }
   }
 
-  ended(event: CdkDragEnd<{ src: string; alt: string }>) {
-    console.log("ended", event);
+  dropTemplate(event: CdkDragDrop<any>) {
+    console.log("dropTemplate", event);
     this.isDragging = false;
-    //event.source.reset();
+    //console.log('contents len', this.contents.length)
+    //console.log("oldData", event.previousContainer.data);
+    //console.log('oldData', event.previousContainer.data[event.previousIndex])
+    /* event.previousContainer.data[event.previousIndex].img1.id =
+      "img1-" + this.contents.length;
+    event.previousContainer.data[event.previousIndex].img2.id =
+      "img2-" + this.contents.length; */
+    const newData = [];
+    event.previousContainer.data.forEach(data => {
+      newData.push({
+        img1: {
+          id: data.img1.id,
+          src: data.img1.src,
+          alt: data.img1.alt
+        },
+        img2: {
+          id: data.img2.id,
+          src: data.img2.src,
+          alt: data.img2.alt
+        }
+      });
+    });
+
+    newData[event.previousIndex].img1.id = "img1-" + event.currentIndex;
+    newData[event.previousIndex].img2.id = "img2-" + event.currentIndex;
+    copyArrayItem(
+      newData,
+      event.container.data,
+      event.previousIndex,
+      event.currentIndex
+    );
+
+    for (let i = 0; i < event.container.data.length; i++) {
+      if (i > event.currentIndex) {
+        event.container.data[i].img1.id = "img1-" + i;
+        event.container.data[i].img2.id = "img2-" + i;
+      }
+    }
   }
 
-  enter(event: CdkDragEnter<OneImageData>) {
-    console.log("enter", event.item.data);
-    const data = event.item.data;
-    //this.contents[0] = [new OneImageData(data.img, data.text)]
-  }
-
-  release(event: CdkDragRelease<OneImageData>) {
-    const delta = this.getDisplacement(event);
-
-    console.log("release", event, delta);
-    this.lastPostion = null;
-  }
-
-  start(event: CdkDragStart<OneImageData>) {
-    console.log("start", event, this.lastPostion);
-    this.isDragging = true;
-  }
-
-  moved(event: CdkDragMove<OneImageData>) {
-    //console.log('move', event);
-    this.lastPostion = event;
-  }
-
-  exit(event: CdkDragExit<OneImageData>) {
-    console.log("exit", event.item.data);
-    this.contents = [];
+  dropImage(event: CdkDragDrop<any>) {
+    console.log("dropImage", event);
+    this.isDragging = false;
+    console.log(event.container.id);
+    console.log(event.previousContainer.data);
+    console.log(event.container.data);
+    copyArrayItem(
+      event.previousContainer.data,
+      event.container.data,
+      event.previousIndex,
+      event.currentIndex
+    );
   }
 
   calculateConstants() {
@@ -344,7 +320,6 @@ export class SketcherComponent implements OnInit {
 
   updateShowingTemplates(fromStart?: boolean) {
     const scrollPostion = fromStart ? 0 : (this.scrollValue / this.step) * -1;
-    console.log(scrollPostion);
     this.showingTemplates[0] = this.templates[scrollPostion];
     this.showingTemplates[1] = this.templates[scrollPostion];
     this.showingTemplates[2] = this.templates[scrollPostion + 1];
