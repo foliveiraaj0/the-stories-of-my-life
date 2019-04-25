@@ -9,7 +9,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { UrlHelper } from './services/url-helper';
 import { UserService } from './services/user-service';
 import { LogService } from './services/log-service';
-import { AuthGuard } from './auth/auth-guad';
+import { AuthGuard } from './shared/auth-guad';
 import { HttpErrorHandler } from './services/http-error-handler';
 
 @NgModule({
