@@ -161,7 +161,6 @@ export class SketcherComponent implements OnInit {
         event.container.data[i].img1.id = "img1-" + i;
         event.container.data[i].img2.id = "img2-" + i;
       }
-
     } else {
       if (event.previousContainer.connectedTo[0] === "contentList") {
         this.dropTemplate(event);
@@ -214,10 +213,25 @@ export class SketcherComponent implements OnInit {
       const idString = event.container.id;
       const indexOfPosition = idString.indexOf("-") + 1;
       const index = +idString.substring(indexOfPosition);
-      const oldLen = event.container.data.length;
-      event.container.data[index] =
-        event.previousContainer.data[event.previousIndex];
+      
+      //using copyArrayItem in this scenary will add a new item to contentList instead of
+      //just changing the contents of the item inside of it
+      event.container.data[index] = this.swapData(
+        event.container.data[index],
+        event.previousContainer.data[event.previousIndex]
+      );
+      console.log(event.previousContainer.data);
+      console.log(event.container);
+      
     }
+  }
+
+  private swapData(receiving, passing) {
+    receiving.img1.src = passing.img1.src;
+    receiving.img1.alt = passing.img1.alt;
+    receiving.img2.src = passing.img2.src;
+    receiving.img2.alt = passing.img2.alt;
+    return receiving
   }
 
   isInsideContainerImage(event: CdkDragDrop<any>): boolean {
