@@ -11,7 +11,7 @@ import {
   copyArrayItem
 } from "@angular/cdk/drag-drop";
 import { OneImageData, TemplateSchemaData } from "./templates";
-import { CurrencyIndex } from '@angular/common/src/i18n/locale_data';
+import { CurrencyIndex } from "@angular/common/src/i18n/locale_data";
 
 @Component({
   selector: "app-sketcher",
@@ -86,7 +86,7 @@ export class SketcherComponent implements OnInit {
         }
       });
       //console.log(this.templates[i])
-      if(i < 1) {
+      if (i < 5) {
         this.contents.push({
           img1: {
             id: `img1-${i}`,
@@ -98,7 +98,7 @@ export class SketcherComponent implements OnInit {
             src: `${baseURL}${pokemon}${sufixURL}`,
             alt: ""
           }
-        })
+        });
       }
     }
   }
@@ -150,44 +150,18 @@ export class SketcherComponent implements OnInit {
 
   drop(event: CdkDragDrop<any>) {
     this.isDragging = false;
-    //event.source.reset();
     if (event.previousContainer === event.container) {
-      //console.log("drop", event);
-      /* const containerAux = event.container.id;
-      const previousAux = event.previousContainer.id
-      event.container.id = previousAux;
-      event.previousContainer.id = containerAux; */
-      //console.log(event.container)
       moveItemInArray(
         event.container.data,
         event.previousIndex,
         event.currentIndex
       );
-      //console.log(event.previousIndex)
-      //console.log(event.currentIndex)
-      /* const lowerIndex = event.previousIndex < event.currentIndex ? event.previousIndex : event.currentIndex;
-      console.log(lowerIndex) */
-      /* console.log(event.previousContainer) */
-     
-      /* for (let i = 0; i < event.container.data.length; i++) {
-        if (i >= lowerIndex) {
-          event.container.data[i].img1.id = "img1-" + i;
-          event.container.data[i].img2.id = "img2-" + i;
-        }
-      } */
-      /* console.log(event.container)
-      console.log(this.contents) */
 
-      /* for (let i = 0; i < this.contents.length; i++) {
-        if (i >= lowerIndex) {
-          this.contents[i].img1.id = "img1-" + i;
-          this.contents[i].img2.id = "img2-" + i;
-        }
-      } */
-      /* this.contents.sort((a,b) => a.img1.id.localeCompare(b.img1.id))
-      console.log(this.contents)
-      event.container.data.sort((a,b) => a.img1.id.localeCompare(b.img1.id))
-      console.log(event.container.data) */
+      for (let i = 0; i < event.container.data.length; i++) {
+        event.container.data[i].img1.id = "img1-" + i;
+        event.container.data[i].img2.id = "img2-" + i;
+      }
+
     } else {
       if (event.previousContainer.connectedTo[0] === "contentList") {
         this.dropTemplate(event);
@@ -200,13 +174,6 @@ export class SketcherComponent implements OnInit {
   dropTemplate(event: CdkDragDrop<any>) {
     console.log("dropTemplate", event);
     this.isDragging = false;
-    //console.log('contents len', this.contents.length)
-    //console.log("oldData", event.previousContainer.data);
-    //console.log('oldData', event.previousContainer.data[event.previousIndex])
-    /* event.previousContainer.data[event.previousIndex].img1.id =
-      "img1-" + this.contents.length;
-    event.previousContainer.data[event.previousIndex].img2.id =
-      "img2-" + this.contents.length; */
     const newData = [];
     event.previousContainer.data.forEach(data => {
       newData.push({
@@ -243,29 +210,18 @@ export class SketcherComponent implements OnInit {
   dropImage(event: CdkDragDrop<any>) {
     console.log("dropImage", event);
     this.isDragging = false;
-    /* console.log(event.previousContainer.data);
-    console.log(event.container.data); */
-    const idString = event.container.id;
-    const indexOfPosition = idString.indexOf('-') + 1
-    const index = +idString.substring(indexOfPosition);
-    console.log('index', index)
-    const oldLen = event.container.data.length
-    event.container.data[index] = event.previousContainer.data[event.previousIndex]
-    /* copyArrayItem(
-      event.previousContainer.data,
-      event.container.data,
-      event.previousIndex,
-      index
-    ); */
-    /* let newLen = event.container.data.length
-    console.log('len', oldLen, newLen)
-    if(newLen > oldLen) {
-      console.log(event.container.data);
-      event.container.data.pop()
+    if (this.isInsideContainerImage(event)) {
+      const idString = event.container.id;
+      const indexOfPosition = idString.indexOf("-") + 1;
+      const index = +idString.substring(indexOfPosition);
+      const oldLen = event.container.data.length;
+      event.container.data[index] =
+        event.previousContainer.data[event.previousIndex];
     }
-    newLen = event.container.data.length
-    console.log('len', oldLen, newLen) */
-    console.log(event.container.data);
+  }
+
+  isInsideContainerImage(event: CdkDragDrop<any>): boolean {
+    return true;
   }
 
   calculateConstants() {
