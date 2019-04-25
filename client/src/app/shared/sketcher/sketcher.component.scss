@@ -72,8 +72,18 @@
       &__img {
         .cdk-drag-placeholder {
           background-color: white;
-          transform: translateY(-100%);
+          transform: translateY(-96px);
+          max-height: 0px;
+          background-color: darkred;
         }
+        
+      }
+      .cdk-drop-list-dragging {
+        img {
+          opacity: 0;
+        }
+        outline: 5px dotted aqua;
+        outline-offset: -10px;
       }
     }
     /* .cdk-drag-placeholder {
