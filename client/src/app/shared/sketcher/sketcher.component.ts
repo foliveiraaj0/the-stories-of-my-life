@@ -85,8 +85,8 @@ export class SketcherComponent implements OnInit {
           alt: ""
         }
       });
-      //console.log(this.templates[i])
-      if (i < 5) {
+      //TODO remove this testing code
+      if (i < 0) {
         this.contents.push({
           img1: {
             id: `img1-${i}`,

@@ -20,12 +20,16 @@
       overflow: hidden;
     }
     &-placeholder {
+      display: flex;
+      height: 96px;
+      width: 100%;
+      background-color: darkred;
     }
     &-preview {
       display: flex;
       height: 96px;
       width: 40%;
-      background-color: white;
+      background-color: darkred;
     }
     &-item {
       width: 90px;
