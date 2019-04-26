@@ -92,7 +92,7 @@ export class SketcherComponent implements OnInit {
       "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
     const sufixURL = ".png";
     this.images = [];
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < 10; i++) {
       const pokemon = Math.round(Math.random() * 600);
       const img = { src: `${baseURL}${pokemon}${sufixURL}`, alt: "" };
       this.images.push({
@@ -264,6 +264,10 @@ export class SketcherComponent implements OnInit {
   entered(event: CdkDragEnter<any>) {
     console.log('entered', event)
     this.selectedContainer = event.container;
+    const className = this.selectedContainer.element.nativeElement.className
+    if(className.search('cdk-drop-list-dragging') === -1) {
+      this.selectedContainer.element.nativeElement.className += ' cdk-drop-list-dragging'
+    }
     //event.item.dropContainer.enter(event.item,0,0)
     /* setTimeout(() => {
       console.log(this.pos)

@@ -26,8 +26,9 @@
       display: flex;
       width: 100%;
       background-color: darkred;
-      padding-bottom: 57px;
+      min-height: 160px;
       &__img {
+        height: 90px;
         .cdk-drag-placeholder {
           max-height: 0px;
           opacity: 0;

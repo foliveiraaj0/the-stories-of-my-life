@@ -65,7 +65,7 @@ export class CustomScrollComponent implements OnInit {
   scrollList(event) {
     //console.log(event)
     if (event.wheelDeltaY) {
-      event = event.wheelDeltaY > 0 ? "top" : "bottom";
+      event = event.wheelDeltaY < 0 ? "top" : "bottom";
     }
 
     if (this.hasSpace(event)) {
