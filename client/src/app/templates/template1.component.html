@@ -1,13 +1,13 @@
 <div class="content-item">
-  <div cdkDropList (cdkDropListEntered)="entered($event)" (cdkDropListDropped)="drop($event)" id={{getImgId()}}
+  <div cdkDropList (cdkDropListEntered)="entered($event)" (cdkDropListDropped)="drop($event)" id={{template.img1.id}}
     [cdkDropListData]="[template]" class="content-item__img">
-    <img [src]="getImgSrc()" [alt]="getImgAlt()">
+    <img [src]="template.img1.src" [alt]="template.img1.alt">
   </div>
   <p>
-    {{getImgId()}} ----------------- real element ----------------- {{getImgId2()}}
+    {{template.img1.id}} ----------------- real element ----------------- {{template.img2.id}}
   </p>
-  <div cdkDropList (cdkDropListEntered)="entered($event)" (cdkDropListDropped)="drop($event)" id={{getImgId2()}}
+  <div cdkDropList (cdkDropListEntered)="entered($event)" (cdkDropListDropped)="drop($event)" id={{template.img2.id}}
     [cdkDropListData]="[template]" class="content-item__img">
-    <img [src]="getImgSrc()" [alt]="getImgAlt()">
+    <img [src]="template.img2.src" [alt]="template.img2.alt">
   </div>
 </div>

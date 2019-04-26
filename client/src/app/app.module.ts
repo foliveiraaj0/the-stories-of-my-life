@@ -11,12 +11,9 @@ import { UserService } from './services/user-service';
 import { LogService } from './services/log-service';
 import { AuthGuard } from './auth/auth-guad';
 import { HttpErrorHandler } from './services/http-error-handler';
-import { Template1Component } from './templates/template1.component';
-import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
-    Template1Component,
     AppComponent
   ],
   imports: [
@@ -25,11 +22,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     BrowserAnimationsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    HttpClientModule,
-    DragDropModule
+    HttpClientModule
   ],
   providers: [HttpClient, HttpErrorHandler, UrlHelper, UserService, LogService, AuthGuard],
-  entryComponents: [ Template1Component ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

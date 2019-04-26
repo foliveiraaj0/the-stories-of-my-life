@@ -4,10 +4,16 @@ import {
   OnInit,
   Input,
   ComponentFactoryResolver,
-  Type
+  Type,
+  Output,
+  EventEmitter
 } from "@angular/core";
-import { TemplateInput } from '../../templates/template-interface';
-import { Template1Component } from '../../templates/template1.component';
+import { TemplateInput } from './template-interface';
+import { Template1Component } from './template1.component';
+import {
+  CdkDragDrop,
+  CdkDragEnter
+} from "@angular/cdk/drag-drop";
 
 @Directive({
   selector: "[viewReference]"
@@ -17,7 +23,7 @@ export class ViewReference implements OnInit {
   @Input()
   set template(template) {
     this._template = template;
-    console.log("new template", this._template);
+    //console.log("new template", this._template);
   }
 
   constructor(
@@ -30,7 +36,7 @@ export class ViewReference implements OnInit {
   }
 
   loadComponent() {
-    console.log("loading directive", this._template);
+    //console.log("loading directive", this._template);
 
     const componentType:Type<any> = Template1Component
 
@@ -42,4 +48,7 @@ export class ViewReference implements OnInit {
 
     (<TemplateInput>componentRef.instance).setTemplateData(this._template);
   }
+
+  @Output() onDrop: EventEmitter<CdkDragDrop<any>> = new EventEmitter();
+  @Output() onEnter: EventEmitter<CdkDragEnter<any>> = new EventEmitter();
 }

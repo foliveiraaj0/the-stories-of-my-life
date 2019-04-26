@@ -12,9 +12,9 @@
   }
   &-placeholder {
     display: flex;
-    height: 90px;
     width: 100%;
     opacity: .5;
+    min-height: 160px;
   }
   &-preview {
     display: flex;

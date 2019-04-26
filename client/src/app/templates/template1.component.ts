@@ -1,40 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { TemplateInput } from './template-interface';
+import { Template } from './template.component';
+/* import {
+  CdkDragDrop,
+  CdkDragEnter
+} from "@angular/cdk/drag-drop"; */
 
 @Component({
   selector: "app-template1",
   templateUrl: "./template1.component.html",
   styleUrls: ["./template1.component.scss"]
 })
-export class Template1Component implements OnInit, TemplateInput {
-
-  private template;
+export class Template1Component extends Template implements OnInit {
 
   constructor() {
-    const baseURL =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
-    const sufixURL = ".png";
-    const pokemon = Math.round(Math.random() * 600);
-    /* this.template = {
-      img1: {
-        id: `img1-${0}`,
-        src: `${baseURL}${pokemon}${sufixURL}`,
-        alt: ""
-      },
-      img2: {
-        id: `img2-${0}`,
-        src: `${baseURL}${pokemon}${sufixURL}`,
-        alt: ""
-      }
-    } */
-    
+    super()
   }
   
   ngOnInit() {
     
   }
 
-  getImgId() {
+  
+
+
+ /*  getImgId() {
     return this.template && this.template.img1 ? this.template.img1.id : ""
   }
 
@@ -48,10 +37,7 @@ export class Template1Component implements OnInit, TemplateInput {
 
   getImgAlt() {
     return this.template && this.template.img1 ? this.template.img1.alt : ""
-  }
+  } */
 
-  setTemplateData(template) {
-    console.log('setTemplateData', template)
-    this.template = template;
-  }
+  
 }
