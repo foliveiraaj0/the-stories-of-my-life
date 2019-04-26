@@ -1,0 +1,13 @@
+<div class="content-item">
+  <div cdkDropList (cdkDropListEntered)="entered($event)" (cdkDropListDropped)="drop($event)" id={{getImgId()}}
+    [cdkDropListData]="[template]" class="content-item__img">
+    <img [src]="getImgSrc()" [alt]="getImgAlt()">
+  </div>
+  <p>
+    {{getImgId()}} ----------------- real element ----------------- {{getImgId2()}}
+  </p>
+  <div cdkDropList (cdkDropListEntered)="entered($event)" (cdkDropListDropped)="drop($event)" id={{getImgId2()}}
+    [cdkDropListData]="[template]" class="content-item__img">
+    <img [src]="getImgSrc()" [alt]="getImgAlt()">
+  </div>
+</div>

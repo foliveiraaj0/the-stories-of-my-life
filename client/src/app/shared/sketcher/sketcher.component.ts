@@ -2,8 +2,7 @@ import {
   Component,
   OnInit,
   ViewChild,
-  ElementRef,
-  Renderer
+  ElementRef
 } from "@angular/core";
 import {
   CdkDragDrop,
@@ -22,7 +21,7 @@ import {
 export class SketcherComponent implements OnInit {
   @ViewChild("contentList") contentList: ElementRef;
 
-  templates: {
+  private templates: {
     img1: { id: string; src: string; alt: string };
     img2: { id: string; src: string; alt: string };
   }[] = [];
@@ -37,14 +36,20 @@ export class SketcherComponent implements OnInit {
     img2: { id: string; src: string; alt: string };
   }[] = [];
 
+  private currentDragPosition;
+  private selectedContainer;
+  private isInside = false;
+
   constructor(private componentRef: ElementRef) {
     this.fillTemplatesList();
     this.fillImagesList();
   }
 
+  // init
+
   ngOnInit() {}
 
-  fillTemplatesList() {
+  private fillTemplatesList() {
     const baseURL =
       "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
     const sufixURL = ".png";
@@ -64,7 +69,7 @@ export class SketcherComponent implements OnInit {
         }
       });
       //TODO remove this testing code
-      if (i < 0) {
+      if (i < 3) {
         this.contents.push({
           img1: {
             id: `img1-${i}`,
@@ -81,7 +86,7 @@ export class SketcherComponent implements OnInit {
     }
   }
 
-  fillImagesList() {
+  private fillImagesList() {
     const baseURL =
       "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
     const sufixURL = ".png";
@@ -104,7 +109,7 @@ export class SketcherComponent implements OnInit {
     }
   }
 
-  getConections() {
+  private getConections() {
     const conections = [];
     for (let i = 0; i < this.contents.length; i++) {
       conections.push(`img1-${i}`);
@@ -113,7 +118,9 @@ export class SketcherComponent implements OnInit {
     return conections;
   }
 
-  drop(event: CdkDragDrop<any>) {
+  //DropList events
+
+  private drop(event: CdkDragDrop<any>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -134,7 +141,7 @@ export class SketcherComponent implements OnInit {
     }
   }
 
-  dropTemplate(event: CdkDragDrop<any>) {
+  private dropTemplate(event: CdkDragDrop<any>) {
     console.log("dropTemplate", event);
     const newData = [];
     event.previousContainer.data.forEach(data => {
@@ -169,7 +176,7 @@ export class SketcherComponent implements OnInit {
     }
   }
 
-  dropImage(event: CdkDragDrop<any>) {
+  private dropImage(event: CdkDragDrop<any>) {
     console.log("dropImage", event);
     if (this.isInside) {
       const idString = event.container.id;
@@ -195,8 +202,7 @@ export class SketcherComponent implements OnInit {
     return receiving;
   }
 
-  //TODO evaluate if an object is being dropped inside a container
-  isInsideContainerImage(event: CdkDragDrop<any> | CdkDragMove): boolean {
+  private isInsideContainerImage(event: CdkDragDrop<any> | CdkDragMove): boolean {
     const sketcherTop = this.componentRef.nativeElement.getBoundingClientRect()
       .top;
     const sketcherLeft = this.componentRef.nativeElement.getBoundingClientRect()
@@ -208,8 +214,8 @@ export class SketcherComponent implements OnInit {
     const top = containerElement.offsetTop + sketcherTop;
     const height = containerElement.offsetHeight;
 
-    const x = this.pos.x;
-    const y = this.pos.y;
+    const x = this.currentDragPosition.x;
+    const y = this.currentDragPosition.y;
 
     const insideX = x >= left && x <= left + widht;
     const insideY = y >= top && y <= top + height;
@@ -220,19 +226,17 @@ export class SketcherComponent implements OnInit {
     return insideX && insideY;
   }
 
-  ended(event: CdkDragEnd<any>) {
+  //Drag events
+
+  private ended(event: CdkDragEnd<any>) {
     console.log("ended", event);
     this.selectedContainer = undefined;
     //console.log(this.getDisplacement(event));
   }
 
-  pos;
-  selectedContainer;
-  isInside = false;
-
-  moved(event: CdkDragMove<any>) {
+  private moved(event: CdkDragMove<any>) {
     //console.log('moved', event)
-    this.pos = event.pointerPosition;
+    this.currentDragPosition = event.pointerPosition;
     if (this.selectedContainer) {
       this.isInside = this.isInsideContainerImage(event);
       const className = this.selectedContainer.element.nativeElement.className;
@@ -252,7 +256,7 @@ export class SketcherComponent implements OnInit {
     }
   }
 
-  entered(event: CdkDragEnter<any>) {
+  private entered(event: CdkDragEnter<any>) {
     console.log("entered", event);
     this.selectedContainer = event.container;
   }
