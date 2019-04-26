@@ -11,11 +11,8 @@ import {
   copyArrayItem,
   CdkDragEnd,
   CdkDragMove,
-  CdkDragEnter,
-  CdkDragExit
+  CdkDragEnter
 } from "@angular/cdk/drag-drop";
-import { OneImageData, TemplateSchemaData } from "./templates";
-import { CurrencyIndex } from "@angular/common/src/i18n/locale_data";
 
 @Component({
   selector: "app-sketcher",
@@ -23,9 +20,8 @@ import { CurrencyIndex } from "@angular/common/src/i18n/locale_data";
   styleUrls: ["./sketcher.component.scss"]
 })
 export class SketcherComponent implements OnInit {
-  
-  @ViewChild("contentList") contentList: ElementRef;  
-  
+  @ViewChild("contentList") contentList: ElementRef;
+
   templates: {
     img1: { id: string; src: string; alt: string };
     img2: { id: string; src: string; alt: string };
@@ -41,9 +37,7 @@ export class SketcherComponent implements OnInit {
     img2: { id: string; src: string; alt: string };
   }[] = [];
 
-  private isDragging = false;
-
-  constructor(private componentRef: ElementRef, private renderer:Renderer) {
+  constructor(private componentRef: ElementRef) {
     this.fillTemplatesList();
     this.fillImagesList();
   }
@@ -120,7 +114,6 @@ export class SketcherComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<any>) {
-    this.isDragging = false;
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -143,7 +136,6 @@ export class SketcherComponent implements OnInit {
 
   dropTemplate(event: CdkDragDrop<any>) {
     console.log("dropTemplate", event);
-    this.isDragging = false;
     const newData = [];
     event.previousContainer.data.forEach(data => {
       newData.push({
@@ -179,7 +171,6 @@ export class SketcherComponent implements OnInit {
 
   dropImage(event: CdkDragDrop<any>) {
     console.log("dropImage", event);
-    this.isDragging = false;
     if (this.isInside) {
       const idString = event.container.id;
       const indexOfPosition = idString.indexOf("-") + 1;
@@ -206,21 +197,22 @@ export class SketcherComponent implements OnInit {
 
   //TODO evaluate if an object is being dropped inside a container
   isInsideContainerImage(event: CdkDragDrop<any> | CdkDragMove): boolean {
-
-    const sketcherTop = this.componentRef.nativeElement.getBoundingClientRect().top;
-    const sketcherLeft = this.componentRef.nativeElement.getBoundingClientRect().left;
+    const sketcherTop = this.componentRef.nativeElement.getBoundingClientRect()
+      .top;
+    const sketcherLeft = this.componentRef.nativeElement.getBoundingClientRect()
+      .left;
 
     const containerElement = this.selectedContainer.element.nativeElement;
-    const left = containerElement.offsetLeft + sketcherLeft
-    const widht = containerElement.offsetWidth
+    const left = containerElement.offsetLeft + sketcherLeft;
+    const widht = containerElement.offsetWidth;
     const top = containerElement.offsetTop + sketcherTop;
     const height = containerElement.offsetHeight;
 
-    const x = this.pos.x
-    const y = this.pos.y
+    const x = this.pos.x;
+    const y = this.pos.y;
 
-    const insideX = x >= left && x<= left+widht;
-    const insideY = y >= top  && y <= top+height
+    const insideX = x >= left && x <= left + widht;
+    const insideY = y >= top && y <= top + height;
 
     //console.log(x,left,widht, insideX)
     //console.log(y,top,height, insideY)
@@ -241,42 +233,27 @@ export class SketcherComponent implements OnInit {
   moved(event: CdkDragMove<any>) {
     //console.log('moved', event)
     this.pos = event.pointerPosition;
-    if(this.selectedContainer) {
-      this.isInside = this.isInsideContainerImage(event)
-      const className = this.selectedContainer.element.nativeElement.className
-      if(this.isInside) {
-        //this.selectedContainer.element.nativeElement.className + " cdk-drop-list-dragging"
-        if(className.search('cdk-drop-list-dragging') === -1) {
-          this.selectedContainer.element.nativeElement.className += ' cdk-drop-list-dragging'
+    if (this.selectedContainer) {
+      this.isInside = this.isInsideContainerImage(event);
+      const className = this.selectedContainer.element.nativeElement.className;
+      if (this.isInside) {
+        if (className.search("cdk-drop-list-dragging") === -1) {
+          this.selectedContainer.element.nativeElement.className +=
+            " cdk-drop-list-dragging";
         }
-        //this.renderer.setElementClass(this.selectedContainer, 'cdk-drop-list-dragging', true);
+      } else {
+        this.selectedContainer.element.nativeElement.className = className.replace(
+          "cdk-drop-list-dragging",
+          ""
+        );
       }
-      else {
-        //this.renderer.setElementClass(this.selectedContainer, 'cdk-drop-list-dragging', false);
-        this.selectedContainer.element.nativeElement.className = className.replace("cdk-drop-list-dragging", "")
-      }
-    }
-    else {
+    } else {
       this.isInside = false;
     }
   }
 
   entered(event: CdkDragEnter<any>) {
-    console.log('entered', event)
+    console.log("entered", event);
     this.selectedContainer = event.container;
-    const className = this.selectedContainer.element.nativeElement.className
-    if(className.search('cdk-drop-list-dragging') === -1) {
-      this.selectedContainer.element.nativeElement.className += ' cdk-drop-list-dragging'
-    }
-    //event.item.dropContainer.enter(event.item,0,0)
-    /* setTimeout(() => {
-      console.log(this.pos)
-      event.item.dropContainer.enter(event.item, this.pos.x, this.pos.y);
-     // event.container.exit(event.item);
-    }, 0);
-    setTimeout(() => {
-      event.container.exit(event.item);
-    }, 1000); */
-    //event.item.dropContainer = event.container
   }
 }
