@@ -4,24 +4,24 @@
 
   <div cdkDropList [cdkDropListConnectedTo]="getConections()" #templateList="cdkDropList" class="sketcher-templates"
     [cdkDropListData]="images" (cdkDropListDropped)="drop($event)">
-    <div cdkDrag cdkDragBoundary=".sketcher" [cdkDragData]="image"
+    <div cdkDrag (cdkDragMoved)="moved($event)" (cdkDragEnded)="ended($event)" cdkDragBoundary=".sketcher" [cdkDragData]="image"
       class="sketcher-image--drag" *ngFor="let image of images">
       <img [src]="image.img1.src" [alt]="image.img1.alt">
     </div>
   </div>
 
-  <div cdkDropList id="contentList" [cdkDropListData]="contents" (cdkDropListDropped)="drop($event)" 
+  <div cdkDropList id="contentList" #contentList [cdkDropListData]="contents" (cdkDropListDropped)="drop($event)" 
   class="sketcher-content">
     <div cdkDrag *ngFor="let content of contents; let i = index">
       <div  class="sketcher-content-item">
-        <div cdkDropList (cdkDropListDropped)="drop($event)" id={{content.img1.id}} [cdkDropListData]="contents"
+        <div cdkDropList (cdkDropListEntered)="entered($event)" (cdkDropListDropped)="drop($event)" id={{content.img1.id}} [cdkDropListData]="contents"
           class="sketcher-content-item__img">
           <img [src]="content.img1.src" [alt]="content.img1.alt">
         </div>
         <p>
           {{content.img1.id}} ----------------- real element ----------------- {{content.img2.id}}
         </p>
-        <div cdkDropList (cdkDropListDropped)="drop($event)" id={{content.img2.id}} [cdkDropListData]="contents"
+        <div cdkDropList (cdkDropListEntered)="entered($event)" (cdkDropListDropped)="drop($event)" id={{content.img2.id}} [cdkDropListData]="contents"
           class="sketcher-content-item__img">
           <img [src]="content.img2.src" [alt]="content.img2.alt">
         </div>

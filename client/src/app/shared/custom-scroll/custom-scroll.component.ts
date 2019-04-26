@@ -11,7 +11,7 @@ export class CustomScrollComponent implements OnInit {
   @Input()
   set templates(templates) {
     this._templates = templates;
-    console.log('new templates', this._templates)
+    //console.log('new templates', this._templates)
     this.updateShowingTemplates(true);
   }
 
@@ -63,7 +63,7 @@ export class CustomScrollComponent implements OnInit {
 
   @HostListener('mousewheel', ['$event'])
   scrollList(event) {
-    console.log(event)
+    //console.log(event)
     if (event.wheelDeltaY) {
       event = event.wheelDeltaY > 0 ? "top" : "bottom";
     }
@@ -105,7 +105,7 @@ export class CustomScrollComponent implements OnInit {
   }
 
   onScrollEnd(event) {
-    console.log('animation end')
+    //console.log('animation end')
     if (
       event.animationName === "shiftTop" ||
       event.animationName === "shiftCutTop" ||

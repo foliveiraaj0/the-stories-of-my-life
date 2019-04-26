@@ -8,7 +8,11 @@ import {
 import {
   CdkDragDrop,
   moveItemInArray,
-  copyArrayItem
+  copyArrayItem,
+  CdkDragEnd,
+  CdkDragMove,
+  CdkDragEnter,
+  CdkDragExit
 } from "@angular/cdk/drag-drop";
 import { OneImageData, TemplateSchemaData } from "./templates";
 import { CurrencyIndex } from "@angular/common/src/i18n/locale_data";
@@ -19,6 +23,8 @@ import { CurrencyIndex } from "@angular/common/src/i18n/locale_data";
   styleUrls: ["./sketcher.component.scss"]
 })
 export class SketcherComponent implements OnInit {
+  
+  @ViewChild("contentList") contentList: ElementRef;  
   
   templates: {
     img1: { id: string; src: string; alt: string };
@@ -35,14 +41,9 @@ export class SketcherComponent implements OnInit {
     img2: { id: string; src: string; alt: string };
   }[] = [];
 
-  private copyImages: {
-    img1: { id: string; src: string; alt: string };
-    img2: { id: string; src: string; alt: string };
-  }[] = [];
-
   private isDragging = false;
 
-  constructor() {
+  constructor(private componentRef: ElementRef, private renderer:Renderer) {
     this.fillTemplatesList();
     this.fillImagesList();
   }
@@ -91,23 +92,10 @@ export class SketcherComponent implements OnInit {
       "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
     const sufixURL = ".png";
     this.images = [];
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 1; i++) {
       const pokemon = Math.round(Math.random() * 600);
       const img = { src: `${baseURL}${pokemon}${sufixURL}`, alt: "" };
-      //this.images.push(img);
       this.images.push({
-        img1: {
-          id: `img1-${i}`,
-          src: img.src,
-          alt: img.alt
-        },
-        img2: {
-          id: `img2-${i}`,
-          src: img.src,
-          alt: img.alt
-        }
-      });
-      this.copyImages.push({
         img1: {
           id: `img1-${i}`,
           src: img.src,
@@ -192,20 +180,19 @@ export class SketcherComponent implements OnInit {
   dropImage(event: CdkDragDrop<any>) {
     console.log("dropImage", event);
     this.isDragging = false;
-    if (this.isInsideContainerImage(event)) {
+    if (this.isInside) {
       const idString = event.container.id;
       const indexOfPosition = idString.indexOf("-") + 1;
       const index = +idString.substring(indexOfPosition);
-      
+
       //using copyArrayItem in this scenary will add a new item to contentList instead of
       //just changing the contents of the item inside of it
       event.container.data[index] = this.swapData(
         event.container.data[index],
         event.previousContainer.data[event.previousIndex]
       );
-      console.log(event.previousContainer.data);
-      console.log(event.container);
-      
+      //console.log(event.previousContainer.data);
+      //console.log(event.container);
     }
   }
 
@@ -214,30 +201,78 @@ export class SketcherComponent implements OnInit {
     receiving.img1.alt = passing.img1.alt;
     receiving.img2.src = passing.img2.src;
     receiving.img2.alt = passing.img2.alt;
-    return receiving
+    return receiving;
   }
 
-  isInsideContainerImage(event: CdkDragDrop<any>): boolean {
-    return true;
+  //TODO evaluate if an object is being dropped inside a container
+  isInsideContainerImage(event: CdkDragDrop<any> | CdkDragMove): boolean {
+
+    const sketcherTop = this.componentRef.nativeElement.getBoundingClientRect().top;
+    const sketcherLeft = this.componentRef.nativeElement.getBoundingClientRect().left;
+
+    const containerElement = this.selectedContainer.element.nativeElement;
+    const left = containerElement.offsetLeft + sketcherLeft
+    const widht = containerElement.offsetWidth
+    const top = containerElement.offsetTop + sketcherTop;
+    const height = containerElement.offsetHeight;
+
+    const x = this.pos.x
+    const y = this.pos.y
+
+    const insideX = x >= left && x<= left+widht;
+    const insideY = y >= top  && y <= top+height
+
+    //console.log(x,left,widht, insideX)
+    //console.log(y,top,height, insideY)
+
+    return insideX && insideY;
   }
 
-  private getDisplacement(event): { x: number; y: number } {
-    const delta = { x: Infinity, y: Infinity };
+  ended(event: CdkDragEnd<any>) {
+    console.log("ended", event);
+    this.selectedContainer = undefined;
+    //console.log(this.getDisplacement(event));
+  }
 
-    const style = event.source.element.nativeElement.attributes.getNamedItem(
-      "style"
-    );
+  pos;
+  selectedContainer;
+  isInside = false;
 
-    if (style) {
-      let startValueIndex = style.value.indexOf("(") + 1;
-      let styleValue = style.textContent.substring(startValueIndex);
-      let endValueIndex = styleValue.indexOf("p");
-      delta.x = +styleValue.substring(0, endValueIndex);
-      startValueIndex = styleValue.indexOf(",") + 1;
-      styleValue = styleValue.substring(startValueIndex);
-      endValueIndex = styleValue.indexOf("p");
-      delta.y = +styleValue.substring(0, endValueIndex);
+  moved(event: CdkDragMove<any>) {
+    //console.log('moved', event)
+    this.pos = event.pointerPosition;
+    if(this.selectedContainer) {
+      this.isInside = this.isInsideContainerImage(event)
+      const className = this.selectedContainer.element.nativeElement.className
+      if(this.isInside) {
+        //this.selectedContainer.element.nativeElement.className + " cdk-drop-list-dragging"
+        if(className.search('cdk-drop-list-dragging') === -1) {
+          this.selectedContainer.element.nativeElement.className += ' cdk-drop-list-dragging'
+        }
+        //this.renderer.setElementClass(this.selectedContainer, 'cdk-drop-list-dragging', true);
+      }
+      else {
+        //this.renderer.setElementClass(this.selectedContainer, 'cdk-drop-list-dragging', false);
+        this.selectedContainer.element.nativeElement.className = className.replace("cdk-drop-list-dragging", "")
+      }
     }
-    return delta;
+    else {
+      this.isInside = false;
+    }
+  }
+
+  entered(event: CdkDragEnter<any>) {
+    console.log('entered', event)
+    this.selectedContainer = event.container;
+    //event.item.dropContainer.enter(event.item,0,0)
+    /* setTimeout(() => {
+      console.log(this.pos)
+      event.item.dropContainer.enter(event.item, this.pos.x, this.pos.y);
+     // event.container.exit(event.item);
+    }, 0);
+    setTimeout(() => {
+      event.container.exit(event.item);
+    }, 1000); */
+    //event.item.dropContainer = event.container
   }
 }

@@ -5,38 +5,6 @@
   position: relative;
   background-color: cadetblue;
   padding: 1rem;
-  // Left list
-
-  &-list {
-    background-color: yellow;
-    display: block;
-    width: 90px;
-    height: 270px;
-    position: relative;
-    float: left;
-    .cdk-drag-placeholder {
-      opacity: 0.5;
-      height: 90px;
-      overflow: hidden;
-    }
-    &-placeholder {
-      display: flex;
-      height: 96px;
-      width: 100%;
-      background-color: darkred;
-    }
-    &-preview {
-      display: flex;
-      height: 96px;
-      width: 40%;
-      background-color: darkred;
-    }
-    &-item {
-      width: 90px;
-      height: 90px;
-    }
-  }
-  
 
   // mid content
   &-content {
@@ -58,14 +26,12 @@
       display: flex;
       width: 100%;
       background-color: darkred;
+      padding-bottom: 57px;
       &__img {
         .cdk-drag-placeholder {
-          background-color: white;
-          transform: translateY(-96px);
           max-height: 0px;
-          background-color: darkred;
+          opacity: 0;
         }
-        
       }
       .cdk-drop-list-dragging {
         img {
@@ -75,9 +41,6 @@
         outline-offset: -10px;
       }
     }
-    /* .cdk-drag-placeholder {
-      background-color: deeppink;
-    } */
   }
 
   // right list
