@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Template } from './template.component';
+import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
+import { TemplateComponent } from '../template/template.component';
+import { TemplateService } from '../template/template.service';
 /* import {
   CdkDragDrop,
   CdkDragEnter
@@ -10,17 +11,16 @@ import { Template } from './template.component';
   templateUrl: "./template1.component.html",
   styleUrls: ["./template1.component.scss"]
 })
-export class Template1Component extends Template implements OnInit {
+export class Template1Component extends TemplateComponent implements OnInit {
 
-  constructor() {
-    super()
+  constructor(protected componentFactoryResolver: ComponentFactoryResolver,
+    protected templateService: TemplateService) {
+    super(componentFactoryResolver, templateService)
   }
   
   ngOnInit() {
     
   }
-
-  
 
 
  /*  getImgId() {

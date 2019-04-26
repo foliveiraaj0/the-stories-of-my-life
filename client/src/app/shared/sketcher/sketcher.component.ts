@@ -2,7 +2,9 @@ import {
   Component,
   OnInit,
   ViewChild,
-  ElementRef
+  ElementRef,
+  Type,
+  ComponentFactoryResolver
 } from "@angular/core";
 import {
   CdkDragDrop,
@@ -12,6 +14,8 @@ import {
   CdkDragMove,
   CdkDragEnter
 } from "@angular/cdk/drag-drop";
+import { TemplateComponent } from 'src/app/templates/template/template.component';
+import { Template1Component } from 'src/app/templates/template1/template1.component';
 
 @Component({
   selector: "app-sketcher",
@@ -69,7 +73,7 @@ export class SketcherComponent implements OnInit {
         }
       });
       //TODO remove this testing code
-      if (i < 3) {
+      if (i < 0) {
         this.contents.push({
           img1: {
             id: `img1-${i}`,
@@ -121,6 +125,7 @@ export class SketcherComponent implements OnInit {
   //DropList events
 
   private drop(event: CdkDragDrop<any>) {
+    console.log('drop', event)
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,

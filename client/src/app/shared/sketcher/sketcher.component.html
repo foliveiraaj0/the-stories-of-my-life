@@ -12,10 +12,9 @@
 
   <div cdkDropList id="contentList" #contentList [cdkDropListData]="contents" (cdkDropListDropped)="drop($event)"
     class="sketcher-content">
-    <div cdkDrag *ngFor="let content of contents; let i = index">
-      <ng-template viewReference [template]="content" (onEnter)="entered($event)" (onDrop)="onDrop($event)">
-      </ng-template>
-    </div>
+    <app-template cdkDrag (cdkDragEnded)="ended($event)" *ngFor="let content of contents; let i = index"
+      [template]="content" (onEnter)="entered($event)" (onDrop)="drop($event)">
+    </app-template>
 
   </div>
 
