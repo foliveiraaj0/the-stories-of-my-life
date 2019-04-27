@@ -14,8 +14,6 @@ import {
   CdkDragMove,
   CdkDragEnter
 } from "@angular/cdk/drag-drop";
-import { TemplateComponent } from 'src/app/templates/template/template.component';
-import { Template1Component } from 'src/app/templates/template1/template1.component';
 
 @Component({
   selector: "app-sketcher",
@@ -73,7 +71,7 @@ export class SketcherComponent implements OnInit {
         }
       });
       //TODO remove this testing code
-      if (i < 0) {
+      if (i < 3) {
         this.contents.push({
           img1: {
             id: `img1-${i}`,
@@ -186,7 +184,10 @@ export class SketcherComponent implements OnInit {
     if (this.isInside) {
       const idString = event.container.id;
       const indexOfPosition = idString.indexOf("-") + 1;
-      const index = +idString.substring(indexOfPosition);
+      const index = 0//+idString.substring(indexOfPosition);
+
+      console.log(event.previousContainer);
+      console.log(event.container,);
 
       //using copyArrayItem in this scenary will add a new item to contentList instead of
       //just changing the contents of the item inside of it
@@ -194,8 +195,7 @@ export class SketcherComponent implements OnInit {
         event.container.data[index],
         event.previousContainer.data[event.previousIndex]
       );
-      //console.log(event.previousContainer.data);
-      //console.log(event.container);
+      
     }
   }
 

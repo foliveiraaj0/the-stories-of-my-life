@@ -2,13 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { Template1Component } from './template1/template1.component';
-import { ViewReference } from './template-view-container.directive';
-import { TemplateComponent } from './template/template.component';
-import { TemplateService } from './template/template.service';
+import { TemplateDirective } from './template.directive';
+import { TemplateService } from './template.service';
 
 @NgModule({
   declarations: [
-    TemplateComponent, Template1Component, ViewReference
+    TemplateDirective, Template1Component
   ],
   imports: [
     CommonModule,
@@ -16,6 +15,6 @@ import { TemplateService } from './template/template.service';
   ],
   providers: [TemplateService],
   entryComponents: [ Template1Component ],
-  exports: [ TemplateComponent, Template1Component, ViewReference]
+  exports: [ TemplateDirective]
 })
 export class TemplatesModule { }

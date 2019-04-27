@@ -1,26 +1,59 @@
-import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
-import { TemplateComponent } from '../template/template.component';
-import { TemplateService } from '../template/template.service';
-/* import {
+import { Component, OnInit } from '@angular/core';
+import {
   CdkDragDrop,
   CdkDragEnter
-} from "@angular/cdk/drag-drop"; */
+} from "@angular/cdk/drag-drop";
+import { TemplateOutputInterface } from '../template-output.interface';
+import { TemplateInterface } from '../template-interface';
 
 @Component({
-  selector: "app-template1",
   templateUrl: "./template1.component.html",
   styleUrls: ["./template1.component.scss"]
 })
-export class Template1Component extends TemplateComponent implements OnInit {
+export class Template1Component /* extends TemplateComponent */ implements OnInit, TemplateInterface {
 
-  constructor(protected componentFactoryResolver: ComponentFactoryResolver,
-    protected templateService: TemplateService) {
-    super(componentFactoryResolver, templateService)
+  private template;
+  private outputInterface:TemplateOutputInterface
+
+  constructor(/* protected outputInterface:TemplateOutputInterface */) {
   }
   
   ngOnInit() {
     
   }
+
+  setOutputInterfce(outputInterface) {
+    this.outputInterface = outputInterface;
+  }
+
+  setTemplateData(template) {
+    console.log('setTemplateData', template)
+    this.template = template;
+  }
+
+  drop(event: CdkDragDrop<any>) {
+    console.log('drop', event)
+    if(this.outputInterface) {
+      this.outputInterface.emitDrop(event)
+    }
+  }
+
+  entered(event: CdkDragEnter<any>) {
+    console.log('enter', event)
+    if(this.outputInterface) {
+      this.outputInterface.emitEnter(event)
+    }
+  }
+
+  /* private drop(event: CdkDragDrop<any>) {
+    console.log('drop', event)
+    this.outputInterface.emitDrop(event)
+  }
+
+  private entered(event: CdkDragEnter<any>) {
+    console.log('enter', event)
+    this.outputInterface.emitEnter(event)
+  } */
 
 
  /*  getImgId() {

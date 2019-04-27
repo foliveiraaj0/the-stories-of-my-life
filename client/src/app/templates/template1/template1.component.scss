@@ -21,8 +21,8 @@
     &__img {
       height: 90px;
       .cdk-drag-placeholder {
-        max-height: 0px;
-        opacity: 0;
+        max-height: 0px !important;
+        opacity: 0 !important;
       }
     }
     .cdk-drop-list-dragging {
@@ -31,6 +31,7 @@
       }
       outline: 5px dotted aqua;
       outline-offset: -10px;
+      
     }
   }
 }

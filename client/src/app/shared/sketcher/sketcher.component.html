@@ -5,17 +5,17 @@
   <div cdkDropList [cdkDropListConnectedTo]="getConections()" #templateList="cdkDropList" class="sketcher-templates"
     [cdkDropListData]="images" (cdkDropListDropped)="drop($event)">
     <div cdkDrag (cdkDragMoved)="moved($event)" (cdkDragEnded)="ended($event)" cdkDragBoundary=".sketcher"
-      [cdkDragData]="image" class="sketcher-image--drag" *ngFor="let image of images">
+      [cdkDragData]="image"  *ngFor="let image of images">
       <img [src]="image.img1.src" [alt]="image.img1.alt">
     </div>
   </div>
 
   <div cdkDropList id="contentList" #contentList [cdkDropListData]="contents" (cdkDropListDropped)="drop($event)"
     class="sketcher-content">
-    <app-template cdkDrag (cdkDragEnded)="ended($event)" *ngFor="let content of contents; let i = index"
-      [template]="content" (onEnter)="entered($event)" (onDrop)="drop($event)">
-    </app-template>
-
+    <div cdkDrag (cdkDragEnded)="ended($event)" *ngFor="let content of contents; let i = index">
+      <ng-template templateDirective [template]="content" (onEnter)="entered($event)" (onDrop)="drop($event)">
+      </ng-template>
+    </div>
   </div>
 
 

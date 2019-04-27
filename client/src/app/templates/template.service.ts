@@ -1,4 +1,4 @@
-import { Template1Component } from '../template1/template1.component';
+import { Template1Component } from './template1/template1.component';
 import { Injectable } from '@angular/core';
 
 @Injectable()
