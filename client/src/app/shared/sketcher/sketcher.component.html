@@ -8,6 +8,7 @@
       [cdkDragData]="image"  *ngFor="let image of images">
       <img [src]="image.img1.src" [alt]="image.img1.alt">
     </div>
+   
   </div>
 
   <div cdkDropList id="contentList" #contentList [cdkDropListData]="contents" (cdkDropListDropped)="drop($event)"
@@ -17,6 +18,4 @@
       </ng-template>
     </div>
   </div>
-
-
 </div>

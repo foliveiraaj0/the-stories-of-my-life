@@ -5,16 +5,11 @@
   height: 270px;
   position: relative;
   float: left;
-  .cdk-drag-placeholder {
-    opacity: 0.5;
-    height: 90px;
-    overflow: hidden;
-  }
   &-placeholder {
     display: flex;
     width: 100%;
     opacity: .5;
-    min-height: 160px;
+    height: 90px;
   }
   &-preview {
     display: flex;
