@@ -1,17 +1,23 @@
-import { Component, OnInit, Input, Renderer, ViewChild, ElementRef, HostListener } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Renderer,
+  ViewChild,
+  ElementRef,
+  HostListener
+} from "@angular/core";
 
 @Component({
-  selector: 'app-custom-scroll',
-  templateUrl: './custom-scroll.component.html',
-  styleUrls: ['./custom-scroll.component.scss']
+  selector: "app-custom-scroll",
+  templateUrl: "./custom-scroll.component.html",
+  styleUrls: ["./custom-scroll.component.scss"]
 })
 export class CustomScrollComponent implements OnInit {
-
-  private _templates = []
+  private _templates = [];
   @Input()
   set templates(templates) {
     this._templates = templates;
-    //console.log('new templates', this._templates)
     this.updateShowingTemplates(true);
   }
 
@@ -28,10 +34,9 @@ export class CustomScrollComponent implements OnInit {
 
   private showingTemplates = [];
 
-  constructor(private renderer: Renderer) { }
+  constructor(private renderer: Renderer) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   calculateConstants() {
     const opaqueEdges = 2;
@@ -61,9 +66,8 @@ export class CustomScrollComponent implements OnInit {
     return false;
   }
 
-  @HostListener('mousewheel', ['$event'])
+  @HostListener("mousewheel", ["$event"])
   scrollList(event) {
-    //console.log(event)
     if (event.wheelDeltaY) {
       event = event.wheelDeltaY < 0 ? "top" : "bottom";
     }
@@ -128,6 +132,7 @@ export class CustomScrollComponent implements OnInit {
   }
 
   updateShowingTemplates(fromStart?: boolean) {
+    this.showingTemplates = [];
     const scrollPostion = fromStart ? 0 : (this.scrollValue / this.step) * -1;
     this.showingTemplates[0] = this._templates[scrollPostion];
     this.showingTemplates[1] = this._templates[scrollPostion];
@@ -144,5 +149,4 @@ export class CustomScrollComponent implements OnInit {
     }
     return "";
   }
-
 }

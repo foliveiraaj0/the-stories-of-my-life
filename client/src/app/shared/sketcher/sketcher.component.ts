@@ -3,8 +3,6 @@ import {
   OnInit,
   ViewChild,
   ElementRef,
-  Type,
-  ComponentFactoryResolver
 } from "@angular/core";
 import {
   CdkDragDrop,
@@ -14,7 +12,7 @@ import {
   CdkDragMove,
   CdkDragEnter
 } from "@angular/cdk/drag-drop";
-import { TemplateContainerInterface } from 'src/app/templates/template-container.interface';
+import { TemplateContainerInterface } from "src/app/templates/template-container.interface";
 
 @Component({
   selector: "app-sketcher",
@@ -22,7 +20,6 @@ import { TemplateContainerInterface } from 'src/app/templates/template-container
   styleUrls: ["./sketcher.component.scss"]
 })
 export class SketcherComponent implements OnInit, TemplateContainerInterface {
-  
   @ViewChild("contentList") contentList: ElementRef;
 
   private templates: {
@@ -72,21 +69,6 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
           alt: ""
         }
       });
-      //TODO remove this testing code
-      if (i < 3) {
-        this.contents.push({
-          img1: {
-            id: `img1-${i}`,
-            src: `${baseURL}${pokemon}${sufixURL}`,
-            alt: ""
-          },
-          img2: {
-            id: `img2-${i}`,
-            src: `${baseURL}${pokemon}${sufixURL}`,
-            alt: ""
-          }
-        });
-      }
     }
   }
 
@@ -125,7 +107,7 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
   //DropList events
 
   private drop(event: CdkDragDrop<any>) {
-    console.log('drop', event)
+    console.log("drop", event);
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -140,7 +122,7 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
     } else {
       if (event.previousContainer.connectedTo[0] === "contentList") {
         this.dropTemplate(event);
-      } 
+      }
     }
   }
 
@@ -204,7 +186,7 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
   }
 
   droppedInsideThisCompnent(): boolean {
-    return this.isInside
+    return this.isInside;
   }
 
   //Drag events
