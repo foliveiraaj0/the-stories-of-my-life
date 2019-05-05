@@ -1,20 +1,43 @@
 <div class="sketcher">
 
-  <app-custom-scroll [templates]="templates"></app-custom-scroll>
+  <div cdkDropList [cdkDropListConnectedTo]="['contentList']" #templateList [cdkDropListData]="templates"
+    class="sketcher-list">
+    <div cdkDrag cdkDragData={{template}} cdkDragBoundary=".sketcher" *ngFor="let template of templates; let i = index"
+      class="image">
+      <div *ngIf="template">
+        <div class="sketcher-list-placeholder" *cdkDragPlaceholder>
+          <img src="{{template.img1.src}}" alt="{{template.img1.alt}}">
+        </div>
+
+        <div class="sketcher-list-preview" *cdkDragPreview>
+          <img src="{{template.img1.src}}" alt="{{template.img1.alt}}">
+          <p>
+            preview element
+          </p>
+          <img src="{{template.img2.src}}" alt="{{template.img2.alt}}">
+        </div>
+
+        <div class="sketcher-list-item">
+          <img src="{{template.img1.src}}" alt="{{template.img1.alt}}">
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div cdkDropList [cdkDropListConnectedTo]="getConections()" #templateList="cdkDropList" class="sketcher-templates"
     [cdkDropListData]="images" (cdkDropListDropped)="drop($event)">
     <div cdkDrag (cdkDragMoved)="moved($event)" (cdkDragEnded)="ended($event)" cdkDragBoundary=".sketcher"
-      [cdkDragData]="image"  *ngFor="let image of images">
+      [cdkDragData]="image" *ngFor="let image of images">
       <img [src]="image.img1.src" [alt]="image.img1.alt">
     </div>
-   
+
   </div>
 
   <div cdkDropList id="contentList" #contentList [cdkDropListData]="contents" (cdkDropListDropped)="drop($event)"
     class="sketcher-content">
     <div cdkDrag (cdkDragEnded)="ended($event)" *ngFor="let content of contents; let i = index">
-      <ng-template templateDirective [templateContainer]="this" [template]="content" (onEnter)="entered($event)" (onDrop)="drop($event)">
+      <ng-template templateDirective [templateContainer]="this" [template]="content" (onEnter)="entered($event)"
+        (onDrop)="drop($event)">
       </ng-template>
     </div>
   </div>

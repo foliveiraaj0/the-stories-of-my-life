@@ -6,6 +6,40 @@
   background-color: cadetblue;
   padding: 1rem;
 
+  &-list {
+    background-color: yellow;
+    display: block;
+    width: 90px;
+    height: 270px;
+    position: relative;
+    float: left;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+        width: 0;
+      }
+    &-placeholder {
+      display: flex;
+      width: 100%;
+      opacity: .5;
+      height: 90px;
+    }
+    &-preview {
+      display: flex;
+      height: 90px;
+      width: 40%;
+      background-color: darkred;
+    }
+    &-item {
+      width: 90px;
+      height: 90px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  
+
   // mid content
   &-content {
     height: 100%;
