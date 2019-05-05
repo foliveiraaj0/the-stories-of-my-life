@@ -5,17 +5,19 @@ import {
 } from "@angular/cdk/drag-drop";
 import { TemplateOutputInterface } from '../template-output.interface';
 import { TemplateInterface } from '../template-interface';
+import { TemplateContainerInterface } from '../template-container.interface';
 
 @Component({
   templateUrl: "./template1.component.html",
   styleUrls: ["./template1.component.scss"]
 })
-export class Template1Component /* extends TemplateComponent */ implements OnInit, TemplateInterface {
-
+export class Template1Component implements OnInit, TemplateInterface {
+  
   private template;
   private outputInterface:TemplateOutputInterface
+  private containerInterface: TemplateContainerInterface;
 
-  constructor(/* protected outputInterface:TemplateOutputInterface */) {
+  constructor() {
   }
   
   ngOnInit() {
@@ -31,8 +33,13 @@ export class Template1Component /* extends TemplateComponent */ implements OnIni
     this.template = template;
   }
 
+  setTemplateContainer(containerInterface: TemplateContainerInterface) {
+    this.containerInterface = containerInterface;
+  }
+
   drop(event: CdkDragDrop<any>) {
     console.log('drop', event)
+    this.dropImage(event)
     if(this.outputInterface) {
       this.outputInterface.emitDrop(event)
     }
@@ -45,32 +52,26 @@ export class Template1Component /* extends TemplateComponent */ implements OnIni
     }
   }
 
-  /* private drop(event: CdkDragDrop<any>) {
-    console.log('drop', event)
-    this.outputInterface.emitDrop(event)
+  dropImage(event: CdkDragDrop<any>) {
+    console.log("dropImage", event);
+    if (this.containerInterface && this.containerInterface.droppedInsideThisCompnent()) {
+      //using copyArrayItem in this scenary will add a new item to contentList instead of
+      //just changing the contents of the item inside of it
+      this.setComponentData(event.previousContainer.data[event.previousIndex], event.container.id);
+    }
   }
 
-  private entered(event: CdkDragEnter<any>) {
-    console.log('enter', event)
-    this.outputInterface.emitEnter(event)
-  } */
+  setComponentData(data, componentId) {
 
-
- /*  getImgId() {
-    return this.template && this.template.img1 ? this.template.img1.id : ""
+    if(componentId.startsWith('img1')) {
+      this.template.img1.src = data.img1.src;
+      this.template.img1.alt = data.img1.alt;
+    }
+    else {
+      this.template.img2.src = data.img2.src;
+      this.template.img2.alt = data.img2.alt;
+    }
+    
   }
-
-  getImgId2() {
-    return this.template && this.template.img2 ? this.template.img2.id : ""
-  }
-
-  getImgSrc() {
-    return this.template && this.template.img1 ? this.template.img1.src : ""
-  }
-
-  getImgAlt() {
-    return this.template && this.template.img1 ? this.template.img1.alt : ""
-  } */
-
   
 }

@@ -12,12 +12,13 @@ import { CdkDragDrop, CdkDragEnter } from "@angular/cdk/drag-drop";
 import { TemplateOutputInterface } from './template-output.interface';
 import { TemplateInterface } from './template-interface';
 import { TemplateService } from './template.service';
+import { TemplateContainerInterface } from './template-container.interface';
 @Directive({
   selector: "[templateDirective]"
 })
 export class TemplateDirective implements OnInit, TemplateOutputInterface{
   
-
+  @Input() templateContainer: TemplateContainerInterface;
   @Input() template;
 
   @Output() onDrop: EventEmitter<CdkDragDrop<any>> = new EventEmitter();
@@ -48,13 +49,8 @@ export class TemplateDirective implements OnInit, TemplateOutputInterface{
 
     (<TemplateInterface>componentRef.instance).setTemplateData(this.template);
     (<TemplateInterface>componentRef.instance).setOutputInterfce(this);
-
+    (<TemplateInterface>componentRef.instance).setTemplateContainer(this.templateContainer);
   }
-
- /*  setTemplateData(template) {
-    //console.log('setTemplateData', template)
-    this.template = template;
-  } */
 
   emitDrop(event: CdkDragDrop<any>) {
     console.log('drop', event)

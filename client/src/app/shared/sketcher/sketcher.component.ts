@@ -14,13 +14,15 @@ import {
   CdkDragMove,
   CdkDragEnter
 } from "@angular/cdk/drag-drop";
+import { TemplateContainerInterface } from 'src/app/templates/template-container.interface';
 
 @Component({
   selector: "app-sketcher",
   templateUrl: "./sketcher.component.html",
   styleUrls: ["./sketcher.component.scss"]
 })
-export class SketcherComponent implements OnInit {
+export class SketcherComponent implements OnInit, TemplateContainerInterface {
+  
   @ViewChild("contentList") contentList: ElementRef;
 
   private templates: {
@@ -138,9 +140,7 @@ export class SketcherComponent implements OnInit {
     } else {
       if (event.previousContainer.connectedTo[0] === "contentList") {
         this.dropTemplate(event);
-      } else {
-        this.dropImage(event);
-      }
+      } 
     }
   }
 
@@ -179,35 +179,7 @@ export class SketcherComponent implements OnInit {
     }
   }
 
-  private dropImage(event: CdkDragDrop<any>) {
-    console.log("dropImage", event);
-    if (this.isInside) {
-      const idString = event.container.id;
-      const indexOfPosition = idString.indexOf("-") + 1;
-      const index = 0//+idString.substring(indexOfPosition);
-
-      console.log(event.previousContainer);
-      console.log(event.container,);
-
-      //using copyArrayItem in this scenary will add a new item to contentList instead of
-      //just changing the contents of the item inside of it
-      event.container.data[index] = this.swapData(
-        event.container.data[index],
-        event.previousContainer.data[event.previousIndex]
-      );
-      
-    }
-  }
-
-  private swapData(receiving, passing) {
-    receiving.img1.src = passing.img1.src;
-    receiving.img1.alt = passing.img1.alt;
-    receiving.img2.src = passing.img2.src;
-    receiving.img2.alt = passing.img2.alt;
-    return receiving;
-  }
-
-  private isInsideContainerImage(event: CdkDragDrop<any> | CdkDragMove): boolean {
+  private isInsideContainerImage(): boolean {
     const sketcherTop = this.componentRef.nativeElement.getBoundingClientRect()
       .top;
     const sketcherLeft = this.componentRef.nativeElement.getBoundingClientRect()
@@ -223,12 +195,16 @@ export class SketcherComponent implements OnInit {
     const y = this.currentDragPosition.y;
 
     const insideX = x >= left && x <= left + widht;
-    const insideY = y >= top && y <= top + height;
+    const insideY = y >= top && y <= top + height;this.selectedContainer
 
     //console.log(x,left,widht, insideX)
     //console.log(y,top,height, insideY)
 
     return insideX && insideY;
+  }
+
+  droppedInsideThisCompnent(): boolean {
+    return this.isInside
   }
 
   //Drag events
@@ -243,7 +219,7 @@ export class SketcherComponent implements OnInit {
     //console.log('moved', event)
     this.currentDragPosition = event.pointerPosition;
     if (this.selectedContainer) {
-      this.isInside = this.isInsideContainerImage(event);
+      this.isInside = this.isInsideContainerImage();
       const className = this.selectedContainer.element.nativeElement.className;
       if (this.isInside) {
         if (className.search("cdk-drop-list-dragging") === -1) {

@@ -14,7 +14,7 @@
   <div cdkDropList id="contentList" #contentList [cdkDropListData]="contents" (cdkDropListDropped)="drop($event)"
     class="sketcher-content">
     <div cdkDrag (cdkDragEnded)="ended($event)" *ngFor="let content of contents; let i = index">
-      <ng-template templateDirective [template]="content" (onEnter)="entered($event)" (onDrop)="drop($event)">
+      <ng-template templateDirective [templateContainer]="this" [template]="content" (onEnter)="entered($event)" (onDrop)="drop($event)">
       </ng-template>
     </div>
   </div>
