@@ -21,6 +21,7 @@ export class TemplateDirective implements OnInit, TemplateOutputInterface{
   @Input() templateContainer: TemplateContainerInterface;
   @Input() template;
 
+  @Output() onConnections: EventEmitter<any> = new EventEmitter();
   @Output() onDrop: EventEmitter<CdkDragDrop<any>> = new EventEmitter();
   @Output() onEnter: EventEmitter<CdkDragEnter<any>> = new EventEmitter();
 
@@ -50,6 +51,11 @@ export class TemplateDirective implements OnInit, TemplateOutputInterface{
     (<TemplateInterface>componentRef.instance).setTemplateData(this.template);
     (<TemplateInterface>componentRef.instance).setOutputInterfce(this);
     (<TemplateInterface>componentRef.instance).setTemplateContainer(this.templateContainer);
+  }
+
+  emitConnections(event: any) {
+    console.log('connections', event)
+    this.onConnections.emit(event)
   }
 
   emitDrop(event: CdkDragDrop<any>) {

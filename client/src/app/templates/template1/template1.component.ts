@@ -21,7 +21,7 @@ export class Template1Component implements OnInit, TemplateInterface {
   }
   
   ngOnInit() {
-    
+
   }
 
   setOutputInterfce(outputInterface) {
@@ -31,6 +31,10 @@ export class Template1Component implements OnInit, TemplateInterface {
   setTemplateData(template) {
     console.log('setTemplateData', template)
     this.template = template;
+    if(this.outputInterface) {
+
+      //this.outputInterface.emitConnections()
+    }
   }
 
   setTemplateContainer(containerInterface: TemplateContainerInterface) {
@@ -65,7 +69,7 @@ export class Template1Component implements OnInit, TemplateInterface {
     console.log('setComponentData');
     console.log(data);
     console.log(JSON.stringify(this.template));
-    if(componentId.startsWith('img')) {
+    if(componentId.startsWith('img1')) {
       this.template.img1.src = data.src;
       this.template.img1.alt = data.alt;
     }

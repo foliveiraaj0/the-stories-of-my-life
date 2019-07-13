@@ -5,5 +5,4 @@ export interface TemplateInterface {
   setTemplateData(templateDate);
   setOutputInterfce(outputInterface: TemplateOutputInterface)
   setTemplateContainer(containerInterface: TemplateContainerInterface)
-  setComponentData(data, componentId)
 }

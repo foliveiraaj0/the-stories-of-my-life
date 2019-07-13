@@ -11,18 +11,15 @@ import { TemplateContainerInterface } from "src/app/templates/template-container
 export class SketcherComponent implements OnInit, TemplateContainerInterface {
   @ViewChild("contentList") contentList: ElementRef;
 
-  private templates: {
+  private templates = [];
+
+  private contents = [];
+
+  private places: {
     id: string; src: string; alt: string;
   }[] = [];
 
-  private contents: {
-    img1: { id: string; src: string; alt: string };
-    img2: { id: string; src: string; alt: string };
-  }[] = [];
-
-  private images: {
-    id: string; src: string; alt: string;
-  }[] = [];
+  private connections: string[];
 
   private currentDragPosition;
   private selectedContainer;
@@ -38,25 +35,6 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
   ngOnInit() {}
 
   private fillTemplatesList() {
-    /* const baseURL =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
-    const sufixURL = ".png";
-    this.templates = [];
-    for (let i = 0; i < 15; i++) {
-      const pokemon = Math.round(Math.random() * 600);
-      this.templates.push({
-        img1: {
-          id: `img1-${i}`,
-          src: `${baseURL}${pokemon}${sufixURL}`,
-          alt: ""
-        },
-        img2: {
-          id: `img2-${i}`,
-          src: `${baseURL}${pokemon}${sufixURL}`,
-          alt: ""
-        }
-      });
-    } */
     const configTemplates: string[] = this.urlHelper.getTemplateNames();
     for (let i = 0; i < configTemplates.length; i++) {
       this.templates.push({
@@ -68,31 +46,31 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
   }
 
   private fillImagesList() {
-    const baseURL =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
-    const sufixURL = ".png";
-    this.images = [];
-    for (let i = 0; i < 10; i++) {
-      const pokemon = Math.round(Math.random() * 600);
-      const img = { src: `${baseURL}${pokemon}${sufixURL}`, alt: "" };
-      this.images.push({
+    const configPlaces: string[] = this.urlHelper.getPlaceNames();
+    for (let i = 0; i < configPlaces.length; i++) {
+      this.places.push({
         id: `img-${i}`,
-        src: img.src,
-        alt: img.alt  
-      });
+        src: `http://localhost:9001/assets/places/${configPlaces[i]}`,
+        alt: `${configPlaces[i]}`
+      })
     }
   }
 
+  onConnections(event:any) {
+    if(event.connections)
+    this.connections.push(event.connections);
+  }
+
   private getConections() {
-    const conections = [];
+    /* const conections = [];
     for (let i = 0; i < this.contents.length; i++) {
-      conections.push(`img-${i}`);
-      //conections.push(`img-${i}`);
+      conections.push(`img1-${i}`);
+      conections.push(`img2-${i}`);
     }
     if(conections.length > 0) {
       console.log(JSON.stringify(conections))
-    }
-    return conections;
+    } */
+    return this.connections;
   }
 
   //DropList events
@@ -116,10 +94,19 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
     }
   }
 
+  /* Add dropped data to contents */
   private dropTemplate(event: CdkDragDrop<any>) {
     console.log("dropTemplate", event);
     const newData = [];
+    //get the template type
+    //get the template data 
+    //generate the connectiong id
+
+    // in this case the template data doens't exists because the important here
+    // is the type of the template so the directive can load the correct html
+
     event.previousContainer.data.forEach(data => {
+      //push(new Template1Data())
       newData.push({
         img1: {
           id: data.id,

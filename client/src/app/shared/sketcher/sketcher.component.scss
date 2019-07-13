@@ -6,7 +6,7 @@
   background-color: cadetblue;
   padding: 1rem;
 
-  &-list {
+  &-templates {
     background-color: yellow;
     display: block;
     width: 90px;
@@ -22,12 +22,20 @@
       width: 100%;
       opacity: .5;
       height: 90px;
+      img {
+        width: 90px;
+        height: 100%;
+      }
     }
     &-preview {
       display: flex;
       height: 90px;
       width: 40%;
       background-color: darkred;
+      img {
+        width: 90px;
+        height: 90px;
+      }
     }
     &-item {
       width: 90px;
@@ -59,7 +67,7 @@
   }
 
   // right list
-  &-templates {
+  &-places {
     width: 90px;
     height: 500px;
     background-color: green;
@@ -69,6 +77,20 @@
     overflow-x: hidden;
     &::-webkit-scrollbar {
       width: 0;
+    }
+    &-item {
+      width: 90px;
+      height: 90px;
+      img {
+        width: 90px;
+        height: 90px;
+      }
+      .cdk-drag .cdk-drag-placeholder {
+        img {
+          width: 90px;
+          height: 90px;
+        }
+      }
     }
   }
 }
