@@ -4,27 +4,24 @@
     class="sketcher-list">
     <div cdkDrag cdkDragData={{template}} cdkDragBoundary=".sketcher" *ngFor="let template of templates; let i = index"
       class="image">
-      <!-- <ng-template templateDirective [templateContainer]="this" [template]="content" (onEnter)="entered($event)"
-        (onDrop)="drop($event)">
-      </ng-template> -->
-      <!-- <div *ngIf="template">
+      <div *ngIf="template">
         <div class="sketcher-list-placeholder" *cdkDragPlaceholder>
-          <img src="{{template.img1.src}}" alt="{{template.img1.alt}}">
+          <img src="{{template.src}}" alt="{{template.alt}}">
         </div>
 
         <div class="sketcher-list-preview" *cdkDragPreview>
-          <img src="{{template.img1.src}}" alt="{{template.img1.alt}}">
+          <img src="{{template.src}}" alt="{{template.alt}}">
           <p>
             preview element
           </p>
-          <img src="{{template.img2.src}}" alt="{{template.img2.alt}}">
+          <img src="{{template.src}}" alt="{{template.alt}}">
         </div>
 
         <div class="sketcher-list-item">
-          <img src="{{template.img1.src}}" alt="{{template.img1.alt}}">
+          <img src="{{template.src}}" alt="{{template.alt}}">
         </div>
       </div>
-    </div> -->
+    </div>
   </div>
 
   <div cdkDropList [cdkDropListConnectedTo]="getConections()" #templateList="cdkDropList" class="sketcher-templates"

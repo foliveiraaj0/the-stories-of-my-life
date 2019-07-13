@@ -19,6 +19,11 @@
     min-height: 160px;
     &__img {
       height: 90px;
+      width: 90px;
+      img {
+        height: 100%;
+        width: 100%;
+      }
     }
     .cdk-drop-list-dragging {
       img {

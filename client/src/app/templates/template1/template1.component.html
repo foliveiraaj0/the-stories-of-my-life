@@ -5,7 +5,7 @@
     <img [src]="template.img1.src" [alt]="template.img1.alt">
   </div>
   <p>
-    {{template.img1.id}} ----------------- real element ----------------- {{template.img2.id}}
+    {{template.img1.id}} ------- real element ------- {{template.img2.id}}
   </p>
   <div cdkDropList (cdkDropListEntered)="entered($event)" (cdkDropListDropped)="drop($event, template.img2.id)" id={{template.img2.id}}
     [cdkDropListData]="[template]" class="content-item__img">

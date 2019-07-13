@@ -5,7 +5,7 @@
   "get_user_path": "user",
   "sign_in_path": "signin",
   "logout_path": "logout",
-  "templates": ["one-left-image-template.png", "one-rigt-image-template.png",
+  "templates": ["one-left-image-template.png", "one-right-image-template.png",
     "two-images-left-template.png", "two-images-right-template.png",
     "two-images-template.png", "three-images-template.png", "four-images-template.png",
     "six-images-template.png", "eight-images-template.png"],

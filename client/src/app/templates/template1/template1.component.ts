@@ -62,14 +62,16 @@ export class Template1Component implements OnInit, TemplateInterface {
   }
 
   setComponentData(data, componentId) {
-
-    if(componentId.startsWith('img1')) {
-      this.template.img1.src = data.img1.src;
-      this.template.img1.alt = data.img1.alt;
+    console.log('setComponentData');
+    console.log(data);
+    console.log(JSON.stringify(this.template));
+    if(componentId.startsWith('img')) {
+      this.template.img1.src = data.src;
+      this.template.img1.alt = data.alt;
     }
     else {
-      this.template.img2.src = data.img2.src;
-      this.template.img2.alt = data.img2.alt;
+      this.template.img2.src = data.src;
+      this.template.img2.alt = data.alt;
     }
     
   }
