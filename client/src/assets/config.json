@@ -4,5 +4,21 @@
   "post_login_path": "login",
   "get_user_path": "user",
   "sign_in_path": "signin",
-  "logout_path": "logout"
+  "logout_path": "logout",
+  "templates": ["one-left-image-template.png", "one-rigt-image-template.png",
+    "two-images-left-template.png", "two-images-right-template.png",
+    "two-images-template.png", "three-images-template.png", "four-images-template.png",
+    "six-images-template.png", "eight-images-template.png"],
+  "places": ["1036380114.jpeg", "23731561.jpg",
+  "3eecb443-c6fe-4636-b0d0-7e74b8882f6a.f10.jpg", "400_F_195159020.jpg",
+  "500_F_198277288_.jpg", "architecturaldigest_.jpg",
+  "beautiful-new-york.jpg", "CsRBofcXYAAEjQC.jpg",
+  "Esslingen.jpg", "Florence-Italy.jpg",
+  "Golden-Temple-in-India_Inside-view-_1193.jpg", "Kathmandu-Nepal.jpg",
+  "krumlov.jpg", "Most-Beautiful-Cities-in-Europe-Copenhagen-1.jpg",
+  "P1210257.jpg", "Peshtera-Pelistera2.jpg",
+  "piazzale-michelangelo-florence-italy.jpg", "Porvoo.jpg",
+  "prague-beautiful-old-town--.jpg", "Sardinia-lead-2-xlarge.jpg",
+  "stock-photo-water-cityscape-blue-town-lake-fountain-switzerland-center-panorama.jpg", "unesco-world-heritage-center.jpg",
+  "wengen.jpg"]   
 }

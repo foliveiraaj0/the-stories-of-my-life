@@ -13,6 +13,7 @@ import {
   CdkDragEnter
 } from "@angular/cdk/drag-drop";
 import { TemplateContainerInterface } from "src/app/templates/template-container.interface";
+import { UrlHelper } from 'src/app/services/url-helper';
 
 @Component({
   selector: "app-sketcher",
@@ -22,10 +23,7 @@ import { TemplateContainerInterface } from "src/app/templates/template-container
 export class SketcherComponent implements OnInit, TemplateContainerInterface {
   @ViewChild("contentList") contentList: ElementRef;
 
-  private templates: {
-    img1: { id: string; src: string; alt: string };
-    img2: { id: string; src: string; alt: string };
-  }[] = [];
+  private templates: string [] = [];
 
   private contents: {
     img1: { id: string; src: string; alt: string };
@@ -33,15 +31,14 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
   }[] = [];
 
   private images: {
-    img1: { id: string; src: string; alt: string };
-    img2: { id: string; src: string; alt: string };
+    id: string; src: string; alt: string;
   }[] = [];
 
   private currentDragPosition;
   private selectedContainer;
   private isInside = false;
 
-  constructor(private componentRef: ElementRef) {
+  constructor(private componentRef: ElementRef, private urlHelper: UrlHelper) {
     this.fillTemplatesList();
     this.fillImagesList();
   }
@@ -51,7 +48,7 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
   ngOnInit() {}
 
   private fillTemplatesList() {
-    const baseURL =
+    /* const baseURL =
       "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
     const sufixURL = ".png";
     this.templates = [];
@@ -69,7 +66,11 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
           alt: ""
         }
       });
-    }
+    } */
+    const configTemplates: string[] = this.urlHelper.getTemplateNames();
+    configTemplates.forEach(template => {
+      this.templates.push(`/${template}`);
+    });
   }
 
   private fillImagesList() {
@@ -81,16 +82,9 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
       const pokemon = Math.round(Math.random() * 600);
       const img = { src: `${baseURL}${pokemon}${sufixURL}`, alt: "" };
       this.images.push({
-        img1: {
-          id: `img1-${i}`,
-          src: img.src,
-          alt: img.alt
-        },
-        img2: {
-          id: `img2-${i}`,
-          src: img.src,
-          alt: img.alt
-        }
+        id: `img-${i}`,
+        src: img.src,
+        alt: img.alt  
       });
     }
   }

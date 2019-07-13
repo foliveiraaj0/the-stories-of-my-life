@@ -59,4 +59,23 @@ export class UrlHelper {
     return logoutUrl;
   }
 
+  private getArrayFromConfig(arrayName): string[] {
+    let array = [];
+    const configString = localStorage.getItem("config");
+    if(configString) {
+      const config:Config = JSON.parse(configString);
+      array = config[arrayName];
+    }
+    return array;
+  }
+
+  getTemplateNames(): string[] {
+    return this.getArrayFromConfig('templates');
+  }
+
+  getPlaceNames() {
+    return this.getArrayFromConfig('places');
+  }
+  
+
 }

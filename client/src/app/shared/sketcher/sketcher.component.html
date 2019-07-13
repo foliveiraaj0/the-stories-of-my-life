@@ -4,7 +4,10 @@
     class="sketcher-list">
     <div cdkDrag cdkDragData={{template}} cdkDragBoundary=".sketcher" *ngFor="let template of templates; let i = index"
       class="image">
-      <div *ngIf="template">
+      <!-- <ng-template templateDirective [templateContainer]="this" [template]="content" (onEnter)="entered($event)"
+        (onDrop)="drop($event)">
+      </ng-template> -->
+      <!-- <div *ngIf="template">
         <div class="sketcher-list-placeholder" *cdkDragPlaceholder>
           <img src="{{template.img1.src}}" alt="{{template.img1.alt}}">
         </div>
@@ -21,14 +24,14 @@
           <img src="{{template.img1.src}}" alt="{{template.img1.alt}}">
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 
   <div cdkDropList [cdkDropListConnectedTo]="getConections()" #templateList="cdkDropList" class="sketcher-templates"
     [cdkDropListData]="images" (cdkDropListDropped)="drop($event)">
     <div cdkDrag (cdkDragMoved)="moved($event)" (cdkDragEnded)="ended($event)" cdkDragBoundary=".sketcher"
       [cdkDragData]="image" *ngFor="let image of images">
-      <img [src]="image.img1.src" [alt]="image.img1.alt">
+      <img [src]="image.src" [alt]="image.alt">
     </div>
 
   </div>
