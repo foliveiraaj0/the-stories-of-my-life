@@ -1,9 +1,34 @@
-import { TemplateOLITRComponent } from './template-OLITR.ts/template-OLITR.component';
-import { Injectable } from '@angular/core';
+import { TemplateOLITRComponent } from './components/template-OLITR/template-OLITR.component';
+import { Injectable, Type, Component } from '@angular/core';
+import { TemplateName } from './template-model';
 
 @Injectable()
 export class TemplateService {
-  getType(){
-    return TemplateOLITRComponent;
+  getType(templateName: TemplateName): Type<any>{
+    let templateComponentType: Type<any> = null;
+    switch(templateName) {
+      case TemplateName.OLITR: templateComponentType = TemplateOLITRComponent;
+      break;
+      case TemplateName.ORITL: templateComponentType = TemplateOLITRComponent;
+      break;
+      case TemplateName.TILTR: templateComponentType = TemplateOLITRComponent;
+      break;
+      case TemplateName.TIRTL: templateComponentType = TemplateOLITRComponent;
+      break;
+      case TemplateName.TWOI: templateComponentType = TemplateOLITRComponent;
+      break;
+      case TemplateName.THREEI: templateComponentType = TemplateOLITRComponent;
+      break;
+      case TemplateName.FOURI: templateComponentType = TemplateOLITRComponent;
+      break;
+      case TemplateName.SIXI: templateComponentType = TemplateOLITRComponent;
+      break;
+      case TemplateName.EIGHTI: templateComponentType = TemplateOLITRComponent;
+      break;
+      default:
+        templateComponentType = null; //TODO create an empty template  
+
+    }
+    return templateComponentType;
   }
 }

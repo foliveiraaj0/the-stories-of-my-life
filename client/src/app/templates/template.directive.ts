@@ -9,10 +9,10 @@ import {
   OnInit
 } from "@angular/core";
 import { CdkDragDrop, CdkDragEnter } from "@angular/cdk/drag-drop";
-import { TemplateOutputInterface } from './template-output.interface';
-import { TemplateInterface } from './template-interface';
+import { TemplateOutputInterface } from './interfaces/template-output.interface';
+import { TemplateInterface } from './interfaces/template-interface';
 import { TemplateService } from './template.service';
-import { TemplateContainerInterface } from './template-container.interface';
+import { TemplateContainerInterface } from './interfaces/template-container.interface';
 import { TemplateData } from './template-model';
 import { TemplatePresentation } from '../models/template-presentation';
 @Directive({
@@ -39,17 +39,15 @@ export class TemplateDirective implements OnInit, TemplateOutputInterface{
   }
 
   loadComponent() {
-    //console.log("loading directive", this._template);
+    console.log("loading directive", this.template);
 
-    const template1Component:Type<any> = this.templateService.getType()
+    const template1Component:Type<any> = this.templateService.getType(this.template.name)
 
     let componentFactory = this.componentFactoryResolver.resolveComponentFactory(template1Component);
 
     this.viewContainerRef.clear();
 
     let componentRef = this.viewContainerRef.createComponent(componentFactory);
-
-    //console.log('load component', this.template);
 
     let templateData:TemplateData = new TemplateData(`${this.template.name}-${this.index}`
       ,this.template.name, []);    

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { TemplateOLITRComponent } from './template-OLITR.ts/template-OLITR.component';
+import { TemplateOLITRComponent } from './components/template-OLITR/template-OLITR.component';
 import { TemplateDirective } from './template.directive';
 import { TemplateService } from './template.service';
 

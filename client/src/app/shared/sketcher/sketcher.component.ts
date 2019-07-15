@@ -2,7 +2,7 @@ import { CdkDragDrop, CdkDragEnd, CdkDragEnter, CdkDragMove, copyArrayItem, move
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { TemplatePresentation } from 'src/app/models/template-presentation';
 import { UrlHelper } from "src/app/services/url-helper";
-import { TemplateContainerInterface } from "src/app/templates/template-container.interface";
+import { TemplateContainerInterface } from "src/app/templates/interfaces/template-container.interface";
 
 @Component({
   selector: "app-sketcher",

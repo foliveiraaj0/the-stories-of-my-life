@@ -1,9 +1,9 @@
 import { CdkDragDrop, CdkDragEnter } from "@angular/cdk/drag-drop";
 import { Component, OnInit } from '@angular/core';
-import { TemplateContainerInterface } from '../template-container.interface';
-import { TemplateInterface } from '../template-interface';
-import { TemplateData, TemplateImage as TemplateImageItem, TemplateText as TemplateTextItem } from '../template-model';
-import { TemplateOutputInterface } from '../template-output.interface';
+import { TemplateContainerInterface } from '../../interfaces/template-container.interface';
+import { TemplateInterface } from '../../interfaces/template-interface';
+import { TemplateData, TemplateImage as TemplateImageItem, TemplateText as TemplateTextItem } from '../../template-model';
+import { TemplateOutputInterface } from '../../interfaces/template-output.interface';
 
 @Component({
   templateUrl: "./template-OLITR.component.html",
@@ -63,16 +63,6 @@ export class TemplateOLITRComponent implements OnInit, TemplateInterface {
       }
     })
     return leftImageSrc;
-  }
-
-  getImageId(): string {
-    let leftImageId = "";
-    this.templateData.templateItems.forEach(element => {
-      if(element instanceof TemplateImageItem) {
-        leftImageId = (<TemplateImageItem>element).id;
-      }
-    })
-    return leftImageId;
   }
 
   setTemplateContainer(containerInterface: TemplateContainerInterface) {
