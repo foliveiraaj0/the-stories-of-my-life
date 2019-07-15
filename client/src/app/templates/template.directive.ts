@@ -49,7 +49,7 @@ export class TemplateDirective implements OnInit, TemplateOutputInterface{
 
     let componentRef = this.viewContainerRef.createComponent(componentFactory);
 
-    console.log('load component', this.template);
+    //console.log('load component', this.template);
 
     let templateData:TemplateData = new TemplateData(`${this.template.name}-${this.index}`
       ,this.template.name, []);    

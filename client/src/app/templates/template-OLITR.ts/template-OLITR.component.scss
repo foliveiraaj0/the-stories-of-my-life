@@ -17,13 +17,26 @@
     width: 100%;
     background-color: darkred;
     min-height: 90px;
+    padding: 10px;
     &__img {
       height: 90px;
-      width: 90px;
+      width: 20%;
       img {
         height: 100%;
         width: 100%;
       }
+      margin-right: 9%;
+    }
+    &__txtarea {
+      width: 60%;
+      height: 90px;
+      background-color: white;
+      color: black;
+      border: 0;
+      padding: 0;
+      padding-left: 5px;
+      padding-right: 5px;
+      word-break: break-all;
     }
     .cdk-drop-list-dragging {
       img {

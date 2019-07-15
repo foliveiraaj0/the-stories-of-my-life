@@ -109,25 +109,15 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
   }
 
   /* Add dropped data to contents */
-  private dropTemplate(event: CdkDragDrop<any>) {
+  private dropTemplate(event: CdkDragDrop<TemplatePresentation[]>) {
     console.log("dropTemplate", event);
     const newData = [];
-    //console.log(JSON.stringify(event.previousContainer.data))
     event.previousContainer.data.forEach(data => {
-      //console.log('data - '+JSON.stringify(data))
       newData.push({
-          src: data.src,
-          alt: data.alt
+        id: `${this.ID_PLACE_ITEM_PREFIX}${this.contents.length}`,
+        name: `${data.name}`
       });
     });
-
-    //console.log(JSON.stringify(newData))
-
-    newData[event.previousIndex].id = this.ID_PLACE_ITEM_PREFIX + event.currentIndex;
-    
-    //console.log(JSON.stringify(newData))
-    
-    event.previousContainer.data[event.previousIndex].id = this.ID_PLACE_ITEM_PREFIX + event.currentIndex;
 
     copyArrayItem(
       newData,
@@ -135,12 +125,6 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
       event.previousIndex,
       event.currentIndex
     );
-
-    for (let i = 0; i < event.container.data.length; i++) {
-      if (i > event.currentIndex) {
-        event.container.data[i].id = this.ID_PLACE_ITEM_PREFIX + i;
-      }
-    }
   }
 
   private isInsideContainerImage(): boolean {
