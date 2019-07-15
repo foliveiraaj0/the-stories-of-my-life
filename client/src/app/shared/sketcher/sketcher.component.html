@@ -10,23 +10,23 @@
         </div> -->
 
         <div class="sketcher-templates-placeholder" *cdkDragPlaceholder>
-            <img src="{{template.src}}" alt="{{template.alt}}">
+            <img src="{{template.imageSrc}}" alt="{{template.alt}}">
             <p>
               placeholder element
             </p>
-            <img src="{{template.src}}" alt="{{template.alt}}">
+            <img src="{{template.imgSrc}}" alt="{{template.alt}}">
           </div>
 
         <div class="sketcher-templates-preview" *cdkDragPreview>
-          <img src="{{template.src}}" alt="{{template.alt}}">
+          <img src="{{template.imageSrc}}" alt="{{template.alt}}">
           <p>
             preview element
           </p>
-          <img src="{{template.src}}" alt="{{template.alt}}">
+          <img src="{{template.imageSrc}}" alt="{{template.alt}}">
         </div>
 
         <div class="sketcher-templates-item">
-          <img src="{{template.src}}" alt="{{template.alt}}">
+          <img src="{{template.imageSrc}}" alt="{{template.alt}}">
         </div>
       </div>
     </div>
@@ -47,7 +47,7 @@
   <div cdkDropList id="contentList" #contentList [cdkDropListData]="contents" (cdkDropListDropped)="drop($event)"
     class="sketcher-content">
     <div cdkDrag (cdkDragEnded)="ended($event)" *ngFor="let content of contents; let i = index">
-      <ng-template templateDirective [templateContainer]="this" [template]="content"
+      <ng-template templateDirective [templateContainer]="this" [template]="content" [index]="getIndex()"
        (onConnections)="onConnections($event)" (onEnter)="entered($event)"
         (onDrop)="drop($event)">
       </ng-template>

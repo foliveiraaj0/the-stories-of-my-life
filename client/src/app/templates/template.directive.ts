@@ -13,13 +13,16 @@ import { TemplateOutputInterface } from './template-output.interface';
 import { TemplateInterface } from './template-interface';
 import { TemplateService } from './template.service';
 import { TemplateContainerInterface } from './template-container.interface';
+import { TemplateData } from './template-model';
+import { TemplatePresentation } from '../models/template-presentation';
 @Directive({
   selector: "[templateDirective]"
 })
 export class TemplateDirective implements OnInit, TemplateOutputInterface{
   
   @Input() templateContainer: TemplateContainerInterface;
-  @Input() template;
+  @Input() template: TemplatePresentation;
+  @Input() index;
 
   @Output() onConnections: EventEmitter<any> = new EventEmitter();
   @Output() onDrop: EventEmitter<CdkDragDrop<any>> = new EventEmitter();
@@ -48,9 +51,11 @@ export class TemplateDirective implements OnInit, TemplateOutputInterface{
 
     console.log('load component', this.template);
 
-    (<TemplateInterface>componentRef.instance).setTemplateData(this.template);
+    let templateData:TemplateData = new TemplateData(this.index, this.template.name, []);    
+
     (<TemplateInterface>componentRef.instance).setOutputInterfce(this);
     (<TemplateInterface>componentRef.instance).setTemplateContainer(this.templateContainer);
+    (<TemplateInterface>componentRef.instance).setTemplateData(templateData);
   }
 
   emitConnections(event: any) {
@@ -67,4 +72,5 @@ export class TemplateDirective implements OnInit, TemplateOutputInterface{
     console.log('enter', event)
     this.onEnter.emit(event)
   }
+  
 }

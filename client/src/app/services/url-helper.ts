@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { Config } from '../models/config-model';
+import { TemplatePresentation } from '../models/template-presentation';
 
 @Injectable()
 export class UrlHelper {
@@ -59,22 +60,28 @@ export class UrlHelper {
     return logoutUrl;
   }
 
-  private getArrayFromConfig(arrayName): string[] {
-    let array = [];
+  /* private getArrayFromConfig(arrayName): string {
+    
+  } */
+
+  getTemplates(): TemplatePresentation[] {
+    let array:TemplatePresentation[] = [];
     const configString = localStorage.getItem("config");
     if(configString) {
       const config:Config = JSON.parse(configString);
-      array = config[arrayName];
+      array = config['templates'];
     }
     return array;
   }
 
-  getTemplateNames(): string[] {
-    return this.getArrayFromConfig('templates');
-  }
-
-  getPlaceNames() {
-    return this.getArrayFromConfig('places');
+  getPlaceNames(): string[] {
+    let array:string[] = [];
+    const configString = localStorage.getItem("config");
+    if(configString) {
+      const config:Config = JSON.parse(configString);
+      array = config['places'];
+    }
+    return array;
   }
   
 

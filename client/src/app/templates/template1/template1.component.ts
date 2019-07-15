@@ -1,11 +1,9 @@
+import { CdkDragDrop, CdkDragEnter } from "@angular/cdk/drag-drop";
 import { Component, OnInit } from '@angular/core';
-import {
-  CdkDragDrop,
-  CdkDragEnter
-} from "@angular/cdk/drag-drop";
-import { TemplateOutputInterface } from '../template-output.interface';
-import { TemplateInterface } from '../template-interface';
 import { TemplateContainerInterface } from '../template-container.interface';
+import { TemplateInterface } from '../template-interface';
+import { TemplateData, TemplateImage as TemplateImageItem, TemplateText as TemplateTextItem } from '../template-model';
+import { TemplateOutputInterface } from '../template-output.interface';
 
 @Component({
   templateUrl: "./template1.component.html",
@@ -13,7 +11,7 @@ import { TemplateContainerInterface } from '../template-container.interface';
 })
 export class Template1Component implements OnInit, TemplateInterface {
   
-  private template;
+  private templateData: TemplateData;
   private outputInterface:TemplateOutputInterface
   private containerInterface: TemplateContainerInterface;
 
@@ -24,17 +22,57 @@ export class Template1Component implements OnInit, TemplateInterface {
 
   }
 
+  private createTemplateItems() {
+    const templateId:string = `${this.templateData.id}`;
+    const oneLeftImage: TemplateImageItem = new TemplateImageItem(`img-left-${templateId}`,
+      "", "");
+    this.templateData.templateItems.push(oneLeftImage);
+    const textRight: TemplateTextItem = new TemplateTextItem(`text-right-${templateId}`, "");
+    this.templateData.templateItems.push(textRight);
+  }
+
+  private getConnections(): string[] {
+    let connections: string[] = []
+    this.templateData.templateItems.forEach(item => {
+      if(item instanceof TemplateImageItem) {
+        connections.push(item.id);
+      }
+    });
+    return connections;
+  }
+
   setOutputInterfce(outputInterface) {
     this.outputInterface = outputInterface;
   }
 
-  setTemplateData(template) {
+  setTemplateData(template:TemplateData) {
     console.log('setTemplateData', template)
-    this.template = template;
+    this.templateData = template;
+    this.createTemplateItems();
     if(this.outputInterface) {
-
-      //this.outputInterface.emitConnections()
+      const connections:string[] = this.getConnections();
+      this.outputInterface.emitConnections(connections);
     }
+  }
+
+  getLeftImage(): string {
+    let leftImageSrc = "";
+    this.templateData.templateItems.forEach(element => {
+      if(element instanceof TemplateImageItem) {
+        leftImageSrc = (<TemplateImageItem>element).src;
+      }
+    })
+    return leftImageSrc;
+  }
+
+  getImageId(): string {
+    let leftImageId = "";
+    this.templateData.templateItems.forEach(element => {
+      if(element instanceof TemplateImageItem) {
+        leftImageId = (<TemplateImageItem>element).id;
+      }
+    })
+    return leftImageId;
   }
 
   setTemplateContainer(containerInterface: TemplateContainerInterface) {
@@ -68,15 +106,23 @@ export class Template1Component implements OnInit, TemplateInterface {
   setComponentData(data, componentId) {
     console.log('setComponentData');
     console.log(data);
-    console.log(JSON.stringify(this.template));
-    if(componentId.startsWith('img1')) {
-      this.template.img1.src = data.src;
-      this.template.img1.alt = data.alt;
+    console.log(JSON.stringify(this.templateData));
+    this.templateData.templateItems.forEach(element => {
+      if(element.id === componentId) {
+        if(element instanceof TemplateImageItem) {
+          (<TemplateImageItem>element).src = data.src;
+          (<TemplateImageItem>element).alt = data.alt;  
+        }
+      }
+    });
+    /* if(componentId.startsWith('img1')) {
+      this.templateData.img1.src = data.src;
+      this.templateData.img1.alt = data.alt;
     }
     else {
-      this.template.img2.src = data.src;
-      this.template.img2.alt = data.alt;
-    }
+      this.templateData.img2.src = data.src;
+      this.templateData.img2.alt = data.alt;
+    } */
     
   }
   

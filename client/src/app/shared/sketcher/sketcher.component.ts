@@ -1,6 +1,7 @@
 import { CdkDragDrop, CdkDragEnd, CdkDragEnter, CdkDragMove, copyArrayItem, moveItemInArray } from "@angular/cdk/drag-drop";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { UrlHelper } from 'src/app/services/url-helper';
+import { TemplatePresentation } from 'src/app/models/template-presentation';
+import { UrlHelper } from "src/app/services/url-helper";
 import { TemplateContainerInterface } from "src/app/templates/template-container.interface";
 
 @Component({
@@ -11,15 +12,17 @@ import { TemplateContainerInterface } from "src/app/templates/template-container
 export class SketcherComponent implements OnInit, TemplateContainerInterface {
   @ViewChild("contentList") contentList: ElementRef;
 
-  private templates = [];
+  private templates:TemplatePresentation[] = [];
 
-  private contents = [];
+  private contents:string[] = [];
 
   private places: {
-    id: string; src: string; alt: string;
+    id: string;
+    src: string;
+    alt: string;
   }[] = [];
 
-  private connections: string[];
+  private connections: string[] = [];
 
   private currentDragPosition;
   private selectedContainer;
@@ -35,14 +38,22 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
   ngOnInit() {}
 
   private fillTemplatesList() {
-    const configTemplates: string[] = this.urlHelper.getTemplateNames();
+    const configTemplates: TemplatePresentation[] = this.urlHelper.getTemplates();
     for (let i = 0; i < configTemplates.length; i++) {
-      this.templates.push({
-        id: `img-${i}`,
-        src: `http://localhost:9001/assets/templates/${configTemplates[i]}`,
-        alt: `${configTemplates[i]}`
-      })
+      const template:TemplatePresentation = configTemplates[i];
+      template.imageSrc = this.getImageUrl(template.imageSrc);
+      this.templates.push(template)
+        //new TemplateData(TemplateName.template1))
+        /* {
+          src: `http://localhost:9001/assets/templates/${configTemplates[i]}`,
+          alt: `${configTemplates[i]}`
+        } */
+      
     }
+  }
+
+  private getImageUrl(imageSrc: string) {
+    return `http://localhost:9001/assets/templates/${imageSrc}`;
   }
 
   private fillImagesList() {
@@ -52,13 +63,21 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
         id: `img-${i}`,
         src: `http://localhost:9001/assets/places/${configPlaces[i]}`,
         alt: `${configPlaces[i]}`
-      })
+      });
     }
   }
 
-  onConnections(event:any) {
-    if(event.connections)
-    this.connections.push(event.connections);
+  onConnections(event: any) {
+    if (event) {
+      event.forEach(connection => {
+        this.connections.push(connection);
+      });
+    }
+    console.log('connections - '+JSON.stringify(this.connections))
+  }
+
+  getIndex() {
+    return this.contents.length;
   }
 
   private getConections() {
@@ -99,7 +118,7 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
     console.log("dropTemplate", event);
     const newData = [];
     //get the template type
-    //get the template data 
+    //get the template data
     //generate the connectiong id
 
     // in this case the template data doens't exists because the important here
@@ -152,7 +171,8 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
     const y = this.currentDragPosition.y;
 
     const insideX = x >= left && x <= left + widht;
-    const insideY = y >= top && y <= top + height;this.selectedContainer
+    const insideY = y >= top && y <= top + height;
+    this.selectedContainer;
 
     //console.log(x,left,widht, insideX)
     //console.log(y,top,height, insideY)
