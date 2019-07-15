@@ -22,13 +22,13 @@ export class TemplateItem {
   constructor(public id: string) {}
 }
 
-export class TemplateImage extends TemplateItem {
+export class TemplateImageItem extends TemplateItem {
   constructor(public id: string, public src: string, public alt: string) {
     super(id);
   }
 }
 
-export class TemplateText extends TemplateItem {
+export class TemplateTextItem extends TemplateItem {
   constructor(public id: string, public text: string) {
     super(id);
   }
