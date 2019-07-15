@@ -6,10 +6,10 @@ import { TemplateData, TemplateImage as TemplateImageItem, TemplateText as Templ
 import { TemplateOutputInterface } from '../template-output.interface';
 
 @Component({
-  templateUrl: "./template1.component.html",
-  styleUrls: ["./template1.component.scss"]
+  templateUrl: "./template-OLITR.component.html",
+  styleUrls: ["./template-OLITR.component.scss"]
 })
-export class Template1Component implements OnInit, TemplateInterface {
+export class TemplateOLITRComponent implements OnInit, TemplateInterface {
   
   private templateData: TemplateData;
   private outputInterface:TemplateOutputInterface

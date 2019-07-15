@@ -1,5 +1,5 @@
 export class TemplateData {
-  constructor(public id:number, public name:TemplateName, public templateItems: TemplateItem[]){}
+  constructor(public id:string, public name:TemplateName, public templateItems: TemplateItem[]){}
 }
 
 export enum TemplateName {

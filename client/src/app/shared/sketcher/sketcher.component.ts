@@ -28,6 +28,8 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
   private selectedContainer;
   private isInside = false;
 
+  private readonly ID_PLACE_ITEM_PREFIX: string = "place-item-";
+
   constructor(private componentRef: ElementRef, private urlHelper: UrlHelper) {
     this.fillTemplatesList();
     this.fillImagesList();
@@ -40,7 +42,8 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
   private fillTemplatesList() {
     const configTemplates: TemplatePresentation[] = this.urlHelper.getTemplates();
     for (let i = 0; i < configTemplates.length; i++) {
-      const template:TemplatePresentation = configTemplates[i];
+      let template:TemplatePresentation = configTemplates[i];
+      //console.log(JSON.stringify(template))
       template.imageSrc = this.getImageUrl(template.imageSrc);
       this.templates.push(template)
         //new TemplateData(TemplateName.template1))
@@ -60,7 +63,7 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
     const configPlaces: string[] = this.urlHelper.getPlaceNames();
     for (let i = 0; i < configPlaces.length; i++) {
       this.places.push({
-        id: `img-${i}`,
+        id: `places-list-item-${i}`,
         src: `http://localhost:9001/assets/places/${configPlaces[i]}`,
         alt: `${configPlaces[i]}`
       });
@@ -81,14 +84,6 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
   }
 
   private getConections() {
-    /* const conections = [];
-    for (let i = 0; i < this.contents.length; i++) {
-      conections.push(`img1-${i}`);
-      conections.push(`img2-${i}`);
-    }
-    if(conections.length > 0) {
-      console.log(JSON.stringify(conections))
-    } */
     return this.connections;
   }
 
@@ -104,7 +99,7 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
       );
 
       for (let i = 0; i < event.container.data.length; i++) {
-        event.container.data[i].id = "img-" + i;
+        event.container.data[i].id = this.ID_PLACE_ITEM_PREFIX + i;
       }
     } else {
       if (event.previousContainer.connectedTo[0] === "contentList") {
@@ -117,30 +112,23 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
   private dropTemplate(event: CdkDragDrop<any>) {
     console.log("dropTemplate", event);
     const newData = [];
-    //get the template type
-    //get the template data
-    //generate the connectiong id
-
-    // in this case the template data doens't exists because the important here
-    // is the type of the template so the directive can load the correct html
-
+    //console.log(JSON.stringify(event.previousContainer.data))
     event.previousContainer.data.forEach(data => {
-      //push(new Template1Data())
+      //console.log('data - '+JSON.stringify(data))
       newData.push({
-        img1: {
-          id: data.id,
           src: data.src,
           alt: data.alt
-        },
-        img2: {
-          id: data.id,
-          src: data.src,
-          alt: data.alt
-        }
       });
     });
 
-    newData[event.previousIndex].id = "img-" + event.currentIndex;
+    //console.log(JSON.stringify(newData))
+
+    newData[event.previousIndex].id = this.ID_PLACE_ITEM_PREFIX + event.currentIndex;
+    
+    //console.log(JSON.stringify(newData))
+    
+    event.previousContainer.data[event.previousIndex].id = this.ID_PLACE_ITEM_PREFIX + event.currentIndex;
+
     copyArrayItem(
       newData,
       event.container.data,
@@ -150,7 +138,7 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
 
     for (let i = 0; i < event.container.data.length; i++) {
       if (i > event.currentIndex) {
-        event.container.data[i].id = "img-" + i;
+        event.container.data[i].id = this.ID_PLACE_ITEM_PREFIX + i;
       }
     }
   }
