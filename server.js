@@ -1,5 +1,5 @@
 const express = require("express");
-//var cors = require("cors");
+var cors = require("cors");
 var bodyParser = require("body-parser");
 
 const app = express();
@@ -11,21 +11,26 @@ app.use(bodyParser.json());
 
 /* app.use(
   cors({
-    origin: "http://localhost:9001",
+    origin: "*",
     allowedHeaders: ["Content-Type", "Authorization"]
     // ,credentials: true
   })
 ); */
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", 'http://localhost:9001');
+/* app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", '*');
   res.header("Access-Control-Allow-Credentials", true);
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json, Authorization');
   next();
-});
+}); */
 
-app.use(userRouter);
+var corsOptions = {
+  origin: 'http://localhost:9001',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+app.use(userRouter, cors(corsOptions));
 
 app.listen(port);
 
