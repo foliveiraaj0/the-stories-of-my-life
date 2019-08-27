@@ -1,5 +1,5 @@
 {
-  "server_base_url": "http://localhost:9000",
+  "server_base_url": "https://the-stories-of-my-life.herokuapp.com",
   "server_version": "v1",
   "post_login_path": "login",
   "get_user_path": "user",
