@@ -1,5 +1,5 @@
 const express = require("express");
-var cors = require("cors");
+
 var bodyParser = require("body-parser");
 
 const app = express();
@@ -25,12 +25,9 @@ app.use(bodyParser.json());
   next();
 }); */
 
-var corsOptions = {
-  origin: 'http://localhost:9001',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
 
-app.use(userRouter, cors(corsOptions));
+
+app.use(userRouter);
 
 app.listen(port);
 

@@ -2,6 +2,12 @@ const express = require("express");
 const router = new express.Router();
 const User = require("../db/schema/user");
 const authRouter = require("../auth/auth_router");
+var cors = require("cors");
+
+var corsOptions = {
+  origin: 'http://localhost:9001',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
 
 router.post("/v1/signin", async (req, res) => {
   const { name, password, email, birthDate } = req.body;
@@ -32,7 +38,7 @@ router.post("/v1/signin", async (req, res) => {
   }
 });
 
-router.post("/v1/login", async (req, res) => {
+router.post("/v1/login", cors(corsOptions), async (req, res) => {
   let { email, password } = req.body;
 
   try {
