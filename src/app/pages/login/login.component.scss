@@ -22,21 +22,21 @@
       transform: translate(-50%, -50%);
       &--text {
         display: block;
-        font-size: 10rem;
+        font-size: 16rem;
         color: white;
-        letter-spacing: 15px;
+        letter-spacing: 1.5rem;
       }
       animation: anim-title 3s;
     }
   }
 
   .login {
-    height: 27.5rem;
+    height: 44rem;
     width: 100%;
-    padding: 1rem;
+    padding: 1.6rem;
     text-align: center;
     margin: auto;
-    margin-top: 20px;
+    margin-top: 2rem;
     display: flex;
     .login-animations {
       width: 65%;
@@ -50,14 +50,14 @@
       &-card {
         width: 80%;
         height: 95%;
-        padding-top: 1.5rem;
+        padding-top: 2.4rem;
         background-color: #ffffffef
       }
       &-title {
-        font-size: 1.5rem;
+        font-size: 2.4em;
         font-weight: bold;
         display: block;
-        margin-top: 5px;
+        margin-top: .8rem
       }
       &-username,
       &-password {
@@ -66,9 +66,10 @@
         justify-content: center;
         align-items: center;
         vertical-align: middle;
-        margin-top: 2rem;
+        margin-top: 2.5rem;
+        font-size: 1.6rem;
         .label {
-          margin-right: 0.5rem;
+          margin-right: 0.8rem;
           width: 4rem;
           text-align: left;
         }
@@ -76,19 +77,22 @@
       &-button {
         display: block;
         margin: 0.5rem auto;
-        margin-top: 10px;
-        font-size: 1.2rem;
-        width: 8rem;
-        height: 2rem;
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+        font-size: 1.92rem;
+        width: 12.8rem;
+        height: 3.2rem;
         background-color: white;
       }
       &-error-label {
         color: red;
-        font-size: .8rem;
+        font-size: 1.2rem;
+        margin-top: .5rem;
       }
       &-link {
         display: block;
-        margin-top: 15px;
+        margin-top: 1.2rem;
+        font-size: 1.5rem;
         &:link,
         &:visited {
           color: blue;
