@@ -1,45 +1,105 @@
 .page {
-  background: white;
+  background-image: url("../../../assets/table2.jpeg");
+  background-position: center;
+  background-size: cover;
   text-align: center;
-  padding-top: 12rem;
+  .header {
+    height: 80vh;
+    background-image: linear-gradient(
+        to right bottom,
+        rgba(0, 0, 0, 0.708),
+        rgba(255, 255, 255, 0.708)
+      ),
+      url("../../../assets/travel-book-ideas-amusement-parks.jpg");
+    background-size: cover;
+    background-position: center;
+    clip-path: polygon(0 0, 100% 5vh, 100% 100%, 0% 75vh);
+
+    &-title {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      &--text {
+        display: block;
+        font-size: 10rem;
+        color: white;
+        letter-spacing: 15px;
+      }
+      animation: anim-title 3s;
+    }
+  }
+
   .login {
-    height: 8.5rem;
-    width: 20rem;
+    height: 27.5rem;
+    width: 100%;
     padding: 1rem;
     text-align: center;
     margin: auto;
-    border: 6px solid #bbb;
-    &-username,
-    &-password {
-      height: 2.5rem;
-      display: flex;
+    margin-top: 20px;
+    display: flex;
+    .login-animations {
+      width: 65%;
+      height: 100%;
+    }
+    .login-form {
+      width: 35%;
+      height: 100%;
+      display: block;
       justify-content: center;
-      align-items: center;
-      vertical-align: middle;
-      .label {
-        margin-right: 0.5rem;
-        width: 4rem;
-        text-align: left;
+      &-card {
+        width: 80%;
+        height: 95%;
+        padding-top: 1.5rem;
+        background-color: #ffffffef
+      }
+      &-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        display: block;
+        margin-top: 5px;
+      }
+      &-username,
+      &-password {
+        height: 2.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        vertical-align: middle;
+        margin-top: 15px;
+        .label {
+          margin-right: 0.5rem;
+          width: 4rem;
+          text-align: left;
+        }
+      }
+      &-button {
+        display: block;
+        margin: 0.5rem auto;
+        margin-top: 15px;
+        font-size: 1.2rem;
+        width: 8rem;
+        height: 2rem;
+        background-color: white;
+      }
+      &-error-label {
+        color: red;
+        margin-top: 1rem;
+      }
+      &-link {
+        display: block;
+        margin-top: 15px;
       }
     }
-    &-button {
-      display: block;
-      margin: .5rem auto;
-    }
-    &-error-label {
-      color: red;
-      margin-top: 1rem;
-    }
   }
-  .signin {
-    display: block;
-    margin-top: .8rem;
-    margin-bottom: .8rem;
+}
+
+@keyframes anim-title {
+  0% {
+    opacity: 0;
   }
 
-  .about {
-    display: block;
+  100% {
+    opacity: 1;
   }
-
-
 }

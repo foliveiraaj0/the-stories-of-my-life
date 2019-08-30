@@ -1,3 +1,13 @@
+@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+* {
+  margin: 0;
+  padding: 0;
+  // change the box model so that the box border and paddings are not longer added
+  // to the total height or width of the element
+  box-sizing: border-box;  
+}
+
 body {
   height: 100%;
   width: 100%;
@@ -6,7 +16,6 @@ body {
   &::-webkit-scrollbar {
     width: 0 !important;
   }
-  padding: 1rem;
 }
 
 a:hover {

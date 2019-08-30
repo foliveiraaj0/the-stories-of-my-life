@@ -5,15 +5,17 @@ import { LoginController } from "./login-controller";
 import { MatFormFieldModule, MatInputModule } from '@angular/material';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginRoutingModule } from './login-routing.module';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   declarations: [LoginComponent],
   imports: [
     CommonModule,
     LoginRoutingModule,
+    MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [LoginController]
 })
