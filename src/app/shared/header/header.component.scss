@@ -1,0 +1,23 @@
+.header {
+  display: flex;
+  height: 13rem;
+  width: 100%;
+  background-image: linear-gradient(
+    to right bottom,
+    rgba(0, 0, 0, 0.708),
+    rgba(255, 255, 255, 0.708)
+  ),url("../../../assets/test-back2.jpg");
+  background-size: 100% 50rem;
+  background-position: top;
+  background-repeat: no-repeat;
+  &-logo {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  &-menu {
+    position: absolute;
+  }
+}
