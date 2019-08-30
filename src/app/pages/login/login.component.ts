@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
 import { LoginController } from "./login-controller";
 import { LoginResponse } from "./login-response";
 
@@ -10,23 +10,28 @@ import { LoginResponse } from "./login-response";
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  loginFormControl:FormControl;
   @ViewChild("errorLabel") errorLabel: ElementRef;
 
   constructor(
     private fb: FormBuilder,
     private loginController: LoginController
+
   ) {
     this.loginForm = this.fb.group({
       username: ["", [Validators.required, Validators.minLength(3)]
       ],
       password: ["", [Validators.required, Validators.minLength(4)]]
     });
+
+    this.loginFormControl = new FormControl('', [
+      
+    ]);
   }
 
   ngOnInit() {}
 
   onSubmit() {
-    this.errorLabel.nativeElement.innerHTML = "";
     const username = this.loginForm.controls["username"].value;
     const password = this.loginForm.controls["password"].value;
     this.loginController
@@ -40,6 +45,5 @@ export class LoginComponent implements OnInit {
 
   onUserNotRegistered() {
     this.loginForm.setErrors({ userNotFound: true });
-    this.errorLabel.nativeElement.innerHTML = "user not found.";
   }
 }

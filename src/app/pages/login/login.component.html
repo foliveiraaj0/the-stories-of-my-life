@@ -9,27 +9,29 @@
 
     </div>
     <div class="login-form">
-      
+
       <mat-card class="login-form-card">
         <span class="login-form-title">Tell us about your</span>
         <span class="login-form-title">best moments</span>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            <div class="login-form-username">
-              <mat-form-field>
-                <input matInput type="text" placeholder="username" formControlName="username" required />
-              </mat-form-field>
-            </div>
-            <div class="login-form-password">
-              <mat-form-field>
-                <input matInput type="text" formControlName="password" required placeholder="password" />
-              </mat-form-field>
-            </div>
-            <button [disabled]="!loginForm.valid" type="submit" href="#" class="login-form-button">
-              login
-            </button>
-            <label #errorLabel [hidden]="loginForm.valid" class="login-error-label"></label>
+          <div class="login-form-username">
+            <mat-form-field>
+              <input matInput type="text" placeholder="username" formControlName="username" required />
+            </mat-form-field>
+          </div>
+          <div class="login-form-password">
+            <mat-form-field>
+              <input matInput type="text" formControlName="password" required placeholder="password" />
+            </mat-form-field>
+          </div>
+          <mat-error class="login-form-error-label" [ngClass]="{'hide-text': !this.loginForm.getError('userNotFound')}">
+            invalid user or password
+          </mat-error>
+          <button [disabled]="!loginForm.valid" type="submit" href="#" class="login-form-button">
+            login
+          </button>
         </form>
-  
+
         <div>
           <a routerLink="/signin" class="login-form-link">
             sign in
@@ -38,7 +40,7 @@
             about
           </a>
         </div>
-  
+
       </mat-card>
     </div>
 
