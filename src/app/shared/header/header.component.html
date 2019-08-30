@@ -1,4 +1,4 @@
 <div class="header">
   <app-logo [fontSize]="8" class="header-logo"></app-logo>
-  <app-user-menu class="header-menu" *ngIf="{'hide':!hasData()}"></app-user-menu>
+  <app-user-menu class="header-menu" *ngIf="hasData()"></app-user-menu>
 </div>
