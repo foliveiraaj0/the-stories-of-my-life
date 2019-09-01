@@ -28,7 +28,7 @@ export class SignInController {
       }),
       catchError(err => {
         this.httpErrorHandler.handle(err);
-        return of(SignInResponse.UserAlreadyRegistered);
+        return of(SignInResponse.UserRegistered);
       })
     );
   }

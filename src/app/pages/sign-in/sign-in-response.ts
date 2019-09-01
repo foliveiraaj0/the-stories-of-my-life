@@ -1,3 +1,3 @@
 export enum SignInResponse {
-  SignInSuccess, UserAlreadyRegistered, UnexpectedResponse
+  SignInSuccess, UserRegistered, UnexpectedResponse
 }

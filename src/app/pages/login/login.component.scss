@@ -1,5 +1,5 @@
 .page {
-  background-image: url("../../../assets/table2.jpeg");
+  background-image: url("../../../assets/test-back2.jpg");
   background-position: center;
   background-size: cover;
   text-align: center;
@@ -9,8 +9,7 @@
         to right bottom,
         rgba(0, 0, 0, 0.708),
         rgba(255, 255, 255, 0.708)
-      ),
-      url("../../../assets/travel-book-ideas-amusement-parks.jpg");
+      );
     background-size: cover;
     background-position: center;
     clip-path: polygon(0 0, 100% 5vh, 100% 100%, 0% 75vh);

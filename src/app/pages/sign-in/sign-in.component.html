@@ -1,7 +1,56 @@
-<p>
-  sign-in works!
-</p>
-<div>
-  <button (click)="signin()">sign-in</button>
-  <p #signInErrorLabel></p>
+<app-header></app-header>
+<div class="signin">
+  <form class="signin-form" [formGroup]="signinForm" (ngSubmit)="onSubmit()">
+    <div class="signin-form-names">
+      <div class="signin-form-names--first">
+        <mat-form-field>
+          <input matInput type="text" placeholder="first name" formControlName="firstName" required />
+        </mat-form-field>
+      </div>
+
+      <div class="signin-form-names--last">
+        <mat-form-field>
+          <input matInput type="text" placeholder="last name" formControlName="lastName" required />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="signin-form-emailpass">
+      <div class="signin-form-emailpass--e">
+        <mat-form-field>
+          <input matInput type="text" placeholder="email" formControlName="email" required />
+        </mat-form-field>
+      </div>
+
+      <!--  <div class="signin-form-emails--confirmation">
+        <mat-form-field>
+          <input matInput type="text" placeholder="repeat email" formControlName="email" required />
+        </mat-form-field>
+      </div> -->
+      <div class="signin-form-emailpass--p">
+        <mat-form-field>
+          <input matInput type="password" placeholder="password" formControlName="password" required />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="signin-form-passwords">
+
+      <!-- <div class="signin-form-passwords--confirmation">
+        <mat-form-field>
+          <input matInput type="text" placeholder="repeat password" formControlName="password" required />
+        </mat-form-field>
+      </div> -->
+
+    </div>
+
+    <mat-error class="signin-form-error-label"
+      [ngClass]="{'hide-text': !this.signinForm.getError('userRegistered')}">
+      this user has been registered before
+    </mat-error>
+
+    <button [disabled]="!signinForm.valid" type="submit" href="#" class="signin-form-button" (click)="signin()">
+      Sign In
+    </button>
+  </form>
 </div>

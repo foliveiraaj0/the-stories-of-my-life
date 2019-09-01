@@ -1,4 +1,28 @@
-button {
-  display: block;
-  margin: 1rem;
+.signin {
+  width: 100%;
+  &-form {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-top: 10rem;
+    font-size: 1.7rem;
+    div {
+      display: flex;
+      justify-content: center;
+      div {
+        width: 27rem;
+        margin-right: 4rem;
+        mat-form-field {
+          width: 27rem;
+        }
+      }
+    }
+    &-button {
+      margin-top: 2rem;
+      height: 5rem;
+      width: 10rem;
+      background: white;
+      font-size: 1.7rem;
+      text-transform: uppercase;
+    }
+  }
 }

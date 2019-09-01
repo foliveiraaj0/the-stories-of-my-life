@@ -1,6 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
-import { SignInController } from './sign-in.controller';
-import { SignInResponse } from './sign-in-response';
+import { SignInController } from "./sign-in.controller";
+import { SignInResponse } from "./sign-in-response";
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl
+} from "@angular/forms";
 
 @Component({
   selector: "app-sign-in",
@@ -10,36 +16,49 @@ import { SignInResponse } from './sign-in-response';
 export class SignInComponent implements OnInit {
   @ViewChild("signInErrorLabel") signInErrorLabel: ElementRef;
 
-  private signInObject = {
-    name: "fernando oliveira",
-    password: "1234",
-    email: "nandogoe4@gmail.com",
-    birthDate: "13/09/1988"
-  };
+  signinForm: FormGroup;
+  signinFormControl: FormControl;
 
   constructor(
-    private signInController: SignInController
-  ) {}
+    private signInController: SignInController,
+    private fb: FormBuilder
+  ) {
+    this.signinForm = this.fb.group({
+      firstName: ["", [Validators.required, Validators.minLength(3)]],
+      lastName: ["", [Validators.required, Validators.minLength(3)]],
+      email: ["", [Validators.required, Validators.minLength(6)]],
+      password: ["", [Validators.required, Validators.minLength(4)]]
+    });
+
+    this.signinFormControl = new FormControl("", []);
+  }
 
   ngOnInit() {}
 
   signin() {
-    this.signInController.signin(
-      this.signInObject.name,
-      this.signInObject.password,
-      this.signInObject.email,
-      this.signInObject.birthDate).subscribe((response:SignInResponse) => {
-        switch(response) {
-          case SignInResponse.SignInSuccess: {
+    const name = `${this.signinForm.get("firstName").value} ${
+      this.signinForm.get("lastName").value
+    }`;
+    const password = this.signinForm.get("password").value;
+    const email = this.signinForm.get("email").value;
+    const birthDate = "00/00/0000";
 
-          }
-          break;
-          case SignInResponse.UserAlreadyRegistered: {
-            this.signInErrorLabel.nativeElement.innerHTML = "this user is already registered"
+    this.signInController
+      .signin(name, password, email, birthDate)
+      .subscribe((response: SignInResponse) => {
+        switch (response) {
+          case SignInResponse.SignInSuccess:
+            {
+            }
+            break;
+          case SignInResponse.UserRegistered: {
+            this.onUserAlreadyRegistered();
           }
         }
-      })
+      });
   }
 
-  
+  private onUserAlreadyRegistered() {
+    this.signinForm.setErrors({ userRegistered: true });
+  }
 }

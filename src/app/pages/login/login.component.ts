@@ -11,7 +11,6 @@ import { LoginResponse } from "./login-response";
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loginFormControl:FormControl;
-  @ViewChild("errorLabel") errorLabel: ElementRef;
 
   constructor(
     private fb: FormBuilder,
