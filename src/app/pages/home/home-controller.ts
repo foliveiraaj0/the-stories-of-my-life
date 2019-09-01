@@ -5,14 +5,27 @@ import { map, catchError } from "rxjs/operators";
 import { HomeResponse } from "./home-response";
 import { Observable, of } from "rxjs";
 import { Injectable } from "@angular/core";
+import { User } from 'src/app/models/user-model';
 
 @Injectable()
 export class HomeController {
+  
+  private userData: User;
+  
   constructor(
     private router: Router,
     private userService: UserService,
     private httpErrorHandler: HttpErrorHandler
-  ) {}
+  ) {
+    this.userService.getUser().subscribe(
+      (data:User) => {
+        console.log('loading user data from home: '+JSON.stringify(data));
+        this.userData = data;
+    }, 
+      error => {
+        console.log("couldn't load user data from home");
+    });
+  }
 
   logout(): Observable<HomeResponse> {
     return this.userService.logout().pipe(
@@ -31,4 +44,9 @@ export class HomeController {
       )
     );
   }
+
+  getUserData():User {
+    return this.userData;
+  }
+
 }

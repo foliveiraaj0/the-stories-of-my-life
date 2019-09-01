@@ -1,4 +1,4 @@
-<button mat-button [matMenuTriggerFor]="userMenu" class="user-menu"></button>
+<div mat-button #menuButton [matMenuTriggerFor]="userMenu" class="user-menu centrilize-vert"></div>
 <mat-menu #userMenu="matMenu" yPosition="below" xPosition="before">
   <button mat-menu-item>view profile</button>
   <button mat-menu-item>about</button>

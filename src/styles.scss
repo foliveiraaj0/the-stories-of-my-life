@@ -29,3 +29,28 @@ a:hover {
 .hide-text {
   color: transparent !important;
 }
+
+.centrilize-vert {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.centrilize-hor {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.centrilize {
+  position: relative;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.showPopup {
+  @extend .centrilize;
+  position: absolute !important;
+  display: block !important;
+}

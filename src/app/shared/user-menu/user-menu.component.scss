@@ -1,9 +1,12 @@
 .user-menu {
   background-image: url("../../../assets/user-menu-white.png");
-    background-size: 5.5rem;
-    background-repeat: no-repeat;
-    background-position: center;
-    height: 5.5rem;
-    transform: translate(100rem, 4rem);
-    left: 40%;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100%;
+  width: 100%;
+  
+  &:hover {
+    cursor: pointer;
+  }
 }

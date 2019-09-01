@@ -1,6 +1,6 @@
 .header {
   display: flex;
-  height: 13rem;
+  height: 10rem;
   width: 100%;
   background-image: linear-gradient(
     to right bottom,
@@ -11,13 +11,12 @@
   background-position: top;
   background-repeat: no-repeat;
   &-logo {
-    position: absolute;
     width: 100%;
-    text-align: center;
-    margin-top: 2rem;
+    margin-left: 6rem;
+    margin-top: 3rem;
   }
 
   &-menu {
-    position: absolute;
+    margin-right: 4rem;
   }
 }

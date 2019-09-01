@@ -1,7 +1,25 @@
-<p>
-  home works!
-</p>
-<button (click)="logout()">logout</button>
-<app-sketcher>
-  sketcher works!
-</app-sketcher>
+<app-header [data]="getUserData()"></app-header>
+<div class="home">
+  <div *ngIf="true" class="home__empty">
+    <button (click)="openScketcher()" class="home__empty--button">create album</button>
+  </div>
+  <div *ngIf="false" class="home__content">
+    <div class="home__content__albuns">
+
+    </div>
+    <div class="home__content__selected-album">
+
+    </div>
+
+  </div>
+</div>
+
+<div class="scketcher" [ngClass]="{'showPopup': scketcherIsOpen}">
+  <div class="scketcher__close">
+    <button (click)="closeScketcher()" class="scketcher__close--button"></button>
+
+  </div>
+  <app-sketcher>
+    sketcher works!
+  </app-sketcher>
+</div>
