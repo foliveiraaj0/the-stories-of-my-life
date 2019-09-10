@@ -1,15 +1,14 @@
 $animation-timer: 1s;
-$animation-displacement: 125%;
-$animation-displacement-mid: 105%;
+$animation-displacement: 139%;
+$animation-displacement-mid: 116%;
 $animation-big-scale: 1.2;
 $cent-vert: -50%;
+
+/* animation to right */
 
 .edgeleft-to-right {
   animation: edgeleft-to-right $animation-timer forwards linear;
   @keyframes edgeleft-to-right {
-    0% {
-    }
-
     100% {
       transform: translateY($cent-vert) translateX($animation-displacement);
     }
@@ -47,9 +46,6 @@ $cent-vert: -50%;
 .right-to-right {
   animation: right-to-right $animation-timer forwards linear;
   @keyframes right-to-right {
-    0% {
-    }
-
     100% {
       transform: translateY($cent-vert) translateX($animation-displacement);
     }
@@ -64,38 +60,6 @@ $cent-vert: -50%;
 
     100% {
       transform: translateY($cent-vert) translateX($animation-displacement);
-    }
-  }
-}
-
-.edgeleft-to-left {
-  animation: edgeleft-to-left $animation-timer forwards linear;
-  @keyframes edgeleft-to-left {
-    100% {
-    }
-  }
-}
-
-.edgeleft-to-left {
-  animation: edgeleft-to-left $animation-timer forwards linear;
-  @keyframes edgeleft-to-left {
-    100% {
-    }
-  }
-}
-
-.edgeleft-to-left {
-  animation: edgeleft-to-left $animation-timer forwards linear;
-  @keyframes edgeleft-to-left {
-    100% {
-    }
-  }
-}
-
-.edgeleft-to-left {
-  animation: edgeleft-to-left $animation-timer forwards linear;
-  @keyframes edgeleft-to-left {
-    100% {
     }
   }
 }
@@ -115,5 +79,88 @@ $cent-vert: -50%;
   }
   .banner-edgeright {
     @extend .edgeright-to-right;
+  }
+}
+
+/* animation to left */
+
+.edgeleft-to-left {
+  animation: edgeleft-to-left $animation-timer forwards linear;
+  @keyframes edgeleft-to-left {
+    100% {
+      transform: translateY($cent-vert) translateX(-$animation-displacement);
+    }
+  }
+}
+
+.edgeleft-to-left {
+  animation: edgeleft-to-left $animation-timer forwards linear;
+  @keyframes edgeleft-to-left {
+    100% {
+      transform: translateY($cent-vert) translateX(-$animation-displacement);
+    }
+  }
+}
+
+.left-to-left {
+  animation: left-to-left $animation-timer forwards linear;
+  @keyframes left-to-left {
+    100% {
+      transform: translateY($cent-vert) translateX(-$animation-displacement);
+    }
+  }
+}
+
+.mid-to-left {
+  animation: mid-to-left $animation-timer forwards linear;
+  @keyframes mid-to-left {
+    0% {
+      transform: translateY($cent-vert) scale($animation-big-scale);
+    }
+
+    100% {
+      transform: translateY($cent-vert) scale(1)
+        translateX(-$animation-displacement);
+    }
+  }
+}
+
+.right-to-left {
+  animation: right-to-left $animation-timer forwards linear;
+  @keyframes right-to-left {
+    0% {
+      transform: translateY($cent-vert) scale(1);
+    }
+
+    100% {
+      transform: translateY($cent-vert) scale($animation-big-scale)
+        translateX(-$animation-displacement-mid);
+    }
+  }
+}
+.edgeright-to-left {
+  animation: edgeright-to-left $animation-timer forwards linear;
+  @keyframes edgeright-to-left {
+    100% {
+      transform: translateY($cent-vert) translateX(-$animation-displacement);
+    }
+  }
+}
+
+.go-left {
+  .banner-edgeleft {
+    @extend .edgeleft-to-left;
+  }
+  .banner-left {
+    @extend .left-to-left;
+  }
+  .banner-mid {
+    @extend .mid-to-left;
+  }
+  .banner-right {
+    @extend .right-to-left;
+  }
+  .banner-edgeright {
+    @extend .edgeright-to-left;
   }
 }

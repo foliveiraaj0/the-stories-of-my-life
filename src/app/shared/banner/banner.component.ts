@@ -16,13 +16,7 @@ export class BannerComponent implements OnInit {
   private readonly minimumBannerContentSize: number = 3; //images
   private readonly invalidId: number = -1; //interval id
 
-  private bannerContents: string[] = [
-    "green",
-    "black",
-    "red",
-    "yellow",
-    "blueviolet"
-  ];
+  private bannerContents: string[] = [];
 
   private currentBanner: string;
   private nextBanner: string;
@@ -49,22 +43,31 @@ export class BannerComponent implements OnInit {
     this.start();
   }
 
-  addContent(imageUrl: string): void {
-    this.bannerContents.push(imageUrl);
+  setContent(content: string[]): void {
+    this.bannerContents = ["empty-edge"];
+    content.forEach(c => {
+      this.bannerContents.push(c)
+    }); 
+    this.bannerContents.push("empty-edge");
   }
 
   initializeBanners(): void {
+    this.setEdgeBanners(this.bannerContents);
+
     this.bannerViews.push(this.bELeft);
     this.bannerViews.push(this.bLeft);
     this.bannerViews.push(this.bMid);
     this.bannerViews.push(this.bRight);
     this.bannerViews.push(this.bERight);
+
     this.applyBannerContent(this.bannerContents, this.bannerViews);
-    console.log(JSON.stringify(this.bannerContents));
   }
 
   start(): void {
-    if (this.validateContent()) {
+    
+    this.setContent(["black", "red", "yellow"]);
+
+    if (this.validateContent(this.bannerContents)) {
       this.initializeBanners();
       this.intervalId = setInterval(
         () =>
@@ -119,7 +122,7 @@ export class BannerComponent implements OnInit {
       }
     });
 
-    const directionClass= next ? "go-right" : "go-left"
+    const directionClass = next ? "go-right" : "go-left";
 
     bannerContainer.nativeElement.classList.add(directionClass);
   }
@@ -147,16 +150,30 @@ export class BannerComponent implements OnInit {
       bannerContents[lastContentIndex] = firstContent;
     }
 
+    this.setEdgeBanners(bannerContents);
+
     this.applyBannerContent(bannerContents, bannerViews);
+
+    this.clearAnimation(bannerContainer);
+  }
+
+  private clearAnimation(bannerContainer: ElementRef): void {
     bannerContainer.nativeElement.classList.remove("go-left");
     bannerContainer.nativeElement.classList.remove("go-right");
+  }
+
+  private setEdgeBanners(bannerContents: string[]): void {
+    const firstContentIndex = 0;
+    const lastContentIndex = bannerContents.length - 1;
+
+    bannerContents[firstContentIndex] = bannerContents[lastContentIndex - 1];
+    bannerContents[lastContentIndex] = bannerContents[firstContentIndex + 1];
   }
 
   private applyBannerContent(
     bannerContents: string[],
     bannerViews: ElementRef[]
-  ) {
-    console.log("applying colors");
+  ): void {
     for (let i = 0; i < bannerViews.length; i++) {
       this.renderer.setStyle(
         bannerViews[i].nativeElement,
@@ -166,9 +183,8 @@ export class BannerComponent implements OnInit {
     }
   }
 
-  private validateContent(): boolean {
-    return true;
-    /* return this.bannerContent !== undefined
-     && this.bannerContent.length >= this.minimumBannerContentSize; */
+  private validateContent(bannerContents: string[]): boolean {
+    return bannerContents !== undefined
+     && bannerContents.length >= this.minimumBannerContentSize;
   }
 }
