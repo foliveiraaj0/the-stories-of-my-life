@@ -9,7 +9,7 @@ import {
 @Component({
   selector: "app-banner",
   templateUrl: "./banner.component.html",
-  styleUrls: ["./banner.component.scss"]
+  styleUrls: ["./banner-animations.component.scss", "./banner.component.scss"]
 })
 export class BannerComponent implements OnInit {
   private readonly bannerTime: number = 1000; //miliseconds
@@ -66,7 +66,6 @@ export class BannerComponent implements OnInit {
   start(): void {
     if (this.validateContent()) {
       this.initializeBanners();
-      //this.goToNextBanner(this.banner, this.bannerContents, this.bannerViews);
       this.intervalId = setInterval(
         () =>
           this.goToNextBanner(
@@ -77,7 +76,6 @@ export class BannerComponent implements OnInit {
         this.bannerTime
       );
     }
-    setTimeout(() => this.stop(this.intervalId), 12000)
   }
 
   stop(intervalId: number): void {
@@ -91,13 +89,29 @@ export class BannerComponent implements OnInit {
     bannerContents: string[],
     bannerViews: ElementRef[]
   ): void {
-    console.log("go to next banner");
+    this.moveBanner(true, bannerContainer, bannerContents, bannerViews);
+  }
+
+  goToPreviousBanner(
+    bannerContainer: ElementRef,
+    bannerContents: string[],
+    bannerViews: ElementRef[]
+  ): void {
+    this.moveBanner(false, bannerContainer, bannerContents, bannerViews);
+  }
+
+  private moveBanner(
+    next: boolean,
+    bannerContainer: ElementRef,
+    bannerContents: string[],
+    bannerViews: ElementRef[]
+  ): void {
     this.animationControl = true;
     bannerContainer.nativeElement.addEventListener("animationend", () => {
       if (this.animationControl) {
         this.animationControl = false;
         this.changeBannersContent(
-          true,
+          next,
           bannerContainer,
           bannerContents,
           bannerViews
@@ -105,10 +119,10 @@ export class BannerComponent implements OnInit {
       }
     });
 
-    bannerContainer.nativeElement.classList.add("go-right");
-  }
+    const directionClass= next ? "go-right" : "go-left"
 
-  goToPreviousBanner(): void {}
+    bannerContainer.nativeElement.classList.add(directionClass);
+  }
 
   private changeBannersContent(
     toRight: boolean,
@@ -134,16 +148,15 @@ export class BannerComponent implements OnInit {
     }
 
     this.applyBannerContent(bannerContents, bannerViews);
+    bannerContainer.nativeElement.classList.remove("go-left");
     bannerContainer.nativeElement.classList.remove("go-right");
-
-    console.log(JSON.stringify(this.bannerContents));
   }
 
   private applyBannerContent(
     bannerContents: string[],
     bannerViews: ElementRef[]
   ) {
-    console.log('applying colors')
+    console.log("applying colors");
     for (let i = 0; i < bannerViews.length; i++) {
       this.renderer.setStyle(
         bannerViews[i].nativeElement,
