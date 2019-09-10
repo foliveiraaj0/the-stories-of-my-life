@@ -6,11 +6,13 @@ import { HomeResponse } from "./home-response";
 import { Observable, of } from "rxjs";
 import { Injectable } from "@angular/core";
 import { User } from 'src/app/models/user-model';
+import { Album } from 'src/app/models/album-model';
 
 @Injectable()
 export class HomeController {
   
   private userData: User;
+  private albums: Album[];
   
   constructor(
     private router: Router,
@@ -47,6 +49,10 @@ export class HomeController {
 
   getUserData():User {
     return this.userData;
+  }
+
+  hasAlbums(): boolean {
+    return this.albums != undefined;
   }
 
 }

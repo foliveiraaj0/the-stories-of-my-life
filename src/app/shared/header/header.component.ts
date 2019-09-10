@@ -17,7 +17,6 @@ export class HeaderComponent implements OnInit {
   }
 
   hasData():boolean {
-    console.log(JSON.stringify(this.data));
     return this.data != undefined;
   }
 

@@ -1,0 +1,148 @@
+$animation-timer: .5s;
+$animation-displacement: 22.5rem;
+$animation-displacement-mid: 18.9rem;
+$animation-big-scale: 1.2;
+$cent-vert: -50%;
+
+.banner {
+  width: 100%;
+  min-width: 50rem;
+  height: 100%;
+  min-height: 35rem;
+  background-color: gray;
+  &__content {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    overflow: hidden;
+    div {
+      max-height: 70%;
+      width: 100%;
+      margin: 0 2rem;
+    }
+    image {
+      background-size: cover;
+      background-position: center;
+    }
+    &--edgeleft {
+    }
+    &--left {
+      z-index: 2;
+    }
+    &--mid {
+      transform: translateY($cent-vert) scale($animation-big-scale);
+      z-index: 1;
+    }
+    &--right {
+      z-index: 3;
+    }
+    &--edgeright {
+    }
+  }
+}
+
+.edgeleft-to-right {
+  animation: edgeleft-to-right $animation-timer forwards linear;
+  @keyframes edgeleft-to-right {
+    0% {
+    }
+
+
+    100% {
+      transform: translateY($cent-vert) translateX($animation-displacement);
+    }
+  }
+}
+
+.left-to-right {
+  animation: left-to-right $animation-timer forwards linear;
+  @keyframes left-to-right {
+    0% {
+      transform:  translateY($cent-vert) scale(1);
+    }
+
+    100% {
+      transform: translateY($cent-vert) scale($animation-big-scale) translateX($animation-displacement-mid);
+    }
+  }
+  
+}
+
+.mid-to-right {
+  animation: mid-to-right $animation-timer forwards linear;
+  @keyframes mid-to-right {
+    0% {
+      transform: translateY($cent-vert) scale($animation-big-scale);
+    }
+
+  
+    100% {
+      transform: translateY($cent-vert) scale(1) translateX($animation-displacement);
+    }
+  }
+}
+
+.right-to-right {
+  animation: right-to-right $animation-timer forwards linear;
+  @keyframes right-to-right {
+
+    0% {
+    }
+
+  
+    100% {
+      transform: translateY($cent-vert) translateX($animation-displacement);
+    }
+  }
+
+}
+
+.edgeright-to-right {
+  animation: edgeright-to-right $animation-timer forwards linear;
+  @keyframes edgeright-to-right {
+    0% {
+
+    }
+
+
+    100% {
+      transform: translateY($cent-vert) translateX($animation-displacement);
+    }
+  } 
+}
+
+@keyframes left-to-left {
+  100% {
+
+  }
+}
+
+@keyframes mid-to-left {
+  100% {
+
+  }
+}
+
+@keyframes right-to-left {
+  100% {
+
+  }
+}
+
+.go-right {
+  .banner-edgeleft {
+    @extend .edgeleft-to-right;
+  }
+  .banner-left {
+    @extend .left-to-right;
+  }
+  .banner-mid {
+    @extend .mid-to-right;
+  }
+  .banner-right {
+    @extend .right-to-right;
+  }
+  .banner-edgeright {
+    @extend .edgeright-to-right;
+  }
+}

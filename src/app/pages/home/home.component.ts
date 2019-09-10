@@ -21,13 +21,11 @@ export class HomeComponent implements OnInit {
 
   logout() {
     this.homeController.logout().subscribe((response: HomeResponse) => {
-      console.log(response);
     });
   }
 
   getUserData():User {
     const data = this.homeController.getUserData()
-    console.log("get user data: "+data);
     return data;
   }
 
@@ -37,6 +35,10 @@ export class HomeComponent implements OnInit {
 
   closeScketcher(): void {
     this.scketcherIsOpen = false;
+  }
+
+  hasAlbums(): boolean {
+    return this.homeController.hasAlbums();
   }
 
 }
