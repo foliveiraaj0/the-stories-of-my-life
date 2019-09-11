@@ -18,10 +18,6 @@ export class BannerComponent implements OnInit {
 
   private bannerContents: string[] = [];
 
-  private currentBanner: string;
-  private nextBanner: string;
-  private previousBanner: string;
-
   private intervalId: any; //Nodejs.Timer
 
   @ViewChild("banner") banner: ElementRef;
@@ -44,16 +40,12 @@ export class BannerComponent implements OnInit {
   }
 
   setContent(content: string[]): void {
-    this.bannerContents = ["empty-edge"];
     content.forEach(c => {
       this.bannerContents.push(c)
     }); 
-    this.bannerContents.push("empty-edge");
   }
 
   initializeBanners(): void {
-    this.setEdgeBanners(this.bannerContents);
-
     this.bannerViews.push(this.bELeft);
     this.bannerViews.push(this.bLeft);
     this.bannerViews.push(this.bMid);
@@ -65,13 +57,13 @@ export class BannerComponent implements OnInit {
 
   start(): void {
     
-    this.setContent(["black", "red", "yellow"]);
+    this.setContent(["black", "red", "yellow", "blue", "pink", "orange", "purple"]);
 
     if (this.validateContent(this.bannerContents)) {
       this.initializeBanners();
       this.intervalId = setInterval(
         () =>
-          this.goToNextBanner(
+          this.goToPreviousBanner(
             this.banner,
             this.bannerContents,
             this.bannerViews
@@ -150,8 +142,6 @@ export class BannerComponent implements OnInit {
       bannerContents[lastContentIndex] = firstContent;
     }
 
-    this.setEdgeBanners(bannerContents);
-
     this.applyBannerContent(bannerContents, bannerViews);
 
     this.clearAnimation(bannerContainer);
@@ -160,14 +150,6 @@ export class BannerComponent implements OnInit {
   private clearAnimation(bannerContainer: ElementRef): void {
     bannerContainer.nativeElement.classList.remove("go-left");
     bannerContainer.nativeElement.classList.remove("go-right");
-  }
-
-  private setEdgeBanners(bannerContents: string[]): void {
-    const firstContentIndex = 0;
-    const lastContentIndex = bannerContents.length - 1;
-
-    bannerContents[firstContentIndex] = bannerContents[lastContentIndex - 1];
-    bannerContents[lastContentIndex] = bannerContents[firstContentIndex + 1];
   }
 
   private applyBannerContent(

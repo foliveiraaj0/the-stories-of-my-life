@@ -1,14 +1,17 @@
 <app-header [data]="getUserData()"></app-header>
 <div class="home">
-  <div *ngIf="!hasAlbums()" class="home__empty">
-    <app-banner class="home__empty--banner">
-
-    </app-banner>
-    <button (click)="openScketcher()" class="home__empty--button">create album</button>
+  <div class="home__albums">
+    <div (click)="openScketcher()" class="home__albums--new centralize-hor">
+    </div>
+  </div>
+  <div *ngIf="!hasAlbums()" class="home__empty ">
+    <app-banner class="home__empty--banner"></app-banner>
+    <p>Tell the amazing moments of your life</p>
+    <p>create the most beautiful albums</p>
   </div>
   <div *ngIf="hasAlbums()" class="home__content">
     <div class="home__content__albuns">
-
+      <app-banner class="home__empty--banner"></app-banner>
     </div>
     <div class="home__content__selected-album">
 
