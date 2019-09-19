@@ -1,5 +1,21 @@
 @import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
 
+:root {
+
+  /* banner properties */
+  --animation-big-scale: 1.2;
+  --cent-vert: -50%;
+  --cent-hor: -14.2%;
+  --margin-hor: 1.85%;
+
+  /* banner animation properties */
+  --animation-timer: 1s;
+  --animation-displacement: 139%;
+  --animation-displacement-mid: 116%;
+  --animation-big-scale: 1.2;
+  --cent-vert: -50%;
+}
+
 * {
   margin: 0;
   padding: 0;

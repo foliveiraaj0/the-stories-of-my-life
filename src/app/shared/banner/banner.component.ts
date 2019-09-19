@@ -12,8 +12,8 @@ import {
   styleUrls: ["./banner-animations.component.scss", "./banner.component.scss"]
 })
 export class BannerComponent implements OnInit {
-  private readonly bannerTime: number = 1000; //miliseconds
-  private readonly minimumBannerContentSize: number = 3; //images
+  private readonly bannerTime: number = 2000; //miliseconds
+  private readonly minimumBannerContentSize: number = 5; //images
   private readonly invalidId: number = -1; //interval id
 
   private bannerContents: string[] = [];
