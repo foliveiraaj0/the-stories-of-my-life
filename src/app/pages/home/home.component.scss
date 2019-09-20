@@ -5,14 +5,14 @@
   padding: 0;
   display: flex;
   &__albums {
-    height: 75%;
-    width: 12%;
+    height: 100%;
+    width: 8%;
     div {
-      margin: 2rem 0 0 0;
+      margin: 1.5rem 0 0 0;
     }
     &--new-icon {
-      width: 50%;
-      height: 17%;
+      width: 60%;
+      height: 6rem;
       background-image: url("../../../assets/create-album.png");
       background-position: bottom;
       background-size: 100%;
@@ -22,13 +22,12 @@
     &--new-text {
       text-align: center;
       font-size: 1.8rem;
-      padding-top: .3rem;
       cursor: pointer;
     }
   }
   &__empty {
-    width: 60%;
-    height: 40%;
+    width: 45%;
+    height: 45%;
     position: relative;
     left: 43%;
     transform: translateX(-50%);
@@ -36,7 +35,7 @@
     text-align: center;
     p {
       font-weight: 400;
-      font-size: 3rem;
+      font-size: 2.3rem;
       margin-bottom: 1rem;
     }
   }
