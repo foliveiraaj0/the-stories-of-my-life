@@ -57,7 +57,7 @@ export class BannerComponent implements OnInit {
 
   start(): void {
     
-    this.setContent(["black", "red", "yellow", "blue", "pink", "orange", "purple"]);
+    this.setContent(["./assets/banners/page1.png", "./assets/banners/page2.png", "./assets/banners/page3.png", "./assets/banners/page4.png", "./assets/banners/page4.png"]);
 
     if (this.validateContent(this.bannerContents)) {
       this.initializeBanners();
@@ -159,8 +159,8 @@ export class BannerComponent implements OnInit {
     for (let i = 0; i < bannerViews.length; i++) {
       this.renderer.setStyle(
         bannerViews[i].nativeElement,
-        "background-color",
-        bannerContents[i]
+        "background-image",
+        `url(${bannerContents[i]})`
       );
     }
   }
