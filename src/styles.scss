@@ -38,6 +38,15 @@ body {
   }
 }
 
+.in-dev {
+  height: 1.5rem;
+  background-color: red;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
 a:hover {
   cursor: pointer;
 }

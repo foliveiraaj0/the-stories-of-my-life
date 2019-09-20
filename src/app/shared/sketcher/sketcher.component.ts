@@ -76,7 +76,7 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
         this.connections.push(connection);
       });
     }
-    console.log('connections - '+JSON.stringify(this.connections))
+    //console.log('connections - '+JSON.stringify(this.connections))
   }
 
   getIndex() {
@@ -90,7 +90,7 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
   //DropList events
 
   private drop(event: CdkDragDrop<any>) {
-    console.log("drop", event);
+    //console.log("drop", event);
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -110,7 +110,7 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
 
   /* Add dropped data to contents */
   private dropTemplate(event: CdkDragDrop<TemplatePresentation[]>) {
-    console.log("dropTemplate", event);
+    //console.log("dropTemplate", event);
     const newData = [];
     event.previousContainer.data.forEach(data => {
       newData.push({
@@ -159,7 +159,7 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
   //Drag events
 
   private ended(event: CdkDragEnd<any>) {
-    console.log("ended", event);
+    //console.log("ended", event);
     this.selectedContainer = undefined;
     //console.log(this.getDisplacement(event));
   }
@@ -187,7 +187,7 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
   }
 
   private entered(event: CdkDragEnter<any>) {
-    console.log("entered", event);
+    //console.log("entered", event);
     this.selectedContainer = event.container;
   }
 }

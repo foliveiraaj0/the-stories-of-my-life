@@ -47,14 +47,15 @@ export class UserService {
     );
   }
 
-  getUser(): Observable<User> {
-    const url = this.urlHelper.getUserUrl();
+  getUser(noCache?:boolean): Observable<User> {
     const user: User = this.getCachedUser();
-    if (user) {
+    if (!noCache && user) {
+      return of(user);
+    } else {
+      const url = this.urlHelper.getUserUrl();
+      console.log(url)
       const httpOptions = this.buildHeaders(user.token);
       return this.http.get<User>(url, httpOptions);
-    } else {
-      throw new Error("cached data not found");
     }
   }
 

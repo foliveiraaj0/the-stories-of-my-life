@@ -26,9 +26,9 @@ export class TemplateOLITRComponent extends TemplateComponent implements OnInit 
   }
 
   protected setComponentData(data, componentId) {
-    console.log('setComponentData');
-    console.log(data);
-    console.log(JSON.stringify(this.templateData));
+    //console.log('setComponentData');
+    //console.log(data);
+    //console.log(JSON.stringify(this.templateData));
     this.templateData.templateItems.forEach(element => {
       if(element.id === componentId) {
         if(element instanceof TemplateImageItem) {

@@ -63,7 +63,7 @@ export class BannerComponent implements OnInit {
       this.initializeBanners();
       this.intervalId = setInterval(
         () =>
-          this.goToPreviousBanner(
+          this.goToNextBanner(
             this.banner,
             this.bannerContents,
             this.bannerViews

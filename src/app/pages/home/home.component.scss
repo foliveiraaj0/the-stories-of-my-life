@@ -5,17 +5,24 @@
   padding: 0;
   display: flex;
   &__albums {
-    height: 100%;
+    height: 75%;
     width: 12%;
     div {
-      margin: 3rem 0;
+      margin: 2rem 0 0 0;
     }
-    &--new {
-      width: 70%;
-      height: 14%;
-      background-image: url("../../../assets/new_album.jpg");
-      background-position: center;
-      background-size: cover;
+    &--new-icon {
+      width: 50%;
+      height: 17%;
+      background-image: url("../../../assets/create-album.png");
+      background-position: bottom;
+      background-size: 100%;
+      background-repeat: no-repeat;
+      cursor: pointer;
+    }
+    &--new-text {
+      text-align: center;
+      font-size: 1.8rem;
+      padding-top: .3rem;
       cursor: pointer;
     }
   }
@@ -41,8 +48,8 @@
 .scketcher {
   display: none;
   width: 75%;
-  height: 70%;
-  margin-top: 3rem;
+  height: 80%;
+  margin-top: 1rem;
   &__close {
     position: relative;
     width: 100%;

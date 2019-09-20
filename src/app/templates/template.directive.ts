@@ -39,7 +39,7 @@ export class TemplateDirective implements OnInit, TemplateOutputInterface{
   }
 
   loadComponent() {
-    console.log("loading directive", this.template);
+    //console.log("loading directive", this.template);
 
     const template1Component:Type<any> = this.templateService.getType(this.template.name)
 
@@ -58,17 +58,17 @@ export class TemplateDirective implements OnInit, TemplateOutputInterface{
   }
 
   emitConnections(event: any) {
-    console.log('connections', event)
+    //console.log('connections', event)
     this.onConnections.emit(event)
   }
 
   emitDrop(event: CdkDragDrop<any>) {
-    console.log('drop', event)
+    //console.log('drop', event)
     this.onDrop.emit(event)
   }
 
   emitEnter(event: CdkDragEnter<any>) {
-    console.log('enter', event)
+    //console.log('enter', event)
     this.onEnter.emit(event)
   }
   

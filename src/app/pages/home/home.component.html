@@ -1,8 +1,9 @@
 <app-header [data]="getUserData()"></app-header>
 <div class="home">
-  <div class="home__albums">
-    <div (click)="openScketcher()" class="home__albums--new centralize-hor">
+  <div (click)="openScketcher()" class="home__albums">
+    <div class="home__albums--new-icon centralize-hor">
     </div>
+    <p class="home__albums--new-text">new album</p>
   </div>
   <div *ngIf="!hasAlbums()" class="home__empty ">
     <app-banner class="home__empty--banner"></app-banner>

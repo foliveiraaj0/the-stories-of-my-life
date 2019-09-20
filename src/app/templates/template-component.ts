@@ -28,7 +28,7 @@ export abstract class TemplateComponent implements TemplateInterface{
   }
 
   setTemplateData(template:TemplateData) {
-    console.log('setTemplateData', template)
+    //console.log('setTemplateData', template)
     this.templateData = template;
     this.createTemplateItems();
     if(this.outputInterface) {
@@ -42,7 +42,7 @@ export abstract class TemplateComponent implements TemplateInterface{
   }
 
   drop(event: CdkDragDrop<any>) {
-    console.log('drop', event)
+    //console.log('drop', event)
     this.dropImage(event)
     if(this.outputInterface) {
       this.outputInterface.emitDrop(event)
@@ -50,14 +50,14 @@ export abstract class TemplateComponent implements TemplateInterface{
   }
 
   entered(event: CdkDragEnter<any>) {
-    console.log('enter', event)
+    //console.log('enter', event)
     if(this.outputInterface) {
       this.outputInterface.emitEnter(event)
     }
   }
 
   dropImage(event: CdkDragDrop<any>) {
-    console.log("dropImage", event);
+    //console.log("dropImage", event);
     if (this.containerInterface && this.containerInterface.droppedInsideThisCompnent()) {
       //using copyArrayItem in this scenary will add a new item to contentList instead of
       //just changing the contents of the item inside of it
