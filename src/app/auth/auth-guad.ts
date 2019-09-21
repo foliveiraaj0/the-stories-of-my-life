@@ -9,7 +9,7 @@ import { UserService } from "../services/user-service";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  private tokenRoutes = ["home"];
+  private tokenRoutes = ["home", "album"];
 
   constructor(private router: Router, private userService: UserService) {}
 

@@ -3,6 +3,7 @@ import { HomeController } from "./home-controller";
 import { HomeResponse } from "./home-response";
 import { SketcherComponent } from "../../shared/sketcher/sketcher.component";
 import { User } from 'src/app/models/user-model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-home",
@@ -15,7 +16,7 @@ export class HomeComponent implements OnInit {
 
   @ViewChild(SketcherComponent) scketcher: SketcherComponent;
   
-  constructor(private homeController: HomeController) {}
+  constructor(private homeController: HomeController, private router:Router) {}
   
   ngOnInit() {}
 
@@ -29,12 +30,8 @@ export class HomeComponent implements OnInit {
     return data;
   }
 
-  openScketcher():void {
-    this.scketcherIsOpen = true;
-  }
-
-  closeScketcher(): void {
-    this.scketcherIsOpen = false;
+  goToScketcher():void {
+    this.router.navigate(["album"]);
   }
 
   hasAlbums(): boolean {

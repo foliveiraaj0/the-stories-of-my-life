@@ -1,6 +1,7 @@
 import { TemplateOLITRComponent } from './components/template-OLITR/template-OLITR.component';
 import { Injectable, Type, Component } from '@angular/core';
 import { TemplateName } from './template-model';
+import { TemplateFullpageComponent } from './components/template-fullpage/template-fullpage.component';
 
 @Injectable()
 export class TemplateService {
@@ -26,7 +27,7 @@ export class TemplateService {
       case TemplateName.EIGHTI: templateComponentType = TemplateOLITRComponent;
       break;
       default:
-        templateComponentType = null; //TODO create an empty template  
+        templateComponentType = TemplateFullpageComponent; //TODO create an empty template  
 
     }
     return templateComponentType;

@@ -3,7 +3,6 @@ import { CommonModule } from "@angular/common";
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeController } from './home-controller';
-import { SketcherModule } from 'src/app/shared/sketcher/sketcher.module';
 import { HeaderModule } from 'src/app/shared/header/header.module';
 import { BannerModule } from 'src/app/shared/banner/banner.module';
 
@@ -13,7 +12,6 @@ import { BannerModule } from 'src/app/shared/banner/banner.module';
     CommonModule,
     HomeRoutingModule,
     HeaderModule,
-    SketcherModule,
     BannerModule
   ],
   providers: [HomeController]

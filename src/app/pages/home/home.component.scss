@@ -44,25 +44,3 @@
     height: 100%;
   }
 }
-.scketcher {
-  display: none;
-  width: 75%;
-  height: 80%;
-  margin-top: 1rem;
-  &__close {
-    position: relative;
-    width: 100%;
-    &--button {
-      background-image: url("../../../assets/button_close.png");
-      background-size: cover;
-      background-repeat: no-repeat;
-      height: 3rem;
-      width: 3rem;
-      left: 100%;
-      border: none;
-      background-color: transparent;
-      position: relative;
-      cursor: pointer;
-    }
-  }
-}

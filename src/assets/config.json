@@ -6,6 +6,11 @@
   "sign_in_path": "signin",
   "logout_path": "logout",
   "templates": [
+    {"name": "frame12", "imageSrc": "frame12.png"},
+    {"name": "frame13", "imageSrc": "frame13.png"},
+    {"name": "frame14", "imageSrc": "frame14.png"},
+    {"name": "frame15", "imageSrc": "frame15.png"},
+    {"name": "frame16", "imageSrc": "frame16.png"},
     {"name": "OLITR", "imageSrc": "one-left-image-template.png"},
     {"name": "ORITL", "imageSrc": "one-right-image-template.png"},
     {"name": "TILTR", "imageSrc": "two-images-left-template.png"},

@@ -2,12 +2,11 @@
   height: 100%;
   width: 100%;
   overflow: hidden;
-  position: relative;
+  position: absolute;
   background-color: cadetblue;
   padding: 1rem;
 
   &-templates {
-    background-color: yellow;
     display: block;
     width: 90px;
     height: 270px;
@@ -31,7 +30,6 @@
       display: flex;
       height: 90px;
       width: 40%;
-      background-color: darkred;
       img {
         width: 90px;
         height: 90px;
@@ -52,7 +50,6 @@
   // mid content
   &-content {
     height: 100%;
-    background-color: coral;
     width: 70%;
     margin: auto;
     overflow-y: scroll;
@@ -70,7 +67,6 @@
   &-places {
     width: 90px;
     height: 500px;
-    background-color: green;
     position: relative;
     float: right;
     overflow-y: scroll;

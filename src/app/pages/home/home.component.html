@@ -1,6 +1,6 @@
 <app-header [data]="getUserData()"></app-header>
 <div class="home">
-  <div (click)="openScketcher()" class="home__albums">
+  <div (click)="goToScketcher()" class="home__albums">
     <div class="home__albums--new-icon centralize-hor">
     </div>
     <p class="home__albums--new-text">new</p>
@@ -15,19 +15,6 @@
       <app-banner class="home__empty--banner"></app-banner>
     </div>
     <div class="home__content__selected-album">
-
     </div>
-
-  </div>
-</div>
-
-<div class="scketcher" [ngClass]="{'showPopup': scketcherIsOpen}">
-  <div class="scketcher__close">
-    <button (click)="closeScketcher()" class="scketcher__close--button"></button>
-  </div>
-  <app-sketcher>
-  </app-sketcher>
-  <div class="scketcher__create">
-    <button class="scketcher__create--button">CREATE</button>
   </div>
 </div>

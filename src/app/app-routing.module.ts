@@ -8,6 +8,7 @@ const routes: Routes = [
   { path: "about", loadChildren: "./pages/about/about.module#AboutModule" },
   { path: "signin", loadChildren: "./pages/sign-in/sign-in.module#SignInModule", canActivate: [AuthGuard] },
   { path: "home", loadChildren: "./pages/home/home.module#HomeModule", canActivate: [AuthGuard] },
+  { path: "album", loadChildren: "./pages/album/album.module#AlbumModule", canActivate: [AuthGuard] },
   { path: "**", loadChildren: "./pages/not-found/not-found.module#NotFoundModule" }
 ];
 
