@@ -8,8 +8,8 @@
 
   &-templates {
     display: block;
-    width: 90px;
-    height: 270px;
+    width: 9rem;
+    height: 27rem;
     position: relative;
     float: left;
     overflow-y: scroll;
@@ -20,25 +20,25 @@
       display: flex;
       width: 100%;
       opacity: .5;
-      height: 90px;
+      height: 9rem;
       img {
-        width: 90px;
+        width: 9rem;
         height: 100%;
       }
     }
     &-preview {
       display: flex;
-      height: 90px;
+      height: 9rem;
       width: 40%;
       img {
-        width: 90px;
-        height: 90px;
+        width: 9rem;
+        height: 9rem;
       }
     }
     &-item {
-      width: 90px;
-      height: 90px;
-      margin: 3px 0px;
+      width: 9rem;
+      height: 9rem;
+      margin: .5rem 0;
       img {
         width: 100%;
         height: 100%;
@@ -49,24 +49,24 @@
 
   // mid content
   &-content {
-    height: 100%;
+    height: 90%;
     width: 70%;
     margin: auto;
-    overflow-y: scroll;
+    overflow-y: hidden;
     overflow-x: hidden;
     &::-webkit-scrollbar {
       width: 0;
     }
     .cdk-drag .cdk-drag-placeholder {
-      max-height: 0px;
+      max-height: 0;
       opacity: 0;
     }
   }
 
   // right list
   &-places {
-    width: 90px;
-    height: 500px;
+    width: 9rem;
+    height: 50rem;
     position: relative;
     float: right;
     overflow-y: scroll;
@@ -75,16 +75,16 @@
       width: 0;
     }
     &-item {
-      width: 90px;
-      height: 90px;
+      width: 9rem;
+      height: 9rem;
       img {
-        width: 90px;
-        height: 90px;
+        width: 9rem;
+        height: 9rem;
       }
       .cdk-drag .cdk-drag-placeholder {
         img {
-          width: 90px;
-          height: 90px;
+          width: 9rem;
+          height: 9rem;
         }
       }
     }

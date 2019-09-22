@@ -2,7 +2,8 @@ export class TemplateData {
   constructor(
     public id: string,
     public name: TemplateName,
-    public templateItems: TemplateItem[]
+    public templateItems: TemplateItem[],
+    public backgroundImage?: string
   ) {}
 }
 
