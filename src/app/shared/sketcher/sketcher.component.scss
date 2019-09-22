@@ -3,13 +3,12 @@
   width: 100%;
   overflow: hidden;
   position: absolute;
-  background-color: cadetblue;
   padding: 1rem;
-
+  
   &-templates {
     display: block;
     width: 9rem;
-    height: 27rem;
+    height: 100%;
     position: relative;
     float: left;
     overflow-y: scroll;
@@ -49,11 +48,12 @@
 
   // mid content
   &-content {
-    height: 90%;
+    height: 100%;
     width: 70%;
     margin: auto;
     overflow-y: hidden;
     overflow-x: hidden;
+    border: .1rem solid black;
     &::-webkit-scrollbar {
       width: 0;
     }
@@ -66,7 +66,7 @@
   // right list
   &-places {
     width: 9rem;
-    height: 50rem;
+    height: 100%;
     position: relative;
     float: right;
     overflow-y: scroll;
