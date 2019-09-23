@@ -1,8 +1,8 @@
 <div class="sketcher">
 
-  <div cdkDropList [cdkDropListConnectedTo]="['contentList']" #templateList [cdkDropListData]="templates"
+  <div cdkDropList [cdkDropListConnectedTo]="['contentList']" #templateList [cdkDropListData]="getTemplates()"
     class="sketcher-templates">
-    <div cdkDrag cdkDragData={{template}} cdkDragBoundary=".sketcher" *ngFor="let template of templates; let i = index"
+    <div cdkDrag cdkDragData={{template}} cdkDragBoundary=".sketcher" *ngFor="let template of getTemplates(); let i = index"
       class="image">
       <div *ngIf="template">
         <div class="sketcher-templates-placeholder" *cdkDragPlaceholder>
@@ -26,10 +26,10 @@
     </div>
   </div>
 
-  <div cdkDropList [cdkDropListConnectedTo]="getConections()" #templateList="cdkDropList" class="sketcher-places"
-    [cdkDropListData]="places" (cdkDropListDropped)="drop($event)">
+  <div cdkDropList [cdkDropListConnectedTo]="getConnections()" #templateList="cdkDropList" class="sketcher-places"
+    [cdkDropListData]="getPlaces()" (cdkDropListDropped)="drop($event)">
     <div cdkDrag (cdkDragMoved)="moved($event)" (cdkDragEnded)="ended($event)" cdkDragBoundary=".sketcher"
-      [cdkDragData]="place" *ngFor="let place of places">
+      [cdkDragData]="place" *ngFor="let place of getPlaces()">
       <div class="sketcher-places-item">
         <img [src]="place.src" [alt]="place.alt">
       </div>
@@ -38,9 +38,9 @@
 
   </div>
 
-  <div cdkDropList id="contentList" #contentList [cdkDropListData]="contents" (cdkDropListDropped)="drop($event)"
+  <div cdkDropList id="contentList" #contentList [cdkDropListData]="getContents()" (cdkDropListDropped)="drop($event)"
     class="sketcher-content">
-    <div cdkDrag (cdkDragEnded)="ended($event)" *ngFor="let content of contents; let i = index">
+    <div cdkDrag (cdkDragEnded)="ended($event)" *ngFor="let content of getContents(); let i = index">
       <ng-template templateDirective [templateContainer]="this" [template]="content" [index]="getIndex()"
         (onConnections)="onConnections($event)" (onEnter)="entered($event)" (onDrop)="drop($event)">
       </ng-template>

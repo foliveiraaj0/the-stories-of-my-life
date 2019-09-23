@@ -48,15 +48,35 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
       this.templates.push(template)
         //new TemplateData(TemplateName.template1))
         /* {
-          src: `http://localhost:9001/assets/templates/${configTemplates[i]}`,
+          src: `./assets/templates/${configTemplates[i]}`,
           alt: `${configTemplates[i]}`
         } */
       
     }
   }
 
+  getTemplates(): TemplatePresentation[] {
+    return this.templates;
+  }
+
+  getConnections(): string[] {
+    return this.connections;
+  }
+
+  getContents(): string[] {
+    return this.contents;
+  }
+
+  getPlaces(): {
+    id: string;
+    src: string;
+    alt: string;
+  }[] {
+    return this.places;
+  }
+
   private getImageUrl(imageSrc: string) {
-    return `http://localhost:9001/assets/templates/${imageSrc}`;
+    return `./assets/templates/${imageSrc}`;
   }
 
   private fillImagesList() {
@@ -64,7 +84,7 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
     for (let i = 0; i < configPlaces.length; i++) {
       this.places.push({
         id: `places-list-item-${i}`,
-        src: `http://localhost:9001/assets/places/${configPlaces[i]}`,
+        src: `./assets/places/${configPlaces[i]}`,
         alt: `${configPlaces[i]}`
       });
     }
@@ -83,13 +103,9 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
     return this.contents.length;
   }
 
-  private getConections() {
-    return this.connections;
-  }
-
   //DropList events
 
-  private drop(event: CdkDragDrop<any>) {
+  drop(event: CdkDragDrop<any>) {
     //console.log("drop", event);
     if (event.previousContainer === event.container) {
       moveItemInArray(

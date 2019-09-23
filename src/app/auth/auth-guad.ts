@@ -28,7 +28,8 @@ export class AuthGuard implements CanActivate {
 
     if (user && user.token) {
       if (isTokenRoute) {
-        return true;
+        /*  window.scrollTo(0, 0)
+        return true; */
       } else {
         this.router.navigate(["home"]);
         return false;
@@ -38,8 +39,11 @@ export class AuthGuard implements CanActivate {
         this.router.navigate(["login"]);
         return false;
       } else {
-        return true;
+        /* window.scrollTo(0, 0)
+        return true; */
       }
     }
+    window.scrollTo(0, 0);
+    return true;
   }
 }

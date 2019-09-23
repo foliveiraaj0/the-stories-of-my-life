@@ -1,7 +1,7 @@
-
 <div class="content-item">
-  <div [style.background-image]="getBackground()" cdkDropList (cdkDropListEntered)="entered($event)" (cdkDropListDropped)="drop($event, getImageId())" id={{getImageId()}}
-    [cdkDropListData]="[template]" class="content-item__background">
+  <div [style.background-image]="getBackground()" cdkDropList (cdkDropListEntered)="entered($event)"
+    (cdkDropListDropped)="drop($event)" id={{getImageId()}} [cdkDropListData]="[getTemplate()]"
+    class="content-item__background">
   </div>
   <img class="content-item__img" [src]="getImage()">
 </div>
