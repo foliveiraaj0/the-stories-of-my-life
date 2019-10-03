@@ -79,7 +79,7 @@ export class UrlHelper {
     const configString = localStorage.getItem("config");
     if(configString) {
       const config:Config = JSON.parse(configString);
-      array = config['places'];
+      array = config['users'];
     }
     return array;
   }

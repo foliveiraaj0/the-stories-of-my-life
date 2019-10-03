@@ -47,7 +47,7 @@ export class TemplateFullpageComponent extends TemplateComponent implements OnIn
   }
 
   getBackground(): string {
-    return "url(./assets/templates/frame12.png)";
+    return "url(./assets/backgrounds/frame4.png)";
   }
 
   getImageId(): string {

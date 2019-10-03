@@ -5,6 +5,7 @@ import { HomeRoutingModule } from './home-routing.module';
 import { HomeController } from './home-controller';
 import { HeaderModule } from 'src/app/shared/header/header.module';
 import { BannerModule } from 'src/app/shared/banner/banner.module';
+import { SketcherModule } from 'src/app/shared/sketcher/sketcher.module';
 
 @NgModule({
   declarations: [HomeComponent],
@@ -12,7 +13,8 @@ import { BannerModule } from 'src/app/shared/banner/banner.module';
     CommonModule,
     HomeRoutingModule,
     HeaderModule,
-    BannerModule
+    BannerModule,
+    SketcherModule
   ],
   providers: [HomeController]
 })

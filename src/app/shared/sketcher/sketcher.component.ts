@@ -76,7 +76,7 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
   }
 
   private getImageUrl(imageSrc: string) {
-    return `./assets/templates/${imageSrc}`;
+    return `./assets/backgrounds/${imageSrc}`;
   }
 
   private fillImagesList() {
@@ -84,7 +84,7 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
     for (let i = 0; i < configPlaces.length; i++) {
       this.places.push({
         id: `places-list-item-${i}`,
-        src: `./assets/places/${configPlaces[i]}`,
+        src: `./assets/users/${configPlaces[i]}`,
         alt: `${configPlaces[i]}`
       });
     }
