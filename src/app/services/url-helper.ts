@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { Config } from '../models/config-model';
-import { TemplatePresentation } from '../models/template-presentation';
 
 @Injectable()
 export class UrlHelper {
@@ -64,17 +63,17 @@ export class UrlHelper {
     
   } */
 
-  getTemplates(): TemplatePresentation[] {
-    let array:TemplatePresentation[] = [];
+  getBackgrounds(): string[] {
+    let array:string[] = [];
     const configString = localStorage.getItem("config");
     if(configString) {
       const config:Config = JSON.parse(configString);
-      array = config['templates'];
+      array = config['backgrounds'];
     }
     return array;
   }
 
-  getPlaceNames(): string[] {
+  getUserNames(): string[] {
     let array:string[] = [];
     const configString = localStorage.getItem("config");
     if(configString) {

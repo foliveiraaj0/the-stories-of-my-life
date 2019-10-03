@@ -1,37 +1,37 @@
 <div class="sketcher">
 
-  <div cdkDropList [cdkDropListConnectedTo]="['contentList']" #templateList [cdkDropListData]="getTemplates()"
+  <div cdkDropList [cdkDropListConnectedTo]="['contentList']" #backgroundList [cdkDropListData]="getBackgrounds()"
     class="sketcher-templates">
-    <div cdkDrag cdkDragData={{template}} cdkDragBoundary=".sketcher" *ngFor="let template of getTemplates(); let i = index"
+    <div cdkDrag cdkDragData={{background}} cdkDragBoundary=".sketcher" *ngFor="let background of getBackgrounds(); let i = index"
       class="image">
-      <div *ngIf="template">
+      <div *ngIf="background">
         <div class="sketcher-templates-placeholder" *cdkDragPlaceholder>
-          <img src="{{template.imageSrc}}" alt="{{template.alt}}">
+          <img src="{{background}}">
           <p>
             placeholder element
           </p>
         </div>
 
         <div class="sketcher-templates-preview" *cdkDragPreview>
-          <img src="{{template.imageSrc}}" alt="{{template.alt}}">
+          <img src="{{background}}">
           <p>
             preview element
           </p>
         </div>
 
         <div class="sketcher-templates-item">
-          <img src="{{template.imageSrc}}" alt="{{template.alt}}">
+          <img src="{{background}}">
         </div>
       </div>
     </div>
   </div>
 
   <div cdkDropList [cdkDropListConnectedTo]="getConnections()" #templateList="cdkDropList" class="sketcher-places"
-    [cdkDropListData]="getPlaces()" (cdkDropListDropped)="drop($event)">
+    [cdkDropListData]="getUsers()" (cdkDropListDropped)="drop($event)">
     <div cdkDrag (cdkDragMoved)="moved($event)" (cdkDragEnded)="ended($event)" cdkDragBoundary=".sketcher"
-      [cdkDragData]="place" *ngFor="let place of getPlaces()">
+      [cdkDragData]="user" *ngFor="let user of getUsers()">
       <div class="sketcher-places-item">
-        <img [src]="place.src" [alt]="place.alt">
+        <img [src]="user.src">
       </div>
 
     </div>
@@ -41,7 +41,7 @@
   <div cdkDropList id="contentList" #contentList [cdkDropListData]="getContents()" (cdkDropListDropped)="drop($event)"
     class="sketcher-content">
     <div cdkDrag (cdkDragEnded)="ended($event)" *ngFor="let content of getContents(); let i = index">
-      <ng-template templateDirective [templateContainer]="this" [template]="content" [index]="getIndex()"
+      <ng-template templateDirective [templateContainer]="this" [id]="content.id" [image]="content.image" [background]="content.background" [index]="getIndex()"
         (onConnections)="onConnections($event)" (onEnter)="entered($event)" (onDrop)="drop($event)">
       </ng-template>
     </div>

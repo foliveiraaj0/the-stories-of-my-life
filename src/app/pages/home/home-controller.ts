@@ -21,7 +21,6 @@ export class HomeController {
   ) {
     this.userService.getUser().subscribe(
       (data:User) => {
-        console.log('loading user data from home: '+JSON.stringify(data));
         this.userData = data;
     }, 
       error => {
@@ -34,7 +33,6 @@ export class HomeController {
       map(
         user => {
           this.userService.cleanUserCached();
-          console.log(user);
           this.router.navigate(["login"]);
           return HomeResponse.LogoutSuccess;
         },

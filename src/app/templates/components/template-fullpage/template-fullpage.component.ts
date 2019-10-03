@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { TemplateComponent } from '../../template-component';
-import { TemplateImageItem } from '../../template-model';
 
 @Component({
   templateUrl: './template-fullpage.component.html',
@@ -16,47 +15,31 @@ export class TemplateFullpageComponent extends TemplateComponent implements OnIn
   }
 
   protected createTemplateItems() {
-    const templateId:string = `${this.templateData.id}`;
-    const image: TemplateImageItem = new TemplateImageItem(`img-${templateId}`,
-      "", "");
-    this.templateData.templateItems.push(image);
+    this.templateData.id = `${this.templateData.id}`;
+    if(this.templateData.image) {
+      this.templateData.image = `./assets/users/${this.templateData.image}.jpg`;
+    }
   }
 
   protected setComponentData(data, componentId) {
     //console.log('setComponentData');
-    //console.log(data);
+    console.log(data);
     //console.log(JSON.stringify(this.templateData));
-    this.templateData.templateItems.forEach(element => {
-      if(element.id === componentId) {
-        if(element instanceof TemplateImageItem) {
-          (<TemplateImageItem>element).src = data.src;
-          (<TemplateImageItem>element).alt = data.alt;  
-        }
-      }
-    });
+    this.templateData.image = data.src;
   }
 
   getImage(): string {
-    let imageSrc = "";
-    this.templateData.templateItems.forEach(element => {
-      if(element instanceof TemplateImageItem) {
-        imageSrc = (<TemplateImageItem>element).src;
-      }
-    })
-    return imageSrc;
+    if(this.templateData.image) {
+      return this.templateData.image;
+    }
+    return "";
   }
 
   getBackground(): string {
-    return "url(./assets/backgrounds/frame4.png)";
+    return "url(./assets/backgrounds/frame12.png)";
   }
 
   getImageId(): string {
-    let imageId = "";
-    this.templateData.templateItems.forEach(element => {
-      if(element instanceof TemplateImageItem) {
-        imageId = (<TemplateImageItem>element).id;
-      }
-    })
-    return imageId;
+    return this.templateData.id;
   }
 }

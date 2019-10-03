@@ -1,13 +1,11 @@
-import { TemplateData, TemplateImageItem } from './template-model';
+import { TemplateData } from './template-model';
 import { TemplateOutputInterface } from './interfaces/template-output.interface';
 import { TemplateContainerInterface } from './interfaces/template-container.interface';
 import { CdkDragDrop, CdkDragEnter } from '@angular/cdk/drag-drop';
 import { TemplateInterface } from './interfaces/template-interface';
-import { TemplatePresentation } from '../models/template-presentation';
 
 export abstract class TemplateComponent implements TemplateInterface{
 
-  protected template: TemplatePresentation;
   protected templateData: TemplateData;
   protected outputInterface:TemplateOutputInterface
   protected containerInterface: TemplateContainerInterface;
@@ -15,17 +13,14 @@ export abstract class TemplateComponent implements TemplateInterface{
   protected abstract createTemplateItems();
   protected abstract setComponentData(data, componentId);
 
-  getTemplate(): TemplatePresentation {
-    return this.template;
+  getBackground(): string {
+    return this.templateData.backgroundImage;
   }
 
   private getConnections(): string[] {
     let connections: string[] = []
-    this.templateData.templateItems.forEach(item => {
-      if(item instanceof TemplateImageItem) {
-        connections.push(item.id);
-      }
-    });
+    console.log('connections '+this.templateData.id)
+    connections.push(this.templateData.id);
     return connections;
   }
 

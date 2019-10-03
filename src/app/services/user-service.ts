@@ -53,7 +53,6 @@ export class UserService {
       return of(user);
     } else {
       const url = this.urlHelper.getUserUrl();
-      console.log(url)
       const httpOptions = this.buildHeaders(user.token);
       return this.http.get<User>(url, httpOptions);
     }

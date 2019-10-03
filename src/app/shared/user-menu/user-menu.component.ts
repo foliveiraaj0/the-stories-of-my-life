@@ -60,7 +60,6 @@ export class UserMenuComponent implements OnInit {
       .logout()
       .toPromise()
       .then((user: User) => {
-        console.log('logout')
         this.userService.cleanUserCached();
         this.router.navigate(["login"]);
       })

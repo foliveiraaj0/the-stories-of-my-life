@@ -1,6 +1,5 @@
 import { CdkDragDrop, CdkDragEnd, CdkDragEnter, CdkDragMove, copyArrayItem, moveItemInArray } from "@angular/cdk/drag-drop";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { TemplatePresentation } from 'src/app/models/template-presentation';
 import { UrlHelper } from "src/app/services/url-helper";
 import { TemplateContainerInterface } from "src/app/templates/interfaces/template-container.interface";
 
@@ -12,14 +11,13 @@ import { TemplateContainerInterface } from "src/app/templates/interfaces/templat
 export class SketcherComponent implements OnInit, TemplateContainerInterface {
   @ViewChild("contentList") contentList: ElementRef;
 
-  private templates:TemplatePresentation[] = [];
+  private backgrounds:string[] = [];
 
   private contents:string[] = [];
 
-  private places: {
+  private users: {
     id: string;
     src: string;
-    alt: string;
   }[] = [];
 
   private connections: string[] = [];
@@ -28,10 +26,10 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
   private selectedContainer;
   private isInside = false;
 
-  private readonly ID_PLACE_ITEM_PREFIX: string = "place-item-";
+  private readonly ID_user_ITEM_PREFIX: string = "user-item-";
 
   constructor(private componentRef: ElementRef, private urlHelper: UrlHelper) {
-    this.fillTemplatesList();
+    this.fillBackgroundList();
     this.fillImagesList();
   }
 
@@ -39,24 +37,15 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
 
   ngOnInit() {}
 
-  private fillTemplatesList() {
-    const configTemplates: TemplatePresentation[] = this.urlHelper.getTemplates();
-    for (let i = 0; i < configTemplates.length; i++) {
-      let template:TemplatePresentation = configTemplates[i];
-      //console.log(JSON.stringify(template))
-      template.imageSrc = this.getImageUrl(template.imageSrc);
-      this.templates.push(template)
-        //new TemplateData(TemplateName.template1))
-        /* {
-          src: `./assets/templates/${configTemplates[i]}`,
-          alt: `${configTemplates[i]}`
-        } */
-      
+  private fillBackgroundList() {
+    const configBackgrounds: string[] = this.urlHelper.getBackgrounds();
+    for (let i = 0; i < configBackgrounds.length; i++) {
+      this.backgrounds.push(this.getImageUrl(configBackgrounds[i]))
     }
   }
 
-  getTemplates(): TemplatePresentation[] {
-    return this.templates;
+  getBackgrounds(): string[] {
+    return this.backgrounds;
   }
 
   getConnections(): string[] {
@@ -67,12 +56,11 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
     return this.contents;
   }
 
-  getPlaces(): {
+  getUsers(): {
     id: string;
     src: string;
-    alt: string;
   }[] {
-    return this.places;
+    return this.users;
   }
 
   private getImageUrl(imageSrc: string) {
@@ -80,12 +68,11 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
   }
 
   private fillImagesList() {
-    const configPlaces: string[] = this.urlHelper.getPlaceNames();
-    for (let i = 0; i < configPlaces.length; i++) {
-      this.places.push({
-        id: `places-list-item-${i}`,
-        src: `./assets/users/${configPlaces[i]}`,
-        alt: `${configPlaces[i]}`
+    const configUsers: string[] = this.urlHelper.getUserNames();
+    for (let i = 0; i < configUsers.length; i++) {
+      this.users.push({
+        id: `users-list-item-${i}`,
+        src: `./assets/users/${configUsers[i]}`
       });
     }
   }
@@ -96,7 +83,6 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
         this.connections.push(connection);
       });
     }
-    //console.log('connections - '+JSON.stringify(this.connections))
   }
 
   getIndex() {
@@ -115,7 +101,7 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
       );
 
       for (let i = 0; i < event.container.data.length; i++) {
-        event.container.data[i].id = this.ID_PLACE_ITEM_PREFIX + i;
+        event.container.data[i].id = this.ID_user_ITEM_PREFIX + i;
       }
     } else {
       if (event.previousContainer.connectedTo[0] === "contentList") {
@@ -125,13 +111,13 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
   }
 
   /* Add dropped data to contents */
-  private dropTemplate(event: CdkDragDrop<TemplatePresentation[]>) {
+  private dropTemplate(event: CdkDragDrop<string[]>) {
     //console.log("dropTemplate", event);
     const newData = [];
     event.previousContainer.data.forEach(data => {
       newData.push({
-        id: `${this.ID_PLACE_ITEM_PREFIX}${this.contents.length}`,
-        name: `${data.name}`
+        id: `${this.ID_user_ITEM_PREFIX}${this.contents.length}`,
+        background: `${data}`
       });
     });
 
@@ -177,7 +163,7 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
   private ended(event: CdkDragEnd<any>) {
     //console.log("ended", event);
     this.selectedContainer = undefined;
-    //console.log(this.getDisplacement(event));
+    //console.log(this.getDisuserment(event));
   }
 
   private moved(event: CdkDragMove<any>) {

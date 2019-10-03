@@ -15,7 +15,6 @@ export class AlbumController {
   ) {
     this.userService.getUser().subscribe(
       (data: User) => {
-        console.log("loading user data from album: " + JSON.stringify(data));
         this.userData = data;
       },
       error => {
