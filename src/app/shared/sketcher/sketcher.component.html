@@ -2,23 +2,15 @@
 
   <div cdkDropList [cdkDropListConnectedTo]="['contentList']" #backgroundList [cdkDropListData]="getBackgrounds()"
     class="sketcher-templates">
-    <div cdkDrag cdkDragData={{background}} cdkDragBoundary=".sketcher" *ngFor="let background of getBackgrounds(); let i = index"
-      class="image">
+    <div cdkDrag cdkDragData={{background}} cdkDragBoundary=".sketcher"
+      *ngFor="let background of getBackgrounds(); let i = index" class="image" (cdkDragMoved)="moved($event)">
       <div *ngIf="background">
-        <div class="sketcher-templates-placeholder" *cdkDragPlaceholder>
+        <div class="sketcher-templates-placeholder" [ngClass]="getPlaceholderStyle()" *cdkDragPlaceholder>
           <img src="{{background}}">
-          <p>
-            placeholder element
-          </p>
         </div>
-
         <div class="sketcher-templates-preview" *cdkDragPreview>
           <img src="{{background}}">
-          <p>
-            preview element
-          </p>
         </div>
-
         <div class="sketcher-templates-item">
           <img src="{{background}}">
         </div>
@@ -33,16 +25,15 @@
       <div class="sketcher-places-item">
         <img [src]="user.src">
       </div>
-
     </div>
-
   </div>
 
   <div cdkDropList id="contentList" #contentList [cdkDropListData]="getContents()" (cdkDropListDropped)="drop($event)"
-    class="sketcher-content">
+    class="sketcher-content" (cdkDropListEntered)="entered($event)">
     <div cdkDrag (cdkDragEnded)="ended($event)" *ngFor="let content of getContents(); let i = index">
-      <ng-template templateDirective [templateContainer]="this" [id]="content.id" [image]="content.image" [background]="content.background" [index]="getIndex()"
-        (onConnections)="onConnections($event)" (onEnter)="entered($event)" (onDrop)="drop($event)">
+      <ng-template templateDirective [templateContainer]="this" [id]="content.id" [image]="content.image"
+        [background]="content.background" [index]="getIndex()" (onConnections)="onConnections($event)"
+        (onEnter)="entered($event)" (onDrop)="drop($event)">
       </ng-template>
     </div>
   </div>

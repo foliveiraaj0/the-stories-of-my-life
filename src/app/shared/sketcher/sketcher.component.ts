@@ -110,6 +110,15 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
     }
   }
 
+  getPlaceholderStyle():string {
+    if(this.isInsideContainerImage()) {
+      return "sketcher-templates-placeholder--content";
+    }
+    else {
+      return "sketcher-templates-placeholder--list";
+    }
+  }
+
   /* Add dropped data to contents */
   private dropTemplate(event: CdkDragDrop<string[]>) {
     //console.log("dropTemplate", event);
@@ -130,6 +139,11 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
   }
 
   private isInsideContainerImage(): boolean {
+
+    if(!this.selectedContainer) {
+      return false;
+    }
+
     const sketcherTop = this.componentRef.nativeElement.getBoundingClientRect()
       .top;
     const sketcherLeft = this.componentRef.nativeElement.getBoundingClientRect()
@@ -141,8 +155,12 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
     const top = containerElement.offsetTop + sketcherTop;
     const height = containerElement.offsetHeight;
 
+    console.log(`left is ${left}, width is ${widht}, top is ${top}, height is ${height}`)
+
     const x = this.currentDragPosition.x;
     const y = this.currentDragPosition.y;
+    
+    console.log(`x is ${x}, y is ${y}`)
 
     const insideX = x >= left && x <= left + widht;
     const insideY = y >= top && y <= top + height;
@@ -189,7 +207,7 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
   }
 
   private entered(event: CdkDragEnter<any>) {
-    //console.log("entered", event);
+    console.log("entered", event);
     this.selectedContainer = event.container;
   }
 }
