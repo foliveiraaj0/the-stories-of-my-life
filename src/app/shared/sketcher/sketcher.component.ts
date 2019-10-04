@@ -1,4 +1,11 @@
-import { CdkDragDrop, CdkDragEnd, CdkDragEnter, CdkDragMove, copyArrayItem, moveItemInArray } from "@angular/cdk/drag-drop";
+import {
+  CdkDragDrop,
+  CdkDragEnd,
+  CdkDragEnter,
+  CdkDragMove,
+  copyArrayItem,
+  moveItemInArray
+} from "@angular/cdk/drag-drop";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { UrlHelper } from "src/app/services/url-helper";
 import { TemplateContainerInterface } from "src/app/templates/interfaces/template-container.interface";
@@ -11,9 +18,9 @@ import { TemplateContainerInterface } from "src/app/templates/interfaces/templat
 export class SketcherComponent implements OnInit, TemplateContainerInterface {
   @ViewChild("contentList") contentList: ElementRef;
 
-  private backgrounds:string[] = [];
+  private backgrounds: string[] = [];
 
-  private contents:string[] = [];
+  private contents: string[] = [];
 
   private users: {
     id: string;
@@ -25,6 +32,7 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
   private currentDragPosition;
   private selectedContainer;
   private isInside = false;
+  private hideContent: boolean = false;
 
   private readonly ID_user_ITEM_PREFIX: string = "user-item-";
 
@@ -40,7 +48,7 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
   private fillBackgroundList() {
     const configBackgrounds: string[] = this.urlHelper.getBackgrounds();
     for (let i = 0; i < configBackgrounds.length; i++) {
-      this.backgrounds.push(this.getImageUrl(configBackgrounds[i]))
+      this.backgrounds.push(this.getImageUrl(configBackgrounds[i]));
     }
   }
 
@@ -77,6 +85,10 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
     }
   }
 
+  mustHideContent(): boolean {
+    return this.hideContent && this.isInsideContainerImage();
+  }
+
   onConnections(event: any) {
     if (event) {
       event.forEach(connection => {
@@ -105,23 +117,28 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
       }
     } else {
       if (event.previousContainer.connectedTo[0] === "contentList") {
-        this.dropTemplate(event);
+        if(event.isPointerOverContainer) {
+          this.dropTemplate(event);
+        }
+        else {
+          //recouver last 
+          this.hideContent = false;
+        }
       }
     }
   }
 
-  getPlaceholderStyle():string {
-    if(this.isInsideContainerImage()) {
+  getPlaceholderStyle(): string {
+    if (this.isInsideContainerImage()) {
       return "sketcher-templates-placeholder--content";
     }
-    else {
-      return "sketcher-templates-placeholder--list";
-    }
+    return "";
   }
 
   /* Add dropped data to contents */
   private dropTemplate(event: CdkDragDrop<string[]>) {
-    //console.log("dropTemplate", event);
+    console.log("dropTemplate", event);
+
     const newData = [];
     event.previousContainer.data.forEach(data => {
       newData.push({
@@ -130,17 +147,14 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
       });
     });
 
-    copyArrayItem(
-      newData,
-      event.container.data,
-      event.previousIndex,
-      event.currentIndex
-    );
+    copyArrayItem(newData, event.container.data, event.previousIndex, 0);
+
+    this.hideContent = false;
+    this.selectedContainer = undefined;
   }
 
   private isInsideContainerImage(): boolean {
-
-    if(!this.selectedContainer) {
+    if (!this.selectedContainer) {
       return false;
     }
 
@@ -155,16 +169,15 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
     const top = containerElement.offsetTop + sketcherTop;
     const height = containerElement.offsetHeight;
 
-    console.log(`left is ${left}, width is ${widht}, top is ${top}, height is ${height}`)
+    //console.log(`left is ${left}, width is ${widht}, top is ${top}, height is ${height}`)
 
     const x = this.currentDragPosition.x;
     const y = this.currentDragPosition.y;
-    
-    console.log(`x is ${x}, y is ${y}`)
+
+    //console.log(`x is ${x}, y is ${y}`)
 
     const insideX = x >= left && x <= left + widht;
     const insideY = y >= top && y <= top + height;
-    this.selectedContainer;
 
     //console.log(x,left,widht, insideX)
     //console.log(y,top,height, insideY)
@@ -179,7 +192,7 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
   //Drag events
 
   private ended(event: CdkDragEnd<any>) {
-    //console.log("ended", event);
+    console.log("ended", event);
     this.selectedContainer = undefined;
     //console.log(this.getDisuserment(event));
   }
@@ -206,8 +219,11 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
     }
   }
 
-  private entered(event: CdkDragEnter<any>) {
+  private entered(event: CdkDragEnter<any>, isBackground?: boolean) {
     console.log("entered", event);
     this.selectedContainer = event.container;
+    if (isBackground) {
+      this.hideContent = true;
+    }
   }
 }

@@ -29,12 +29,14 @@
   </div>
 
   <div cdkDropList id="contentList" #contentList [cdkDropListData]="getContents()" (cdkDropListDropped)="drop($event)"
-    class="sketcher-content" (cdkDropListEntered)="entered($event)">
+    class="sketcher-content" (cdkDropListEntered)="entered($event, true)">
     <div cdkDrag (cdkDragEnded)="ended($event)" *ngFor="let content of getContents(); let i = index">
-      <ng-template templateDirective [templateContainer]="this" [id]="content.id" [image]="content.image"
-        [background]="content.background" [index]="getIndex()" (onConnections)="onConnections($event)"
-        (onEnter)="entered($event)" (onDrop)="drop($event)">
-      </ng-template>
+      <div [hidden]="mustHideContent()">
+        <ng-template templateDirective [templateContainer]="this" [id]="content.id" [background]="content.background"
+          [index]="getIndex()" (onConnections)="onConnections($event)" (onEnter)="entered($event, false)"
+          (onDrop)="drop($event)">
+        </ng-template>
+      </div>
     </div>
   </div>
 </div>
