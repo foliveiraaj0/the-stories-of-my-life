@@ -26,55 +26,95 @@
     }
     &__img {
       position: absolute;
-      width: 38.5rem;
-      height: 34rem;
       &--frame1 {
-        margin-left: 2.5rem;
-        margin-top: 4rem;
+        width: 43.5rem;
+        height: 34rem;
+        margin-left: 7.5rem;
+        margin-top: 3rem;
       }
       &--frame2 {
-        margin-left: 2.5rem;
+        width: 36.5rem;
+        height: 34rem;
+        margin-left: 11.5rem;
         margin-top: 4rem;
       }
       &--frame3 {
-        margin-left: 2.5rem;
+        width: 41.5rem;
+        height: 34rem;
+        margin-left: 9.5rem;
         margin-top: 4rem;
       }
       &--frame4 {
-        margin-left: 2.5rem;
-        margin-top: 4rem;
+        width: 31.5rem;
+        height: 37rem;
+        margin-left: 15.5rem;
+        margin-top: 2rem;
       }
       &--frame5 {
-        margin-left: 2.5rem;
-        margin-top: 4rem;
+        width: 60rem;
+        height: 40rem;
+        margin-left: 0rem;
+        margin-top: 0rem;
       }
       &--frame6 {
-        margin-left: 2.5rem;
-        margin-top: 4rem;
+        width: 52rem;
+        height: 31rem;
+        margin-left: 4rem;
+        margin-top: 5rem;
       }
       &--frame7 {
-        margin-left: 2.5rem;
+        width: 56rem;
+        height: 32rem;
+        margin-left: 1.5rem;
         margin-top: 4rem;
       }
       &--frame8 {
-        margin-left: 2.5rem;
-        margin-top: 4rem;
+        width: 58.5rem;
+        height: 37rem;
+        margin-left: 1.5rem;
+        margin-top: 2rem;
       }
       &--frame9 {
-        margin-left: 2.5rem;
+        width: 42.5rem;
+        height: 31.5rem;
+        margin-left: 8.5rem;
         margin-top: 4rem;
       }
       &--frame10 {
-        margin-left: 2.5rem;
-        margin-top: 4rem;
+        width: 50rem;
+        height: 30rem;
+        margin-left: 5rem;
+        margin-top: 5rem;
       }
       &--frame11 {
+        width: 52rem;
+        height: 36rem;
+        margin-left: 4.5rem;
+        margin-top: 2rem;
+      }
+      &--frame12 {
+        width: 38.5rem;
+        height: 34rem;
         margin-left: 2.5rem;
         margin-top: 4rem;
       }
-      &--frame12 {
-        margin-left: 2.5rem;
+      &--frame13 {
+        width: 32rem;
+        height: 25rem;
+        margin-left: 26.5rem;
+        margin-top: 8rem;
+      }
+      &--frame14 {
+        width: 46.4rem;
+        height: 35rem;
+        margin-left: 13.5rem;
         margin-top: 4rem;
+      }
+      &--frame15 {
+        width: 52rem;
+        height: 35rem;
+        margin-left: 3.5rem;
+        margin-top: 2rem;
       }
     }
     .cdk-drop-list-dragging {

@@ -3,5 +3,5 @@
     (cdkDropListDropped)="drop($event)" id={{getImageId()}} [cdkDropListData]="[getBackground()]"
     class="content-item__background">
   </div>
-  <img class="content-item__img content-item__img--frame12" [src]="getImage()">
+  <img [ngClass]="getBackgroundStyle()" class="content-item__img" [src]="getImage()">
 </div>
