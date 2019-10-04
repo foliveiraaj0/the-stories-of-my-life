@@ -18,21 +18,18 @@
     &-placeholder {
       display: flex;
       opacity: 0.5;
-      &--list {
-        width: 9rem;
-        height: 9rem;
-        img {
-          width: 100%;
-          height: 100%;
-        }
-      }
-      &--content {
+      width: 9rem;
+      height: 9rem;
+      margin: 0.5rem 0;
+      img {
         width: 100%;
         height: 100%;
-        img {
-          width: 100%;
-          height: 100%;
-        }
+      }
+      &--content {
+        transform: translate3d(0,0,0) !important;
+        margin: 0;
+        width: 100%;
+        height: 100%;
       }
     }
     &-preview {
