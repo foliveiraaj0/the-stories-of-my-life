@@ -2,6 +2,6 @@
   <div [style.background-image]="getBackground()" cdkDropList (cdkDropListEntered)="entered($event)"
     (cdkDropListDropped)="drop($event)" id={{getImageId()}} [cdkDropListData]="[getBackground()]"
     class="content-item__background">
+    <img [ngClass]="getBackgroundStyle()" class="content-item__img" [src]="getImage()">
   </div>
-  <img [ngClass]="getBackgroundStyle()" class="content-item__img" [src]="getImage()">
 </div>

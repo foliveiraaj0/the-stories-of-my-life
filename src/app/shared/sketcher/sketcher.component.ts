@@ -124,6 +124,10 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
           this.hideContent = false;
         }
       }
+      else {
+        // TODO add image dropped to contents 
+        // (create a different method to receive this event for this specific scenario)
+      }
     }
   }
 
@@ -149,7 +153,11 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
       });
     });
 
+    // TODO stop creating a new element every time a background is choosen
+    // instead, use a different way to create a new element and use the drop
+    // just to set the background
     copyArrayItem(newData, event.container.data, event.previousIndex, 0);
+
 
     this.hideContent = false;
     this.selectedContainer = undefined;
@@ -188,7 +196,7 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
   }
 
   droppedInsideThisCompnent(): boolean {
-    return this.isInside;
+    return true || this.isInside; // TODO change the inside calculator to consider scroll
   }
 
   //Drag events
@@ -221,7 +229,7 @@ export class SketcherComponent implements OnInit, TemplateContainerInterface {
     }
   }
 
-  private entered(event: CdkDragEnter<any>, isBackground?: boolean) {
+  entered(event: CdkDragEnter<any>, isBackground?: boolean) {
     console.log("entered", event);
     this.selectedContainer = event.container;
     if (isBackground) {

@@ -22,10 +22,10 @@
       background-size: 100% 100%;
       background-repeat: no-repeat;
       position: relative;
-      z-index: 1;
     }
     &__img {
-      position: absolute;
+      position: relative;
+      z-index: -1;
       &--frame1 {
         width: 43.5rem;
         height: 34rem;
